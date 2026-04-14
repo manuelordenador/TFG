@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hola buenas que tal familia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #3498db;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 2rem;
+            text-align: center;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .features {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 2rem;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .cta {
+            background-color: #2c3e50;
+            color: white;
+            padding: 60px 2rem;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        footer {
+            background-color: #1a252f;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .features h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">manuel</div>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#features">Características</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="inicio">
+        <h1>Bienvenido a Nuestro Sitio</h1>
+        <p>Descubre las mejores soluciones para tu negocio</p>
+        <a href="#features" class="btn">Explorar Más</a>
+    </section>
+
+    <section class="features" id="features">
+        <h2>Nuestras Características</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🚀 Rápido</h3>
+                <p>Rendimiento optimizado para la mejor experiencia del usuario</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔒 Seguro</h3>
+                <p>Protegemos tus datos con los estándares más altos de seguridad</p>
+            </div>
+            <div class="feature-card">
+                <h3>📱 Responsive</h3>
+                <p>Funciona perfectamente en dispositivos móviles y de escritorio</p>
+            </div>
+            <div class="feature-card">
+                <h3>💬 Soporte</h3>
+                <p>Equipo disponible 24/7 para ayudarte en todo momento</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚙️ Flexible</h3>
+                <p>Personalizable según tus necesidades específicas</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Análisis</h3>
+                <p>Reportes detallados para tomar mejores decisiones</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="contacto">
+        <h2>¿Listo para comenzar?</h2>
+        <p>Únete a miles de usuarios satisfechos hoy mismo</p>
+        <button class="btn">Solicitar Demo</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Mi Sitio. Todos los derechos reservados.</p>
+        <p>Contáctanos: info@misitio.com | Tel: +34 123 456 789</p>
+    </footer>
+</body>
+</html>
