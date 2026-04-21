@@ -1,0 +1,9 @@
+{
+  "sqltools.connections": [
+    {
+      "name": "my_blog",
+      "driver": "SQLite",
+      "database": "/home/manuel/TFG/my_blog/db.sqlite3"
+    }
+  ]
+}
