@@ -8,7 +8,20 @@
 <body>
     <h1>¡Hola {{name}}!</h1>
     <h3>categoráis</h3>
-    <p>{{categories}}</p>
-
+    <ul>
+        {# esto es un comentario de una sola línea #}
+        {% comment %}
+            esto es un comentario 
+            multilínea
+        {% endcomment %}
+        {% for category in categories %}
+            {% if category == 'code' %}
+                <li><b>{{ category }}</b></li>
+            {% else %}
+                <li>{{ category }}</li>
+            {%endif%}
+        {% endfor %}
+    </ul>
+    <h5>cantidad categorías: {{categories | length}}</h5>
 </body>
 </html>

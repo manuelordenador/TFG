@@ -1,0 +1,35 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Galería de Fotos{% endblock %}
+
+{% block content %}
+<h1>Galería de Imágenes</h1>
+
+<p>Ejemplo de galería usando el componente de imagen reutilizable.</p>
+
+<!-- Contenedor grid para la galería -->
+<div class="gallery-grid">
+  <!-- Cada imagen se incluye con el partial, pasando los parámetros -->
+  {% include "layouts/partials/imagendesc.html" with image_url="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthunderdungeon.com%2Fwp-content%2Fuploads%2F2024%2F08%2Fcursed-images-1-20240812-600x751.jpg&f=1&nofb=1&ipt=dc770c9cb0a912e6b044f2c252da93072f6318506bea529a66a140febce8a2de" image_alt="Primera foto" image_title="Foto 1" %}
+  
+  {% include "layouts/partials/imagendesc.html" with image_url="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.boredpanda.com%2Fblog%2Fwp-content%2Fuploads%2F2024%2F03%2F65f43c7881d75_cursed-photographs.jpg&f=1&nofb=1&ipt=925b4bced2b87f35948c6259e6cfd8cd9349a2edfa80e9dd327db09516be2bf9" image_alt="Segunda foto" image_title="Foto 2" %}
+  
+  {% include "layouts/partials/imagendesc.html" with image_url="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpleated-jeans.com%2Fwp-content%2Fuploads%2F2025%2F04%2Ffunny-cursed-images-7-1024x937.jpg&f=1&nofb=1&ipt=e89e8e4fca78b926e482315578920affda0a1e7ee02dfc85945925008d3d0c3d" image_alt="Tercera foto" image_title="Foto 3" %}
+  
+  {% include "layouts/partials/imagendesc.html" with image_url="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.boredpanda.com%2Fblog%2Fwp-content%2Fuploads%2F2023%2F06%2FCsI-0SGtd8a-png__700.jpg&f=1&nofb=1&ipt=a29383a1631d309224956f152f9481549f80c4ea4a3cc888c2285608cb5edbda" image_alt="Cuarta foto" image_title="Foto 4" %}
+  
+  {% include "layouts/partials/imagendesc.html" with image_url="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.boredpanda.com%2Fblog%2Fwp-content%2Fuploads%2F2023%2F06%2FCrZP9noNlTs-png__700.jpg&f=1&nofb=1&ipt=ca28b43ade9758de12725ea5cffb5c3348a73308fbde57df16eed5d1dfe35ab6" image_alt="Quinta foto" image_title="Foto 5" %}
+  
+  {% include "layouts/partials/imagendesc.html" with image_url="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.format.com%2Fwp-content%2Fuploads%2Fcursed-images-13-1.jpg&f=1&nofb=1&ipt=dcb2282672127b0a56791b578a1fd87eb08f6cbe79129485d47c72f83232c598" image_alt="Sexta foto" image_title="Foto 6" %}
+</div>
+
+<!-- Ejemplo con un loop si tuvieras una lista de imágenes desde la vista -->
+<!-- 
+<div class="gallery-grid">
+  {% for imagen in imagenes %}
+    {% include "layouts/partials/imagendesc.html" with image_url=imagen.url image_alt=imagen.descripcion image_title=imagen.titulo %}
+  {% endfor %}
+</div>
+-->
+
+{% endblock %}
