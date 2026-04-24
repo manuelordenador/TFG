@@ -1,7 +1,7 @@
-from django.contrib import admin
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('queries', views.queries, name='queries'),
+    path('update/', views.update, name="update")
 ]

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+     <h3>filtrado por contains yes en el nomnbre</h3>
+        <ul>
+            {%for filtered3 in filtereds3%}
+            <li>{{filtered3.name}} {{filtered3.id}}</li>
+            {%endfor%}
+            </ul>
+        <h3>filtrado por id <= 15</h3>
+        <ul>
+            {%for filtered2 in filtereds2%}
+            <li>{{filtered2.email}} {{filtered2.id}}</li>
+            {%endfor%}
+            </ul>
+        <h3>Order by email:</h3>
+        <ul>
+                {%for order in orders%}
+                <li>{{order.email}}</li>
+                {%endfor%}
+            </ul>
+        <h3>10 primeros limit:</h3>
+        <h3>offset de 10:</h3>
+        <ul>
+                {%for offset in offsets%}
+                <li>{{offset.email}}</li>
+                <p>{{offsets | length}}</p>
+                {%endfor%}
+            </ul>
+        <h3>10 primeros limit:</h3>
+        <ul>
+                {%for limit in limits%}
+                <li>{{limit.email}}</li>
+                {%endfor%}
+            </ul>
+        <h3>FIltro por ID:</h3>
+         <p>{{author.email}}</p>
+        <h3>Busando a michele:</h3>
+            <ul>
+                {%for elm in filtered%}
+                <li>{{elm.name}} | {{elm.email}}</li>
+                {%endfor%}
+            </ul>
+        <h3>Todos los autores ({{authors |length}})</h3>
+        <ul>
+        <p>{% for author in authors%}
+            <li>
+                {{author.name}} ({{author.email}})
+            </li>
+            {%endfor%}
+        </p>
+        </ul>
+        <h3></h3>
+        <script src="" async defer></script>
+    </body>
+</html>
