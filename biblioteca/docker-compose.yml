@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:16
+    container_name: biblioteca_db
+    restart: always
+    environment:
+      POSTGRES_DB: biblioteca_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin # Cámbiala en el .env
+    ports:
+      - "5432:5432" # Para que puedas conectar pgAdmin desde fuera
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: ./backend
+    container_name: biblioteca_backend
+    command: python core/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/core
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://admin:admin@db:5432/biblioteca_db
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

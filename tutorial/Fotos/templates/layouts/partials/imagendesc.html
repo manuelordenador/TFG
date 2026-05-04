@@ -1,0 +1,27 @@
+{%comment%}
+<!-- 
+  Componente de imagen para galería
+  Parámetros esperados:
+  - image_url: URL o ruta de la imagen (obligatorio)
+  - image_alt: Texto alternativo para accesibilidad (recomendado)
+  - image_title: Título/descripción que aparece en hover (opcional)
+  
+  Ejemplo de uso:
+  {% include "layouts/partials/imagendesc.html" with image_url="/static/img/foto1.jpg" image_alt="Descripción" image_title="Título opcional" %}
+-->
+{% endcomment %}
+<div class="gallery-item">
+  <div class="gallery-item-wrapper">
+    <img 
+      src="{{ image_url }}" 
+      alt="{{ image_alt|default:'Imagen de galería' }}"
+      class="gallery-image"
+      loading="lazy"
+    >
+    {% if image_title %}
+      <div class="gallery-overlay">
+        <p class="gallery-title">{{ image_title }}</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
