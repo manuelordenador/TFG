@@ -15,23 +15,33 @@
                 <table class="table table-borderless">
                     <tr>
                         <th><i class="fas fa-id-badge"></i> ID:</th>
-                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.id_usuario }}</td>
                     </tr>
                     <tr>
                         <th><i class="fas fa-user"></i> Nombre:</th>
                         <td>{{ usuario.nombre }}</td>
                     </tr>
                     <tr>
-                        <th><i class="fas fa-envelope"></i> Email:</th>
-                        <td>{{ usuario.email }}</td>
+                        <th><i class="fas fa-user-tag"></i> Apellidos:</th>
+                        <td>{{ usuario.apellidos }}</td>
                     </tr>
                     <tr>
-                        <th><i class="fas fa-calendar-alt"></i> Edad:</th>
-                        <td>{{ usuario.edad|default:"No especificada" }}</td>
+                        <th><i class="fas fa-envelope"></i> Correo electrónico:</th>
+                        <td>{{ usuario.correo_e }}</td>
                     </tr>
                     <tr>
-                        <th><i class="fas fa-clock"></i> Fecha Registro:</th>
-                        <td>{{ usuario.fecha_registro|date:"d/m/Y H:i:s" }}</td>
+                        <th><i class="fas fa-phone"></i> Teléfono:</th>
+                        <td>{{ usuario.telefono|default:"No especificado" }}</td>
+                    </tr>
+                    <tr>
+                        <th><i class="fas fa-venus-mars"></i> Género:</th>
+                        <td>
+                            {% if usuario.genero == 0 %}
+                                <span class="badge bg-info">Hombre</span>
+                            {% else %}
+                                <span class="badge bg-success">Mujer</span>
+                            {% endif %}
+                        </td>
                     </tr>
                 </table>
             </div>

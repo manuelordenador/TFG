@@ -11,8 +11,10 @@
     </div>
     <div class="card-body">
         <p class="lead">
-            ¿Estás seguro de que deseas eliminar al usuario <strong>{{ usuario.nombre }}</strong>?
+            ¿Estás seguro de que deseas eliminar al usuario 
+            <strong>{{ usuario.nombre }} {{ usuario.apellidos }}</strong>?
         </p>
+        <p><strong>Email:</strong> {{ usuario.correo_e }}</p>
         <p>Esta acción no se puede deshacer.</p>
         
         <form method="post">
