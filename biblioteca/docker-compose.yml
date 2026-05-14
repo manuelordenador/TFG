@@ -1,29 +1,61 @@
 services:
   db:
     image: postgres:16
-    container_name: biblioteca_db
+    container_name: biblioteca_bd
     restart: always
     environment:
-      POSTGRES_DB: biblioteca_db
+      POSTGRES_DB: biblioteca_bd
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin # Cámbiala en el .env
+      POSTGRES_PASSWORD: admin
+    networks:
+      - net
     ports:
-      - "5432:5432" # Para que puedas conectar pgAdmin desde fuera
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d biblioteca_bd"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin: 
+    image: dpage/pgadmin4
+    container_name: biblioteca_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@ejemplo.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    networks:
+      - net
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
 
   web:
     build: ./backend
     container_name: biblioteca_backend
     command: python core/manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./backend:/core
+      - ./backend:/app
+    networks:
+      - net
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgres://admin:admin@db:5432/biblioteca_db
+      - DB_HOST=db
+      - DB_NAME=biblioteca_bd
+      - DB_USER=admin
+      - DB_PASSWORD=admin
+      - DB_PORT=5432
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  net:
+    driver: bridge
 
 volumes:
   postgres_data:

@@ -17,7 +17,7 @@ class SoporteGrabacion(models.TextChoices):
 # ==========================================================
 
 class Usuario(models.Model):
-    # Definición base de Usuario[cite: 2]
+    # Definición base de Usuario
     id_usuario = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     apellidos = models.CharField(max_length=255)
@@ -29,6 +29,7 @@ class Usuario(models.Model):
     def __str__(self):
         return f"{self.nombre} {self.apellidos}"
 
+"""
 class Socio(Usuario):
     # Especialización para Socio
     num_socio = models.IntegerField(unique=True)
@@ -43,7 +44,7 @@ class Bibliotecario(Usuario):
     turno = models.CharField(max_length=50, null=True, blank=True)
 
 class Admin(Usuario):
-    # Especialización para Admin[cite: 1, 2]
+    # Especialización para Admin
     pass
 
 # ==========================================================
@@ -51,22 +52,22 @@ class Admin(Usuario):
 # ==========================================================
 
 class Autor(models.Model):
-    # Tabla de Autores[cite: 2]
+    # Tabla de Autores
     id_autor = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     apellidos = models.CharField(max_length=255, null=True, blank=True)
 
 class Obra(models.Model):
-    # Concepto intelectual de la Obra[cite: 1, 2]
+    # Concepto intelectual de la Obra
     id_obra = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=255)
     signatura = models.CharField(max_length=50)
     fecha_publicacion = models.DateField(null=True, blank=True)
-    # Relación N:M que genera la tabla CREAR_OBRA[cite: 2]
+    # Relación N:M que genera la tabla CREAR_OBRA
     autores = models.ManyToManyField(Autor, related_name='obras')
 
 class Ejemplar(models.Model):
-    # El soporte físico[cite: 1, 2]
+    # El soporte físico
     id_ejemplar = models.AutoField(primary_key=True)
     obra = models.ForeignKey(Obra, on_delete=models.CASCADE, related_name='ejemplares')
     reservado = models.BooleanField(default=False)
@@ -76,14 +77,14 @@ class Ejemplar(models.Model):
 # ==========================================================
 
 class Libro(Ejemplar):
-    # Campos específicos de Libro[cite: 2]
+    # Campos específicos de Libro
     isbn = models.CharField(max_length=13, unique=True, null=True, blank=True)
     editorial = models.CharField(max_length=255, null=True, blank=True)
     materia = models.CharField(max_length=255, null=True, blank=True)
     coleccion = models.CharField(max_length=255, null=True, blank=True)
 
 class Grabacion(Ejemplar):
-    # Campos específicos de Grabación[cite: 2]
+    # Campos específicos de Grabación
     ean = models.CharField(max_length=16, unique=True, null=True, blank=True)
     productora_sello = models.CharField(max_length=255, null=True, blank=True)
     genero = models.CharField(max_length=255, null=True, blank=True)
@@ -91,7 +92,7 @@ class Grabacion(Ejemplar):
     duracion = models.DurationField(null=True, blank=True)
 
 class Periodico(Ejemplar):
-    # Campos específicos de Periódico[cite: 2]
+    # Campos específicos de Periódico
     issn = models.CharField(max_length=10, null=True, blank=True)
     numero = models.IntegerField(null=True, blank=True)
     edicion = models.CharField(max_length=255, null=True, blank=True)
@@ -99,7 +100,7 @@ class Periodico(Ejemplar):
     director = models.CharField(max_length=255, null=True, blank=True)
 
 class Revista(Ejemplar):
-    # Campos específicos de Revista[cite: 2]
+    # Campos específicos de Revista
     issn = models.CharField(max_length=10, null=True, blank=True)
     volumen = models.IntegerField(null=True, blank=True)
     numero = models.CharField(max_length=16, null=True, blank=True)
@@ -120,3 +121,4 @@ class Prestar(models.Model):
     fecha_devolucion = models.DateField(null=True, blank=True)
     prorrogas_restantes = models.IntegerField(default=3)
     fecha_prorroga = models.DateField(null=True, blank=True)
+    """

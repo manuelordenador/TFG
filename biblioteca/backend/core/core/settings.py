@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_seed',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -75,11 +78,11 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'biblioteca_db',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': 'db', 
-        'PORT': '5432',
+        'NAME': os.environ.get('DB_NAME', 'biblioteca_bd'),
+        'USER': os.environ.get('DB_USER', 'admin'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'admin'),
+        'HOST': os.environ.get('DB_HOST', 'db'),  # 'db' es el nombre del servicio
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
