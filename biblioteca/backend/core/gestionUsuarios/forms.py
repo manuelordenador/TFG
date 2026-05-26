@@ -1,17 +1,18 @@
 from django import forms
 from .models import Usuario
 
+# formulario para manejar usuarios (de momento Create y Update)
 class UsuarioForm(forms.ModelForm):
     # campo de confirmacion de contraseña
     passwordConfirm = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña'}),
         label='Confirmar contraseña',
-        required=True
+        required=False
     )
 
     class Meta:
         model = Usuario
-        fields = ['nombre', 'apellidos', 'correo_e', 'contrasena', 'telefono', 'genero']
+        exclude = ['id_usuario']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
             'apellidos': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellidos'}),
@@ -34,20 +35,36 @@ class UsuarioForm(forms.ModelForm):
         help_texts = {
             'genero': 'Seleccione el género del usuario',
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['contrasena'].required = False
+            self.fields['contrasena'].help_text = 'Dejar en blanco para mantener la contraseña actual'
 
-        def clean(self):
-            cleaned_data = super().clean()
-            contrasena = cleaned_data.get('contrasena')
-            passwordConfirm = cleaned_data.get('passwordConfirm')
+    def clean(self):
+        cleaned_data = super().clean()
+        contrasena = cleaned_data.get('contrasena')
+        passwordConfirm = cleaned_data.get('passwordConfirm')
+        modoEdicion = self.instance and self.instance.pk
 
-            if contrasena and passwordConfirm and contrasena != passwordConfirm:
-                raise forms.ValidationError('Las contraseñas no coinciden')
-            
+        # si estamos en modo edición y no hay contraseña, no se valida
+        if modoEdicion and not contrasena:
             return cleaned_data
+
+        # validación de que coincidan las contraseñas
+        if contrasena and passwordConfirm and contrasena != passwordConfirm:
+            raise forms.ValidationError('Las contraseñas no coinciden')
         
-        def save(self, commit=True):
-            user = super().save(commit=False)
+        return cleaned_data
+    
+    # este método serializa los datos y los guarda en la bdd
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        contrasena = self.cleaned_data.get('contrasena')
+        if contrasena:
             # se podría encriptar por aquí la contraseña
-            if commit:
-                user.save()
-            return user
+            user.contrasena = contrasena
+        if commit:
+            user.save()
+        return user

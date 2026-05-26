@@ -13,13 +13,29 @@
         </a>
     </div>
     <div class="card-body">
-        <!-- Buscador -->
+        <!-- Buscador y selector de entradas -->
         <form method="get" class="mb-3">
-            <div class="input-group">
-                <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre, apellidos o email..." value="{{ request.GET.busqueda }}">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-search"></i> Buscar
-                </button>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre, apellidos o email..." value="{{ request.GET.busqueda }}">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text">Mostrar</span>
+                        <select name="por_pagina" class="form-select" onchange="this.form.submit()">
+                            <option value="10" {% if request.GET.por_pagina == '10' %}selected{% endif %}>10</option>
+                            <option value="25" {% if request.GET.por_pagina == '25' %}selected{% endif %}>25</option>
+                            <option value="50" {% if request.GET.por_pagina == '50' %}selected{% endif %}>50</option>
+                            <option value="100" {% if request.GET.por_pagina == '100' %}selected{% endif %}>100</option>
+                        </select>
+                        <span class="input-group-text">entradas</span>
+                    </div>
+                </div>
             </div>
         </form>
 
@@ -62,6 +78,7 @@
                             </a>
                         </td>
                     </tr>
+                    {% comment "en caso de que no haya usuarios" %}{% endcomment %}
                     {% empty %}
                     <tr>
                         <td colspan="6" class="text-center">

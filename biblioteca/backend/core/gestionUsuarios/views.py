@@ -1,5 +1,5 @@
 """
-Documento base de vistas. 
+Documento base de vistas de la gestión de usuarios.s
 """
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -14,6 +14,9 @@ class UsuarioListView(ListView):
     template_name = 'gestionUsuarios/usuario_list.html'
     context_object_name = 'usuarios'
     paginate_by = 10
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('por_pagina', 10)
 
     def get_queryset(self):
         queryset = Usuario.objects.all()
@@ -31,6 +34,8 @@ class UsuarioListView(ListView):
         context['total_usuarios'] = Usuario.objects.count()
         context['titulo'] = 'Lista de Usuarios'
         return context
+    
+    
     
 class UsuarioDetailView(DetailView):
     model = Usuario
@@ -50,7 +55,6 @@ class UsuarioCreateView(CreateView):
     def form_invalid(self, form):
         messages.error(self.request, 'Por favor corrige los errores en el formulario')
         return super().form_invalid(form)
-
 
 class UsuarioUpdateView(UpdateView):
     model = Usuario
@@ -74,7 +78,8 @@ class UsuarioDeleteView(DeleteView):
     template_name = 'gestionUsuarios/usuario_confirm_delete.html'
     success_url = reverse_lazy('usuario_list')
 
+    # método que borra al usuario de la bdd
     def delete(self, request, *args, **kwargs):
         usuario = self.get_object()
         messages.success(request, f'Usuario {usuario.nombre} {usuario.apellidos} eliminado')
-        return super().delete(request, *args, **kwargs)
+        return super().delete(request, *args, **kwargs) #llamada al método de borrado de la calse django deleteView

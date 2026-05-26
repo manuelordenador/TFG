@@ -16,6 +16,16 @@
         </h3>
     </div>
     <div class="card-body">
+        
+        <!-- ✅ Agrega esto: muestra errores generales (como contraseñas no coinciden) -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        
         <form method="post">
             {% csrf_token %}
             
