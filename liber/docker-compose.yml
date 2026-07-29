@@ -1,10 +1,10 @@
 services:
   db:
     image: postgres:16
-    container_name: biblioteca_bd
+    container_name: liber_bd
     restart: always
     environment:
-      POSTGRES_DB: biblioteca_bd
+      POSTGRES_DB: liber_bd
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     networks:
@@ -14,14 +14,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d biblioteca_bd"]
+      test: ["CMD-SHELL", "pg_isready -U admin -d liber_bd"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   pgadmin: 
     image: dpage/pgadmin4
-    container_name: biblioteca_pgadmin
+    container_name: liber_pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@ejemplo.com
       PGADMIN_DEFAULT_PASSWORD: admin
@@ -34,8 +34,8 @@ services:
 
   web:
     build: ./backend
-    container_name: biblioteca_backend
-    command: python core/manage.py runserver 0.0.0.0:8000
+    container_name: liber_backend
+    command: python liber/manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend:/app
     networks:
@@ -44,7 +44,7 @@ services:
       - "8000:8000"
     environment:
       - DB_HOST=db
-      - DB_NAME=biblioteca_bd
+      - DB_NAME=liber_bd
       - DB_USER=admin
       - DB_PASSWORD=admin
       - DB_PORT=5432

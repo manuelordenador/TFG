@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # Directorio de trabajo dentro del contenedor
-WORKDIR /core
+WORKDIR /liber
 
 # Instalación de dependencias del sistema necesarias para PostgreSQL (psycopg2)
 RUN apt-get update && apt-get install -y \
