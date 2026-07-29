@@ -3,3 +3,5 @@ Django>=6.0
 psycopg2-binary
 django-environ  # Para variables de entorno
 django-seed
+django-crispy-forms
+crispy-bootstrap5

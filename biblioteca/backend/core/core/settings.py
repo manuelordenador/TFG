@@ -30,6 +30,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'web', 'db', 'frontend']
 
 
+# AUTH_USER_MODEL = 'gestionUsuarios.Usuario'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,7 +44,13 @@ INSTALLED_APPS = [
     'django_seed',
     'core',
     'gestionUsuarios',
+    'crispy_forms',
+    'crispy_bootstrap5'
 ]
+
+# configuración crispy forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
