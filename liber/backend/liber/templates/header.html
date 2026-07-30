@@ -2,15 +2,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
   <div class="container-fluid">
     <!-- Logo/Marca -->
-    <a class="navbar-brand fw-bold" href="{% url 'home' %}">
-      Liber
-    </a>
-    
+    <a class="navbar-brand fw-bold" href="{% url 'home' %}">Liber</a>
+
     <!-- Botón hamburguesa mobile -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+
     <!-- Links de navegación -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
@@ -21,11 +17,18 @@
           <a class="nav-link" href="#">Catálogo</a>
         </li>
         <li class="nav-item">
-            <!-- HACER DE ESTO UN MENÚ DESPLEGABLE -->
+          {% comment %}HACER DE ESTO UN MENÚ DESPLEGABLE{% endcomment %}
           <a class="nav-link" href="{% url 'home' %}">Gestión de usuarios</a>
         </li>
         <li class="nav-item">
+          {% comment %}esto dependiendo de si se ha iniciado sesión, cambiarlo por un mensaje de bienvenidx{% endcomment %}
+          <a class="nav-link" href="{% url 'home' %}">Iniciar sesión</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+        </li>
+        <li class="nav-item">
+          <button id="toggle-theme" class="btn btn-outline-light ms-2"><i class="fa-solid fa-circle-half-stroke"></i></button>
         </li>
       </ul>
     </div>
