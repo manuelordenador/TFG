@@ -29,13 +29,15 @@ services:
       - net
     ports:
       - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
     depends_on:
       - db
 
   web:
     build: ./backend
     container_name: liber_backend
-    command: python liber/manage.py runserver 0.0.0.0:8000
+    # command: python liber/manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend:/app
     networks:
@@ -48,6 +50,7 @@ services:
       - DB_USER=admin
       - DB_PASSWORD=admin
       - DB_PORT=5432
+      - RUN_MIGRATIONS=true
     depends_on:
       db:
         condition: service_healthy
@@ -59,3 +62,4 @@ networks:
 
 volumes:
   postgres_data:
+  pgadmin_data:

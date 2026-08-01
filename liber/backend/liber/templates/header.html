@@ -1,13 +1,18 @@
 <!-- Header Bootstrap -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
   <div class="container-fluid">
-    <!-- Logo/Marca -->
-    <a class="navbar-brand fw-bold" href="{% url 'home' %}">Liber</a>
+    <!-- Izquierda: Botón de tema -->
+    <div class="d-flex align-items-center">
+      <button id="toggle-theme" class="btn btn-outline-light"><i class="fa-solid fa-circle-half-stroke"></i></button>
+    </div>
 
-    <!-- Botón hamburguesa mobile -->
+    <!-- Centro: Logo/Marca -->
+    <a class="navbar-brand fw-bold position-absolute start-50 translate-middle-x" href="{% url 'home' %}">Liber</a>
+
+    <!-- Botón hamburguesa mobile (se mantiene a la derecha) -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
 
-    <!-- Links de navegación -->
+    <!-- Links de navegación (a la derecha en desktop, abajo en mobile) -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
@@ -16,20 +21,78 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Catálogo</a>
         </li>
-        <li class="nav-item">
-          {% comment %}HACER DE ESTO UN MENÚ DESPLEGABLE{% endcomment %}
-          <a class="nav-link" href="{% url 'home' %}">Gestión de usuarios</a>
-        </li>
-        <li class="nav-item">
-          {% comment %}esto dependiendo de si se ha iniciado sesión, cambiarlo por un mensaje de bienvenidx{% endcomment %}
-          <a class="nav-link" href="{% url 'home' %}">Iniciar sesión</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="gestionDropdown" role="button" data-bs-toggle="dropdown">Gestión de usuarios</a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" href="{% url 'home' %}">Listar usuarios</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'home' %}">Nuevo usuario</a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
         </li>
-        <li class="nav-item">
-          <button id="toggle-theme" class="btn btn-outline-light ms-2"><i class="fa-solid fa-circle-half-stroke"></i></button>
-        </li>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+          <div class="container">
+            <div class="collapse navbar-collapse" id="navbarNav">
+              {% comment %} <!-- Usuario / Invitado --> {% endcomment %}
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                  <a class="nav-link d-flex align-items-center gap-1 py-1" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% comment %} <!-- Avatar pequeño --> {% endcomment %}
+                    <div class="rounded-circle overflow-hidden"
+                      style="width:28px; height:28px; background-color: {% if user.is_authenticated %}
+                        #2d6a4f
+                      {% else %}
+                        #6c757d
+                      {% endif %}; display:flex; align-items:center; justify-content:center;">
+                      {% if user.is_authenticated %}
+                        <span class="text-white fw-bold" style="font-size:12px;">{{ user.username|slice:':1'|upper }}</span>
+                      {% else %}
+                        <i class="fas fa-user text-white" style="font-size:12px;"></i>
+                      {% endif %}
+                    </div>
+
+                    {% comment %} <!-- Texto más corto --> {% endcomment %}
+                    <span class="text-white small d-none d-lg-inline">
+                      {% if user.is_authenticated %}
+                        {{ user.username }}
+                      {% else %}
+                        Invitado
+                      {% endif %}
+                    </span>
+                    <i class="fas fa-chevron-down text-white-50 small" style="font-size:10px;"></i>
+                  </a>
+
+                  {% comment %} <!-- Dropdown --> {% endcomment %}
+                  <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 py-1">
+                    {% if user.is_authenticated %}
+                      <li>
+                        <a class="dropdown-item small py-1" href="{% url 'perfil' %}"><i class="fas fa-id-card text-primary me-2" style="width:16px;"></i> Perfil</a>
+                      </li>
+                      <li>
+                        <hr class="dropdown-divider my-1" />
+                      </li>
+                      <li>
+                        <a class="dropdown-item small py-1 text-danger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2" style="width:16px;"></i> Salir</a>
+                      </li>
+                    {% else %}
+                      <li>
+                        <a class="dropdown-item small py-1" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-2" style="width:16px;"></i> Login</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item small py-1" href="{% url 'registro' %}"><i class="fas fa-user-plus me-2" style="width:16px;"></i> Registro</a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
       </ul>
     </div>
   </div>
