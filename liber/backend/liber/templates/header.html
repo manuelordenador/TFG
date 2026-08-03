@@ -32,67 +32,57 @@
             </li>
           </ul>
         </li>
+        {% if user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
         </li>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <div class="container">
-            <div class="collapse navbar-collapse" id="navbarNav">
-              {% comment %} <!-- Usuario / Invitado --> {% endcomment %}
-              <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown">
-                  <a class="nav-link d-flex align-items-center gap-1 py-1" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {% comment %} <!-- Avatar pequeño --> {% endcomment %}
-                    <div class="rounded-circle overflow-hidden"
-                      style="width:28px; height:28px; background-color: {% if user.is_authenticated %}
-                        #2d6a4f
-                      {% else %}
-                        #6c757d
-                      {% endif %}; display:flex; align-items:center; justify-content:center;">
-                      {% if user.is_authenticated %}
-                        <span class="text-white fw-bold" style="font-size:12px;">{{ user.username|slice:':1'|upper }}</span>
-                      {% else %}
-                        <i class="fas fa-user text-white" style="font-size:12px;"></i>
-                      {% endif %}
-                    </div>
-
-                    {% comment %} <!-- Texto más corto --> {% endcomment %}
-                    <span class="text-white small d-none d-lg-inline">
-                      {% if user.is_authenticated %}
-                        {{ user.username }}
-                      {% else %}
-                        Invitado
-                      {% endif %}
-                    </span>
-                    <i class="fas fa-chevron-down text-white-50 small" style="font-size:10px;"></i>
-                  </a>
-
-                  {% comment %} <!-- Dropdown --> {% endcomment %}
-                  <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 py-1">
-                    {% if user.is_authenticated %}
-                      <li>
-                        <a class="dropdown-item small py-1" href="{% url 'perfil' %}"><i class="fas fa-id-card text-primary me-2" style="width:16px;"></i> Perfil</a>
-                      </li>
-                      <li>
-                        <hr class="dropdown-divider my-1" />
-                      </li>
-                      <li>
-                        <a class="dropdown-item small py-1 text-danger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2" style="width:16px;"></i> Salir</a>
-                      </li>
-                    {% else %}
-                      <li>
-                        <a class="dropdown-item small py-1" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-2" style="width:16px;"></i> Login</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item small py-1" href="{% url 'registro' %}"><i class="fas fa-user-plus me-2" style="width:16px;"></i> Registro</a>
-                      </li>
-                    {% endif %}
-                  </ul>
+        {%endif%}
+        {% comment %} logica de inicio de sesion {% endcomment %}
+        <ul class="navbar-nav mb-2 mb-lg-0 order-6 order-lg-5">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar-sm rounded-circle overflow-hidden me-2"
+                style="width:32px; height:32px; background-color: {% if user.is_authenticated %}
+                  #FFFFFF
+                {% else %}
+                  #eee400
+                {% endif %};">
+                {% if user.is_authenticated and user.profile.avatar %}
+                  alt="Avatar" class="rounded-circle" style="width:100%; height:100%; object-fit:cover;">
+                {% else %}
+                  alt="Invitado" class="rounded-circle" style="width:100%; height:100%; object-fit:cover;">
+                {% endif %}
+              </div>
+              <span class="text-white">
+                Hola,{% if user.is_authenticated %}
+                  <span class="text-danger">{{ user.username }}</span>
+                {% else %}
+                  <span class="text-warning">Invitado</span>
+                {% endif %}
+              </span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              {% if user.is_authenticated %}
+                <li>
+                  <a class="dropdown-item" href="{% url 'perfil' %}">Mi perfil</a>
                 </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>
+                </li>
+              {% else %}
+                <li>
+                  <a class="dropdown-item" href="{% url 'login' %}">Iniciar sesión</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'registro' %}">Registrarse</a>
+                </li>
+              {% endif %}
+            </ul>
+          </li>
+        </ul>
       </ul>
     </div>
   </div>
