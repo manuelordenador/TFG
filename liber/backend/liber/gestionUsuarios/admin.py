@@ -1,31 +1,25 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Usuario
+from .models import Usuario, Socio, Bibliotecario
 
-class UsuarioAdmin(UserAdmin):
-    list_display = [field.name for field in Usuario._meta.get_fields()
-                    if field.name not in [
-                        'logentry',
-                        'groups',
-                        'user_permissions'
-                    ]]
-    
-    
-    list_filter = ('is_staff', 'is_superuser', 'is_active')
-    
-    fieldsets = (
-            (None, {'fields': ('username', 'email', 'password')}),
-            ('Permisos', {'fields': ('is_staff', 'is_superuser', 'is_active', 'groups', 'user_permissions')}),
-            ('Fechas importantes', {'fields': ('last_login', 'date_joined')}),
-        )
-    
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2', 'is_staff', 'is_active')}
-        ),
+class SocioInline(admin.StackedInline):
+    model = Socio
+    can_delete = False
+    verbose_name_plural = 'Datos de Socio'
+
+class BibliotecarioInline(admin.StackedInline):
+    model = Bibliotecario
+    can_delete = False
+    verbose_name_plural = 'Datos de Bibliotecario'
+
+@admin.register(Usuario)
+class CustomUserAdmin(UserAdmin):
+    inlines = [SocioInline, BibliotecarioInline]
+    list_display = ['username', 'email', 'tipo', 'is_staff', 'is_superuser']
+    list_filter = ['tipo', 'is_staff']
+    fieldsets = UserAdmin.fieldsets + (
+        ('Datos Adicionales', {'fields': ('tipo', 'telefono', 'genero')}),
     )
-    search_fields = ('username', 'email')
-    ordering = ('username',)
 
-admin.site.register(Usuario, UsuarioAdmin)
+admin.site.register(Bibliotecario)
+admin.site.register(Socio)

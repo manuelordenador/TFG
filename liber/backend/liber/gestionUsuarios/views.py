@@ -14,13 +14,13 @@ from .forms import *
 
 def registro_view(request):
     if request.method == 'POST':
-        form = RegistroForm(request.POST)
+        form = RegistroSocioForm(request.POST)
         if form.is_valid():
             usuario = form.save() #aqui se le pasa la password hasheada a la bdd, y se descartan las passwords de texto plano
             login(request, usuario) #garantiza persistencia de sesión
             return redirect('home')
     else:
-        form = RegistroForm()
+        form = RegistroSocioForm()
     return render(request, 'gestionUsuarios/registro.html', {'form':form})
 
 def login_view(request):
