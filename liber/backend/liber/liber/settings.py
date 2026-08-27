@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_seed',
     'liber',
     'gestionUsuarios',
+    'catalogo',
 ]
 
 MIDDLEWARE = [
@@ -127,7 +128,6 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
-
 MESSAGE_TAGS = {
     messages.DEBUG: 'debug',
     messages.INFO: 'info',
@@ -140,3 +140,9 @@ AUTH_USER_MODEL = 'gestionUsuarios.Usuario'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
+
+#seguridad http para producción
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SECURE_HSTS_SECONDS = 31536000  # 1 año

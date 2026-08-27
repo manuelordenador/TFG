@@ -7,6 +7,11 @@ while ! nc -z db 5432; do
 done
 echo "PostgreSQL está listo."
 
+echo "Verificando dependencias..."
+if [ "$RUN_PIP" = "true" ]; then
+    pip install --upgrade -r /app/requirements.txt
+fi
+
 # ✅ Solo ejecuta migraciones si RUN_MIGRATIONS es "true"
 if [ "$RUN_MIGRATIONS" = "true" ]; then
     echo "Ejecutando migraciones..."

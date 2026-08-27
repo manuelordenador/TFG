@@ -1,5 +1,5 @@
 """
-Documento base de vistas de la gestión de usuarios.s
+Documento base de vistas de la gestión de usuarios.
 """
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -10,7 +10,6 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Usuario
 from .forms import *
-
 
 def registro_view(request):
     if request.method == 'POST':
@@ -43,12 +42,3 @@ def logout_view(request):
 @login_required
 def perfil_view(request):
     return render(request, 'gestionUsuarios/perfil.html')
-    # model = Usuario
-    # template_name = 'gestionUsuarios/usuario_confirm_delete.html'
-    # success_url = reverse_lazy('usuario_list')
-
-    # # método que borra al usuario de la bdd
-    # def delete(self, request, *args, **kwargs):
-    #     usuario = self.get_object()
-    #     messages.success(request, f'Usuario {usuario.nombre} {usuario.apellidos} eliminado')
-    #     return super().delete(request, *args, **kwargs) #llamada al método de borrado de la calse django deleteView
