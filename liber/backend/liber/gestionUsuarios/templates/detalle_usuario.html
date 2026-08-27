@@ -1,0 +1,124 @@
+<!-- templates/detalle_usuario.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Detalle de Usuario{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-user-circle"></i> Detalle de Usuario</h2>
+        <div>
+            <a href="{% url 'lista_usuarios' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+            <a href="{% url 'editar_usuario' usuario.pk %}" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Editar
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-info-circle"></i> Información del Usuario</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Usuario</dt>
+                        <dd class="col-sm-8">{{ usuario.username }}</dd>
+
+                        <dt class="col-sm-4">Nombre</dt>
+                        <dd class="col-sm-8">{{ usuario.first_name|default:"-" }}</dd>
+
+                        <dt class="col-sm-4">Apellidos</dt>
+                        <dd class="col-sm-8">{{ usuario.last_name|default:"-" }}</dd>
+
+                        <dt class="col-sm-4">Email</dt>
+                        <dd class="col-sm-8">{{ usuario.email }}</dd>
+
+                        <dt class="col-sm-4">Teléfono</dt>
+                        <dd class="col-sm-8">{{ usuario.telefono|default:"-" }}</dd>
+
+                        <dt class="col-sm-4">Género</dt>
+                        <dd class="col-sm-8">
+                            {% if usuario.genero == 0 %}
+                                Hombre
+                            {% elif usuario.genero == 1 %}
+                                Mujer
+                            {% else %}
+                                -
+                            {% endif %}
+                        </dd>
+
+                        <dt class="col-sm-4">Tipo</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge {% if usuario.tipo == 'SOCIO' %}bg-success{% elif usuario.tipo == 'BIBLIOTECARIO' %}bg-warning{% else %}bg-danger{% endif %}">
+                                {{ usuario.get_tipo_display }}
+                            </span>
+                        </dd>
+
+                        <dt class="col-sm-4">Estado</dt>
+                        <dd class="col-sm-8">
+                            {% if usuario.is_active %}
+                                <span class="badge bg-success">Activo</span>
+                            {% else %}
+                                <span class="badge bg-danger">Inactivo</span>
+                            {% endif %}
+                        </dd>
+
+                        <dt class="col-sm-4">Staff</dt>
+                        <dd class="col-sm-8">{{ usuario.is_staff|yesno:"Sí,No" }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <!-- Datos del perfil específico -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-tag"></i> Datos de {{ usuario.get_tipo_display }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if perfil %}
+                        {% if usuario.tipo == 'SOCIO' %}
+                            <dl class="row mb-0">
+                                <dt class="col-sm-5">Número de Socio</dt>
+                                <dd class="col-sm-7">{{ perfil.numSocio|default:"-" }}</dd>
+
+                                <dt class="col-sm-5">Penalizado</dt>
+                                <dd class="col-sm-7">{{ perfil.penalizado|yesno:"Sí,No" }}</dd>
+
+                                <dt class="col-sm-5">Fecha Penalización</dt>
+                                <dd class="col-sm-7">{{ perfil.fechaPenalizacion|default:"-" }}</dd>
+
+                                <dt class="col-sm-5">Fecha Alta</dt>
+                                <dd class="col-sm-7">{{ perfil.fechaAlta|date:"d/m/Y" }}</dd>
+
+                                <dt class="col-sm-5">Fecha Baja</dt>
+                                <dd class="col-sm-7">{{ perfil.fechaBaja|default:"-" }}</dd>
+                            </dl>
+                        {% elif usuario.tipo == 'BIBLIOTECARIO' %}
+                            <dl class="row mb-0">
+                                <dt class="col-sm-5">Número de Empleado</dt>
+                                <dd class="col-sm-7">{{ perfil.numEmpleado|default:"-" }}</dd>
+
+                                <dt class="col-sm-5">Turno</dt>
+                                <dd class="col-sm-7">{{ perfil.turno|default:"-" }}</dd>
+                            </dl>
+                        {% else %}
+                            <p class="text-muted">No hay datos adicionales para este tipo de usuario.</p>
+                        {% endif %}
+                    {% else %}
+                        <p class="text-muted">No hay datos adicionales disponibles.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
