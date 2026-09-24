@@ -2,7 +2,7 @@ services:
   db:
     image: postgres:16
     container_name: liber_bd
-    restart: always
+    restart: on-failure
     environment:
       POSTGRES_DB: liber_bd
       POSTGRES_USER: admin
@@ -37,7 +37,7 @@ services:
   web:
     build: ./backend
     container_name: liber_backend
-    # command: python liber/manage.py runserver 0.0.0.0:8000
+    # command: python liber/manage.py runserver 0.0.0.0:8000 # comentado porque ya se ejecuta en el entrypoint.sh
     volumes:
       - ./backend:/app
     networks:
@@ -50,8 +50,9 @@ services:
       - DB_USER=admin
       - DB_PASSWORD=admin
       - DB_PORT=5432
-      - RUN_MIGRATIONS=true
-      - RUN_PIP=true
+      - RUN_MIGRATIONS=false
+      - RUN_POPULATE=false
+      - RUN_PIP=false
     depends_on:
       db:
         condition: service_healthy
@@ -61,6 +62,7 @@ networks:
   net:
     driver: bridge
 
+# declaración de volúmenes para persistencia de datos
 volumes:
   postgres_data:
   pgadmin_data:

@@ -51,8 +51,11 @@ def perfil_view(request):
 @bibliotecario_required
 def lista_usuarios(request):
     """Vista para obtener todos los usuarios"""
-    # Obtener todos los usuarios (excluyendo superusuarios)
-    usuarios = Usuario.objects.exclude(is_superuser=True)
+    # los admins pueden ver todos los usuarios
+    if request.user.tipo == 'ADMIN':
+        usuarios = Usuario.objects.all()
+    else:
+        usuarios = Usuario.objects.exclude(is_superuser=True)
     
     # Búsqueda
     busqueda = request.GET.get('busqueda', '')
@@ -96,22 +99,69 @@ def detalle_usuario(request, pk):
     }
     return render(request, 'detalle_usuario.html', context)
 
+# gestionUsuarios/views.py
 @login_required
-@bibliotecario_required
+@bibliotecario_required 
 def editar_usuario(request, pk):
-    """Vista de edición de usuario"""
-    usuario = get_object_or_404(Usuario, pk=pk)
+    """Vista de edición de usuario con control de permisos"""
+    usuario_a_editar = get_object_or_404(Usuario, pk=pk)
     
+    if request.user.tipo == 'ADMIN':
+        pass  # ADMIN edita a cualquiera
+    elif request.user.tipo == 'BIBLIOTECARIO':
+        if usuario_a_editar.tipo != 'SOCIO':
+            messages.error(request, 'Los bibliotecarios solo pueden editar socios.')
+            return redirect('lista_usuarios')
+    else:
+        messages.error(request, 'No tienes permiso para editar usuarios.')
+        return redirect('lista_usuarios')
+
     if request.method == 'POST':
-        form = UsuarioEditForm(request.POST, instance=usuario)
+        form = UsuarioEditForm(request.POST, instance=usuario_a_editar)
         if form.is_valid():
             form.save()
-            messages.success(request, f'Usuario {usuario.username} actualizado correctamente.')
-            return redirect('detalle_usuario', pk=usuario.pk)
+            messages.success(request, f'Usuario {usuario_a_editar.username} actualizado correctamente.')
+            return redirect('detalle_usuario', pk=usuario_a_editar.pk)
+        else:
+            messages.error(request, 'Por favor corrige los errores del formulario.')
     else:
-        form = UsuarioEditForm(instance=usuario)
-    
+        form = UsuarioEditForm(instance=usuario_a_editar)
+
     return render(request, 'editar_usuario.html', {
         'form': form,
-        'usuario': usuario,
+        'usuario': usuario_a_editar,
+    })
+    
+@login_required
+@bibliotecario_required  # Solo bibliotecarios y admins 
+def eliminar_usuario(request, pk):
+    usuario_a_eliminar = get_object_or_404(Usuario, pk=pk)
+
+    # Si el usuario logueado es ADMIN puede eliminar a cualquiera
+    # Si es BIBLIOTECARIO solo puede eliminar SOCIOS
+    if request.user.tipo == 'ADMIN':
+        pass
+    elif request.user.tipo == 'BIBLIOTECARIO':
+        if usuario_a_eliminar.tipo != 'SOCIO':
+            messages.error(request, 'Los bibliotecarios solo pueden eliminar socios.')
+            return redirect('lista_usuarios')
+    else:
+        messages.error(request, 'No tienes permiso para eliminar usuarios.')
+        return redirect('lista_usuarios')
+    
+    # Prevenir autoeliminación de usuario
+    if request.user.pk == usuario_a_eliminar.pk:
+        messages.error(request, 'No puedes eliminarte a ti mismo.')
+        return redirect('lista_usuarios')
+    
+    # eliminación de usuario
+    if request.method == 'POST':
+        nombre_usuario = usuario_a_eliminar.get_full_name() or usuario_a_eliminar.username
+        usuario_a_eliminar.delete()
+        messages.success(request, f'Usuario {nombre_usuario} eliminado correctamente.')
+        return redirect('lista_usuarios')
+    
+    return render(request, 'eliminar_usuario.html', {
+        'usuario': usuario_a_eliminar,
+        'titulo': 'Confirmar eliminación'
     })

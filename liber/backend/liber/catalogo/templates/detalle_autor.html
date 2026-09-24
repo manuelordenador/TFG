@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ autor.nombre }} {{ autor.apellidos }} - Catálogo{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Migas de pan -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'catalogo:catalogo_home' %}">Catálogo</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'catalogo:lista_autores' %}">Autores</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ autor.nombre }} {{ autor.apellidos }}</li>
+        </ol>
+    </nav>
+
+    <!-- Información del autor -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-4" 
+                     style="width: 80px; height: 80px; flex-shrink: 0;">
+                    <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                    <h1 class="h2 mb-1">{{ autor.nombre }} {{ autor.apellidos }}</h1>
+                    <p class="text-muted mb-0">
+                        <i class="fas fa-book"></i> {{ total_obras }} obra{{ total_obras|pluralize:"s" }} en el catálogo
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Obras del autor -->
+    <h4 class="mb-3"><i class="fas fa-book-open text-primary"></i> Obras</h4>
+    
+    <div class="row g-4">
+        {% for obra in obras %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm card-hover">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge 
+                                {% if obra.tipo == 'LIBRO' %}bg-primary
+                                {% elif obra.tipo == 'REVISTA' %}bg-success
+                                {% elif obra.tipo == 'PERIODICO' %}bg-warning
+                                {% else %}bg-danger{% endif %}">
+                                {{ obra.get_tipo_display }}
+                            </span>
+                            <small class="text-muted">{{ obra.signatura }}</small>
+                        </div>
+                        
+                        <h5 class="card-title">
+                            <a href="{% url 'catalogo:detalle_obra' obra.pk %}" 
+                               class="text-decoration-none text-dark stretched-link">
+                                {{ obra.titulo }}
+                            </a>
+                        </h5>
+                        
+                        {% if obra.fechaPublicacion %}
+                            <p class="card-text small text-muted mb-0">
+                                <i class="fas fa-calendar"></i> {{ obra.fechaPublicacion|date:"Y" }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center py-5">
+                    <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
+                    <h4>No hay obras registradas</h4>
+                    <p class="mb-0">Este autor no tiene obras en el catálogo.</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Botón volver -->
+    <div class="mt-4">
+        <a href="{% url 'catalogo:lista_autores' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Volver a autores
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Obras - Catálogo{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Cabecera -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-book text-primary"></i> Catálogo de Obras</h2>
+        <span class="badge bg-primary">{{ total_obras }} resultados</span>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-2">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" name="busqueda" class="form-control" 
+                               placeholder="Buscar por título, autor o signatura..." 
+                               value="{{ busqueda }}">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select name="tipo" class="form-select" onchange="this.form.submit()">
+                        <option value="">Todos los tipos</option>
+                        {% for value, label in tipos %}
+                            <option value="{{ value }}" {% if tipo == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    {% if busqueda or tipo %}
+                        <a href="{% url 'catalogo:lista_obras' %}" class="btn btn-outline-secondary w-100">
+                            <i class="fas fa-times"></i> Limpiar
+                        </a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de obras -->
+    <div class="row g-4">
+        {% for obra in page_obj %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm card-hover">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge 
+                                {% if obra.tipo == 'LIBRO' %}bg-primary
+                                {% elif obra.tipo == 'REVISTA' %}bg-success
+                                {% elif obra.tipo == 'PERIODICO' %}bg-warning
+                                {% else %}bg-danger{% endif %}">
+                                {{ obra.get_tipo_display }}
+                            </span>
+                            <small class="text-muted">{{ obra.signatura }}</small>
+                        </div>
+                        
+                        <h5 class="card-title">
+                            <a href="{% url 'catalogo:detalle_obra' obra.pk %}" 
+                               class="text-decoration-none text-dark stretched-link">
+                                {{ obra.titulo }}
+                            </a>
+                        </h5>
+                        
+                        <p class="card-text small text-muted mb-2">
+                            <i class="fas fa-user-pen"></i>
+                            {{obra.get_autores_display}}
+                        </p>
+                        
+                        {% if obra.fechaPublicacion %}
+                            <p class="card-text small text-muted mb-0">
+                                <i class="fas fa-calendar"></i> {{ obra.fechaPublicacion|date:"Y" }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center py-5">
+                    <i class="fas fa-search fa-3x mb-3 d-block"></i>
+                    <h4>No se encontraron obras</h4>
+                    <p class="mb-0">Prueba con otros términos de búsqueda o filtros.</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Paginación -->
+    {% if page_obj.has_other_pages %}
+        <nav class="mt-4" aria-label="Navegación de páginas">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if busqueda %}&busqueda={{ busqueda }}{% endif %}{% if tipo %}&tipo={{ tipo }}{% endif %}">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if busqueda %}&busqueda={{ busqueda }}{% endif %}{% if tipo %}&tipo={{ tipo }}{% endif %}">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li class="page-item active">
+                    <span class="page-link">
+                        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                    </span>
+                </li>
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if busqueda %}&busqueda={{ busqueda }}{% endif %}{% if tipo %}&tipo={{ tipo }}{% endif %}">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if busqueda %}&busqueda={{ busqueda }}{% endif %}{% if tipo %}&tipo={{ tipo }}{% endif %}">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+{% endblock %}

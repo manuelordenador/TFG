@@ -18,25 +18,39 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'home' %}">Inicio</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Catálogo</a>
-        </li>
-        {% if user.tipo == 'BIBLIOTECARIO' %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="gestionDropdown" role="button" data-bs-toggle="dropdown">Gestión de usuarios</a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <a class="dropdown-item" href="{% url 'lista_usuarios' %}">Listar usuarios</a>
-              </li>
-              <li>
-                {% comment %} <a class="dropdown-item" href="{% url '' %}">Nuevo usuario</a> {% endcomment %}
-              </li>
-            </ul>
-          </li>
-        {% endif %}
         {% if user.tipo == 'ADMIN' %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin:index' %}">Panel de Administrador</a>
+          </li>
+        {% endif %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-book-open"></i> Catálogo</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="{% url 'catalogo:catalogo_home' %}"><i class="fas fa-home"></i> Inicio del catálogo</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'catalogo:lista_obras' %}"><i class="fas fa-book"></i> Todas las obras</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'catalogo:lista_autores' %}"><i class="fas fa-user-pen"></i> Autores</a>
+            </li>
+          </ul>
+        </li>
+        {% if user.is_authenticated and user.tipo in 'BIBLIOTECARIO,ADMIN' %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-tools"></i> Gestión</a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="{% url 'lista_usuarios' %}"><i class="fas fa-users"></i> Usuarios</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'catalogo:registrar_ejemplar' %}"><i class="fas fa-plus-circle"></i> Registrar ejemplar</a>
+              </li>
+            </ul>
           </li>
         {% endif %}
         {% comment %}logica de inicio de sesion{% endcomment %}

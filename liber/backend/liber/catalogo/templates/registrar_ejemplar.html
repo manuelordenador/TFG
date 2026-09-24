@@ -1,0 +1,121 @@
+<!-- catalogo/templates/catalogo/registrar_ejemplar.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Registrar {{ tipo_display }} - Catálogo{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+            <i class="fas fa-plus-circle text-primary"></i> 
+            Registrar {{ tipo_display }}
+        </h2>
+        <a href="{% url 'catalogo:registrar_ejemplar' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Cambiar tipo
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-edit"></i> Datos {{ tipo_display|lower }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" novalidate id="form-registrar">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <!-- Campo: Título -->
+                        <div class="mb-3">
+                            <label for="{{ form.titulo.id_for_label }}" class="form-label fw-semibold">
+                                {{ form.titulo.label }}
+                                {% if form.titulo.field.required %}<span class="text-danger">*</span>{% endif %}
+                            </label>
+                            {{ form.titulo }}
+                            {% for error in form.titulo.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Campo: Buscador de autores -->
+                        <div class="mb-3 position-relative">
+                            <label for="autores-busqueda" class="form-label fw-semibold">
+                                <i class="fas fa-user-pen"></i> Autores
+                                <span class="text-danger">*</span>
+                            </label>
+                            
+                            <!-- Input de búsqueda -->
+                            <input type="text" 
+                                   id="autores-busqueda" 
+                                   class="form-control" 
+                                   placeholder="Escribe para buscar autores..."
+                                   autocomplete="off">
+                            
+                            <!-- Contenedor de sugerencias -->
+                            <div id="autores-sugerencias" 
+                                 class="list-group position-absolute w-100 shadow-sm" 
+                                 style="z-index: 1000; display: none; max-height: 300px; overflow-y: auto;">
+                                <!-- Se rellena con JavaScript -->
+                            </div>
+                            
+                            <!-- Autores seleccionados -->
+                            <div id="autores-seleccionados" class="mt-2 d-flex flex-wrap gap-2">
+                                <!-- Se rellena con JavaScript -->
+                            </div>
+                            
+                            <!-- Campo oculto donde se envían los IDs -->
+                            <input type="hidden" name="autores" id="autores-ids" value="">
+                            
+                            <small class="text-muted">
+                                Busca y selecciona uno o varios autores de la base de datos.
+                            </small>
+                        </div>
+
+                        <!-- Resto de campos del formulario -->
+                        {% for field in form %}
+                            {% if field.name != 'titulo' and field.name != 'autores_busqueda' %}
+                                <div class="mb-3">
+                                    <label for="{{ field.id_for_label }}" class="form-label fw-semibold">
+                                        {{ field.label }}
+                                        {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                                    </label>
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'catalogo:registrar_ejemplar' %}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Registrar {{ tipo_display }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript para el autocompletado -->
+<script src="{% static 'js/buscadorAutores.js' %}"></script>
+{% endblock %}

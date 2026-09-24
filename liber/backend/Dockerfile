@@ -27,11 +27,11 @@ COPY . .
 # comprobación de que todo está en orden (DEBUG)
 RUN pwd && ls -l && ls -l liber
 
-# Hacemos el script ejecutable
+# hacer script ejecutable
 RUN chmod +x entrypoint.sh
 
 # Exponemos el puerto de Django
 EXPOSE 8000
 
-# Punto de entrada
+# punto de entrada para el contenedor
 ENTRYPOINT ["./entrypoint.sh"]

@@ -141,6 +141,10 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
+# Manejo de cookies
+SESSION_COOKIE_AGE = 3600 #1 hora
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False #la cookie persiste al cerrar el navegador
+
 #seguridad http para producción
 # SECURE_SSL_REDIRECT = True
 # SESSION_COOKIE_SECURE = True

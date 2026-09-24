@@ -1,0 +1,66 @@
+<!-- templates/eliminar_usuario.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Confirmar Eliminación{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-exclamation-triangle"></i> Confirmar Eliminación
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-user-slash text-danger" style="font-size: 4rem;"></i>
+                    </div>
+                    
+                    <p class="lead text-center">
+                        ¿Estás seguro de que deseas eliminar al siguiente usuario?
+                    </p>
+                    
+                    <div class="alert alert-warning">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-5">Usuario</dt>
+                            <dd class="col-sm-7"><strong>{{ usuario.username }}</strong></dd>
+                            
+                            <dt class="col-sm-5">Nombre</dt>
+                            <dd class="col-sm-7">{{ usuario.get_full_name|default:usuario.username }}</dd>
+                            
+                            <dt class="col-sm-5">Tipo</dt>
+                            <dd class="col-sm-7">
+                                <span class="badge {% if usuario.tipo == 'SOCIO' %}bg-success{% else %}bg-warning{% endif %}">
+                                    {{ usuario.get_tipo_display }}
+                                </span>
+                            </dd>
+                            
+                            <dt class="col-sm-5">Email</dt>
+                            <dd class="col-sm-7">{{ usuario.email }}</dd>
+                        </dl>
+                    </div>
+                    
+                    <div class="alert alert-danger">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>¡Advertencia!</strong> Esta acción es irreversible. 
+                        Todos los datos asociados a este usuario serán eliminados permanentemente.
+                    </div>
+                    
+                    <form method="post" class="d-flex justify-content-between mt-4">
+                        {% csrf_token %}
+                        <a href="{% url 'detalle_usuario' usuario.pk %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Sí, eliminar permanentemente
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

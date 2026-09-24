@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ obra.titulo }} - Catálogo{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Migas de pan -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'catalogo:catalogo_home' %}">Catálogo</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'catalogo:lista_obras' %}">Obras</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ obra.titulo|truncatechars:40 }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Información principal -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="badge fs-6 
+                            {% if obra.tipo == 'LIBRO' %}bg-primary
+                            {% elif obra.tipo == 'REVISTA' %}bg-success
+                            {% elif obra.tipo == 'PERIODICO' %}bg-warning
+                            {% else %}bg-danger{% endif %}">
+                            {{ obra.get_tipo_display }}
+                        </span>
+                        <small class="text-muted">Signatura: {{ obra.signatura }}</small>
+                    </div>
+
+                    <h1 class="h2 mb-3">{{ obra.titulo }}</h1>
+
+                    <!-- Autores -->
+                    <p class="mb-3">
+                        <i class="fas fa-user-pen text-primary"></i>
+                        <strong>Autor(es):</strong>
+                        {% for autor in autores %}
+                            <a href="{% url 'catalogo:detalle_autor' autor.pk %}" 
+                               class="text-decoration-none">
+                                {{ autor.nombre }} {{ autor.apellidos }}
+                            </a>{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            <span class="text-muted">Autor desconocido</span>
+                        {% endfor %}
+                    </p>
+
+                    <!-- Fecha de publicación -->
+                    {% if obra.fechaPublicacion %}
+                        <p class="mb-3">
+                            <i class="fas fa-calendar text-primary"></i>
+                            <strong>Fecha de publicación:</strong>
+                            {{ obra.fechaPublicacion|date:"d/m/Y" }}
+                        </p>
+                    {% endif %}
+
+                    <!-- Datos específicos según tipo -->
+                    {% if datos_especificos %}
+                        <hr>
+                        <h5 class="mb-3">Detalles específicos</h5>
+                        <dl class="row mb-0">
+                            {% if obra.tipo == 'LIBRO' %}
+                                <dt class="col-sm-4">ISBN</dt>
+                                <dd class="col-sm-8">{{ datos_especificos.isbn }}</dd>
+
+                                {% if datos_especificos.editorial %}
+                                    <dt class="col-sm-4">Editorial</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.editorial }}</dd>
+                                {% endif %}
+
+                                {% if datos_especificos.materia %}
+                                    <dt class="col-sm-4">Materia</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.materia }}</dd>
+                                {% endif %}
+
+                                {% if datos_especificos.coleccion %}
+                                    <dt class="col-sm-4">Colección</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.coleccion }}</dd>
+                                {% endif %}
+
+                            {% elif obra.tipo == 'REVISTA' %}
+                                <dt class="col-sm-4">ISSN</dt>
+                                <dd class="col-sm-8">{{ datos_especificos.issn }}</dd>
+
+                                {% if datos_especificos.numero %}
+                                    <dt class="col-sm-4">Número</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.numero }}</dd>
+                                {% endif %}
+
+                                {% if datos_especificos.volumen %}
+                                    <dt class="col-sm-4">Volumen</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.volumen }}</dd>
+                                {% endif %}
+
+                                {% if datos_especificos.temporada %}
+                                    <dt class="col-sm-4">Temporada</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.temporada }}</dd>
+                                {% endif %}
+
+                                {% if datos_especificos.periodicidad %}
+                                    <dt class="col-sm-4">Periodicidad</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.periodicidad }}</dd>
+                                {% endif %}
+
+                                {% if datos_especificos.materia %}
+                                    <dt class="col-sm-4">Materia</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.materia }}</dd>
+                                {% endif %}
+
+                            {% elif obra.tipo == 'PERIODICO' %}
+                                <dt class="col-sm-4">ISSN</dt>
+                                <dd class="col-sm-8">{{ datos_especificos.issn }}</dd>
+
+                                {% if datos_especificos.numero %}
+                                    <dt class="col-sm-4">Número</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.numero }}</dd>
+                                {% endif %}
+
+                                {% if datos_especificos.edicion %}
+                                    <dt class="col-sm-4">Edición</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.edicion }}</dd>
+                                {% endif %}
+
+                                {% if datos_especificos.periodicidad %}
+                                    <dt class="col-sm-4">Periodicidad</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.periodicidad }}</dd>
+                                {% endif %}
+
+                                {% if datos_especificos.director %}
+                                    <dt class="col-sm-4">Director</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.director }}</dd>
+                                {% endif %}
+
+                            {% elif obra.tipo == 'GRABACION' %}
+                                <dt class="col-sm-4">EAN</dt>
+                                <dd class="col-sm-8">{{ datos_especificos.ean }}</dd>
+
+                                <dt class="col-sm-4">Soporte</dt>
+                                <dd class="col-sm-8">{{ datos_especificos.get_soporte_display }}</dd>
+
+                                <dt class="col-sm-4">Duración</dt>
+                                <dd class="col-sm-8">{{ datos_especificos.duracion }}</dd>
+
+                                {% if datos_especificos.productora %}
+                                    <dt class="col-sm-4">Productora/Sello</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.productora }}</dd>
+                                {% endif %}
+
+                                {% if datos_especificos.genero %}
+                                    <dt class="col-sm-4">Género</dt>
+                                    <dd class="col-sm-8">{{ datos_especificos.genero }}</dd>
+                                {% endif %}
+                            {% endif %}
+                        </dl>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Ejemplares -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-copy text-primary"></i> Ejemplares
+                        <span class="badge bg-secondary">{{ ejemplares.count }}</span>
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        {% for ejemplar in ejemplares %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    <i class="fas fa-barcode text-muted"></i>
+                                    Ejemplar #{{ ejemplar.idEjemplar }}
+                                </span>
+                                {% if ejemplar.estado == 'DISPONIBLE' %}
+                                    <span class="badge bg-success">Disponible</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Prestado</span>
+                                {% endif %}
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item text-center text-muted py-4">
+                                <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
+                                No hay ejemplares registrados
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón volver -->
+    <div class="mt-4">
+        <a href="{% url 'catalogo:lista_obras' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Volver al catálogo
+        </a>
+    </div>
+</div>
+{% endblock %}

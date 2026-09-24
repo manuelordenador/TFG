@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Catálogo - Biblioteca{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Hero / Buscador principal -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold mb-3">
+            <i class="fas fa-book-open text-primary"></i> Catálogo de la Biblioteca
+        </h1>
+        <p class="lead text-muted mb-4">
+            Explora nuestro fondo bibliográfico: libros, revistas, periódicos y grabaciones.
+        </p>
+        
+        <form action="{% url 'catalogo:lista_obras' %}" method="get" class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="input-group input-group-lg shadow-sm">
+                    <input type="text" name="busqueda" class="form-control" 
+                           placeholder="Buscar por título, autor o signatura...">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <i class="fas fa-book fa-3x text-primary mb-3"></i>
+                    <h2 class="fw-bold">{{ total_obras }}</h2>
+                    <p class="text-muted mb-0">Obras en el catálogo</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <i class="fas fa-user-pen fa-3x text-success mb-3"></i>
+                    <h2 class="fw-bold">{{ total_autores }}</h2>
+                    <p class="text-muted mb-0">Autores registrados</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <i class="fas fa-copy fa-3x text-warning mb-3"></i>
+                    <h2 class="fw-bold">{{ total_ejemplares }}</h2>
+                    <p class="text-muted mb-0">Ejemplares disponibles</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Últimas obras -->
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-clock text-primary"></i> Últimas incorporaciones</h5>
+                    <a href="{% url 'catalogo:lista_obras' %}" class="btn btn-sm btn-outline-primary">
+                        Ver todas <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        {% for obra in ultimas_obras %}
+                            <a href="{% url 'catalogo:detalle_obra' obra.pk %}" 
+                               class="list-group-item list-group-item-action">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">{{ obra.titulo }}</h6>
+                                        <small class="text-muted">
+                                            {% for autor in obra.autores.all|slice:":3" %}
+                                                {{ autor.nombre }} {{ autor.apellidos }}{% if not forloop.last %}, {% endif %}
+                                            {% empty %}
+                                                Autor desconocido
+                                            {% endfor %}
+                                        </small>
+                                    </div>
+                                    <span class="badge bg-secondary">{{ obra.get_tipo_display }}</span>
+                                </div>
+                            </a>
+                        {% empty %}
+                            <div class="list-group-item text-center text-muted py-4">
+                                <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
+                                No hay obras en el catálogo
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Autores destacados -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-star text-warning"></i> Autores destacados</h5>
+                    <a href="{% url 'catalogo:lista_autores' %}" class="btn btn-sm btn-outline-primary">
+                        Ver todos
+                    </a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        {% for autor in autores_destacados %}
+                            <a href="{% url 'catalogo:detalle_autor' autor.pk %}" 
+                               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-user-circle text-muted me-2"></i>
+                                    {{ autor.nombre }} {{ autor.apellidos }}
+                                </div>
+                                <span class="badge bg-primary rounded-pill">{{ autor.num_obras }}</span>
+                            </a>
+                        {% empty %}
+                            <div class="list-group-item text-center text-muted py-4">
+                                No hay autores registrados
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accesos rápidos por tipo -->
+    <div class="row mt-4 g-3">
+        <div class="col-6 col-md-3">
+            <a href="{% url 'catalogo:lista_obras' %}?tipo=LIBRO" class="text-decoration-none">
+                <div class="card border-0 shadow-sm text-center h-100 card-hover">
+                    <div class="card-body">
+                        <i class="fas fa-book fa-2x text-primary mb-2"></i>
+                        <h6 class="mb-0">Libros</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="{% url 'catalogo:lista_obras' %}?tipo=REVISTA" class="text-decoration-none">
+                <div class="card border-0 shadow-sm text-center h-100 card-hover">
+                    <div class="card-body">
+                        <i class="fas fa-newspaper fa-2x text-success mb-2"></i>
+                        <h6 class="mb-0">Revistas</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="{% url 'catalogo:lista_obras' %}?tipo=PERIODICO" class="text-decoration-none">
+                <div class="card border-0 shadow-sm text-center h-100 card-hover">
+                    <div class="card-body">
+                        <i class="fas fa-scroll fa-2x text-warning mb-2"></i>
+                        <h6 class="mb-0">Periódicos</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="{% url 'catalogo:lista_obras' %}?tipo=GRABACION" class="text-decoration-none">
+                <div class="card border-0 shadow-sm text-center h-100 card-hover">
+                    <div class="card-body">
+                        <i class="fas fa-compact-disc fa-2x text-danger mb-2"></i>
+                        <h6 class="mb-0">Grabaciones</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
