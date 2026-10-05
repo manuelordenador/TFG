@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
+from django.db import transaction
 from django.db.models import Q, Count
-from .models import Obra, Autor, Libro, Revista, Periodico, Grabacion, Ejemplar
+from .models import Obra, Autor, Libro, Revista, Periodico, Grabacion, Ejemplar, Editorial, Productora
 from .forms import LibroForm, RevistaForm, PeriodicoForm, GrabacionForm
 from gestionUsuarios.decorators import bibliotecario_required
 from django.contrib import messages
@@ -39,21 +40,66 @@ def registrar_ejemplar(request):
     
     FormClass = FORMULARIOS_POR_TIPO[tipo]
     
+    def guardar_relacion(campo_nombre, campo_modelo, nombre_entidad):
+        """
+        Asigna una entidad relacionada (editorial/productora) a la obra.
+        
+        Args:
+            campo_nombre: Nombre del campo en el POST (ej: 'editorial')
+            campo_modelo: Nombre del campo en el modelo (ej: 'editorial_id')
+            nombre_entidad: Nombre legible para el mensaje de error (ej: 'editorial')
+        
+        Returns:
+            None si todo va bien, o un render con error si falla
+        """
+        entidad_id = request.POST.get(campo_nombre, '').strip()
+        if entidad_id.isdigit():
+            setattr(obra, campo_modelo, int(entidad_id))
+            return None
+        else:
+            messages.error(request, f'Debes seleccionar una {nombre_entidad}.')
+            return render(request, 'registrar_ejemplar.html', {
+                'form': form,
+                'tipo': tipo,
+                'tipo_display': dict(Obra.TIPO_OBRA).get(tipo, tipo),
+            })
+    
     if request.method == 'POST':
         form = FormClass(request.POST)
+        
         if form.is_valid():
-            # 1. Guardar la obra (con el tipo correspondiente)
+            # 1. Guarda la obra
             obra = form.save(commit=False)
             obra.tipo = tipo
-            obra.save()
+                        
+            # 2. Autores
             autores_ids = request.POST.get('autores', '').split(',')
             autores_ids = [int(id) for id in autores_ids if id.strip().isdigit()]
-            if autores_ids:
-                obra.autores.set(autores_ids)
-            form.save_m2m()  # Guardar la relación N:N con autor
+            if not autores_ids:
+                messages.error(request, 'Debes seleccionar al menos un autor.')
+                return render(request, 'registrar_ejemplar.html', {
+                    'form': form, 'tipo': tipo,
+                    'tipo_display': dict(Obra.TIPO_OBRA).get(tipo, tipo),
+                })
             
-            # 2. Crear el ejemplar asociado
-            Ejemplar.objects.create(obra=obra, reservado=False)
+            # 3. Editorial (solo para Libro)
+            if tipo == 'LIBRO':
+                error = guardar_relacion('editorial', 'editorial_id', 'editorial')
+                if error:
+                    return error
+            
+            # 4. Productora (solo para Grabacion)
+            if tipo == 'GRABACION':
+                error = guardar_relacion('productora', 'productora_id', 'productora')
+                if error:
+                    return error
+            
+            # transacción atómica por si falla algo
+            with transaction. atomic():
+                obra.save()
+                obra.autor.set(autores_ids)
+                # 5. Crear el ejemplar asociado
+                Ejemplar.objects.create(obra=obra, reservado=False)
             
             messages.success(request, f'{obra.get_tipo_display()} "{obra.titulo}" registrado correctamente.')
             return redirect('catalogo:detalle_obra', pk=obra.pk)
@@ -207,3 +253,52 @@ def buscar_autores(request):
     ]
     
     return JsonResponse({'autores': data})
+
+@login_required
+@bibliotecario_required
+def buscar_editoriales(request):
+    """API para buscar editoriales por nombre (autocompletado)"""
+    query = request.GET.get('q', '').strip()
+    
+    if len(query) < 2:
+        return JsonResponse({'editoriales': []})
+    
+    editoriales = Editorial.objects.filter(
+        nombre__icontains=query
+    ).order_by('nombre')[:10]
+    
+    data = [
+        {
+            'id': editorial.identificador,
+            'nombre': editorial.nombre,
+            'texto': editorial.nombre,
+        }
+        for editorial in editoriales
+    ]
+    
+    return JsonResponse({'editoriales': data})
+
+
+@login_required
+@bibliotecario_required
+def buscar_productoras(request):
+    """API para buscar productoras por nombre (autocompletado)"""
+    query = request.GET.get('q', '').strip()
+    
+    if len(query) < 2:
+        return JsonResponse({'productoras': []})
+    
+    productoras = Productora.objects.filter(
+        nombre__icontains=query
+    ).order_by('nombre')[:10]
+    
+    data = [
+        {
+            'id': productora.identificador,
+            'nombre': productora.nombre,
+            'texto': productora.nombre,
+        }
+        for productora in productoras
+    ]
+    
+    return JsonResponse({'productoras': data})

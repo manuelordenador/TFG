@@ -4,18 +4,6 @@ from .models import Obra, Libro, Revista, Periodico, Grabacion, Ejemplar
 class ObraBaseForm(forms.ModelForm):
     """Formulario base para los campos comunes de cualquier obra"""
     
-    #campo de búsqueda de autores
-    autores_busqueda = forms.CharField(
-        required=True,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Buscar autor...',
-            'autocomplete': 'On',
-            'id': 'autores-busqueda',
-        }),
-        label='Autores'
-    )
-    
     class Meta:
         model = Obra
         fields = ['titulo', 'fechaPublicacion', 'signatura']
@@ -35,21 +23,18 @@ class ObraBaseForm(forms.ModelForm):
 
 class LibroForm(ObraBaseForm):
     """Formulario para registrar un Libro"""
-    
     class Meta(ObraBaseForm.Meta):
         model = Libro
-        fields = ObraBaseForm.Meta.fields + ['isbn', 'editorial', 'materia', 'coleccion']
+        fields = ObraBaseForm.Meta.fields + ['isbn', 'materia', 'coleccion']
         widgets = {
             **ObraBaseForm.Meta.widgets,
             'isbn': forms.TextInput(attrs={'class': 'form-control'}),
-            'editorial': forms.TextInput(attrs={'class': 'form-control'}),
             'materia': forms.TextInput(attrs={'class': 'form-control'}),
             'coleccion': forms.TextInput(attrs={'class': 'form-control'}),
         }
         labels = {
             **ObraBaseForm.Meta.labels,
             'isbn': 'ISBN',
-            'editorial': 'Editorial',
             'materia': 'Materia',
             'coleccion': 'Colección',
         }
@@ -108,15 +93,16 @@ class PeriodicoForm(ObraBaseForm):
 class GrabacionForm(ObraBaseForm):
     """Formulario para registrar una Grabación"""
     
+   
+    
     class Meta(ObraBaseForm.Meta):
         model = Grabacion
-        fields = ObraBaseForm.Meta.fields + ['ean', 'soporte', 'duracion', 'productora', 'genero']
+        fields = ObraBaseForm.Meta.fields + ['ean', 'soporte', 'duracion', 'genero']
         widgets = {
             **ObraBaseForm.Meta.widgets,
             'ean': forms.TextInput(attrs={'class': 'form-control'}),
             'soporte': forms.Select(attrs={'class': 'form-select'}),
             'duracion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'HH:MM:SS'}),
-            'productora': forms.TextInput(attrs={'class': 'form-control'}),
             'genero': forms.TextInput(attrs={'class': 'form-control'}),
         }
         labels = {
@@ -124,9 +110,15 @@ class GrabacionForm(ObraBaseForm):
             'ean': 'EAN',
             'soporte': 'Soporte',
             'duracion': 'Duración',
-            'productora': 'Productora/Sello',
             'genero': 'Género',
         }
+        
+        def clean(self):
+            cleaned_data = super().clean()
+            productora_id = self.data.get('productora', '').strip()
+            if not productora_id:
+                self.add_error('productora_busqueda', 'Debes seleccionar una productora.')
+            return cleaned_data
 
 
 class EjemplarForm(forms.ModelForm):

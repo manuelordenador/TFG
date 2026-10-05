@@ -14,4 +14,6 @@ urlpatterns = [
     path('autores/<int:pk>/', views.detalle_autor, name='detalle_autor'),
     path('registrar/', views.registrar_ejemplar, name='registrar_ejemplar'),
     path('api/buscar-autores/', views.buscar_autores, name='buscar_autores'),
+    path('api/buscar-editoriales/', views.buscar_editoriales, name='buscar_editoriales'),
+    path('api/buscar-productoras/', views.buscar_productoras, name='buscar_productoras'),
 ]

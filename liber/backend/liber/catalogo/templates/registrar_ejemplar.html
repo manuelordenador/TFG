@@ -81,7 +81,58 @@
                                 Busca y selecciona uno o varios autores de la base de datos.
                             </small>
                         </div>
+                                                
+                        {% if tipo == 'LIBRO' %}
+                            <div class="mb-3 position-relative">
+                                <label for="editorial-busqueda" class="form-label fw-semibold">
+                                    <i class="fas fa-building"></i> Editorial
+                                    <span class="text-danger">*</span>
+                                </label>
+                                
+                                <input type="text" 
+                                    id="editorial-busqueda" 
+                                    class="form-control" 
+                                    placeholder="Escribe para buscar editoriales..."
+                                    autocomplete="off">
+                                
+                                <div id="editorial-sugerencias" 
+                                    class="list-group position-absolute w-100 shadow-sm" 
+                                    style="z-index: 1000; display: none; max-height: 300px; overflow-y: auto;">
+                                </div>
+                                
+                                <div id="editorial-seleccionada" class="mt-2 d-flex flex-wrap gap-2"></div>
+                                
+                                <input type="hidden" name="editorial" id="editorial-id" value="">
+                                
+                                <small class="text-muted">Busca y selecciona una editorial de la base de datos.</small>
+                            </div>
+                        {% endif %}
 
+                        {% if tipo == 'GRABACION' %}
+                            <div class="mb-3 position-relative">
+                                <label for="productora-busqueda" class="form-label fw-semibold">
+                                    <i class="fas fa-industry"></i> Productora
+                                    <span class="text-danger">*</span>
+                                </label>
+                                
+                                <input type="text" 
+                                    id="productora-busqueda" 
+                                    class="form-control" 
+                                    placeholder="Escribe para buscar productoras..."
+                                    autocomplete="off">
+                                
+                                <div id="productora-sugerencias" 
+                                    class="list-group position-absolute w-100 shadow-sm" 
+                                    style="z-index: 1000; display: none; max-height: 300px; overflow-y: auto;">
+                                </div>
+                                
+                                <div id="productora-seleccionada" class="mt-2 d-flex flex-wrap gap-2"></div>
+                                
+                                <input type="hidden" name="productora" id="productora-id" value="">
+                                
+                                <small class="text-muted">Busca y selecciona una productora de la base de datos.</small>
+                            </div>
+                        {% endif %}
                         <!-- Resto de campos del formulario -->
                         {% for field in form %}
                             {% if field.name != 'titulo' and field.name != 'autores_busqueda' %}
@@ -117,5 +168,5 @@
 </div>
 
 <!-- JavaScript para el autocompletado -->
-<script src="{% static 'js/buscadorAutores.js' %}"></script>
+<script src="{% static 'js/incializarBuscador.js' %}"></script>
 {% endblock %}
