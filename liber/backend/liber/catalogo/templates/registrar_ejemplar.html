@@ -2,171 +2,232 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Registrar {{ tipo_display }} - Catálogo{% endblock %}
+{% block title %}
+  Registrar {{ tipo_display }} - Catálogo
+{% endblock %}
 
 {% block content %}
-<div class="container py-4">
+  <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>
-            <i class="fas fa-plus-circle text-primary"></i> 
-            Registrar {{ tipo_display }}
-        </h2>
-        <a href="{% url 'catalogo:registrar_ejemplar' %}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Cambiar tipo
-        </a>
+      <h2>
+        <i class="fas fa-plus-circle text-primary"></i>
+        Registrar {{ tipo_display }}
+      </h2>
+      <a href="{% url 'catalogo:registrar_ejemplar' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Cambiar tipo</a>
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">
-                        <i class="fas fa-edit"></i> Datos {{ tipo_display|lower }}
-                    </h5>
+      <div class="col-md-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-edit"></i> Datos {{ tipo_display|lower }}</h5>
+          </div>
+          <div class="card-body">
+            <form method="post" novalidate id="form-registrar">
+              {% csrf_token %}
+
+              {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                  {% for error in form.non_field_errors %}
+                    {{ error }}
+                  {% endfor %}
                 </div>
-                <div class="card-body">
-                    <form method="post" novalidate id="form-registrar">
-                        {% csrf_token %}
+              {% endif %}
 
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger">
-                                {% for error in form.non_field_errors %}
-                                    {{ error }}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+              <!-- Campo: Título -->
+              <div class="mb-3">
+                <label for="{{ form.titulo.id_for_label }}" class="form-label fw-semibold">
+                  {{ form.titulo.label }}
+                  {% if form.titulo.field.required %}
+                    <span class="text-danger">*</span>
+                  {% endif %}
+                </label>
+                {{ form.titulo }}
+                {% for error in form.titulo.errors %}
+                  <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+              </div>
 
-                        <!-- Campo: Título -->
-                        <div class="mb-3">
-                            <label for="{{ form.titulo.id_for_label }}" class="form-label fw-semibold">
-                                {{ form.titulo.label }}
-                                {% if form.titulo.field.required %}<span class="text-danger">*</span>{% endif %}
-                            </label>
-                            {{ form.titulo }}
-                            {% for error in form.titulo.errors %}
-                                <div class="invalid-feedback d-block">{{ error }}</div>
-                            {% endfor %}
-                        </div>
+              <!-- Campo: Buscador de autores -->
+              <div class="mb-3 position-relative">
+                <label for="autores-busqueda" class="form-label fw-semibold">
+                  <i class="fas fa-user-pen"></i> Autores
+                  <span class="text-danger">*</span>
+                </label>
 
-                        <!-- Campo: Buscador de autores -->
-                        <div class="mb-3 position-relative">
-                            <label for="autores-busqueda" class="form-label fw-semibold">
-                                <i class="fas fa-user-pen"></i> Autores
-                                <span class="text-danger">*</span>
-                            </label>
-                            
-                            <!-- Input de búsqueda -->
-                            <input type="text" 
-                                   id="autores-busqueda" 
-                                   class="form-control" 
-                                   placeholder="Escribe para buscar autores..."
-                                   autocomplete="off">
-                            
-                            <!-- Contenedor de sugerencias -->
-                            <div id="autores-sugerencias" 
-                                 class="list-group position-absolute w-100 shadow-sm" 
-                                 style="z-index: 1000; display: none; max-height: 300px; overflow-y: auto;">
-                                <!-- Se rellena con JavaScript -->
-                            </div>
-                            
-                            <!-- Autores seleccionados -->
-                            <div id="autores-seleccionados" class="mt-2 d-flex flex-wrap gap-2">
-                                <!-- Se rellena con JavaScript -->
-                            </div>
-                            
-                            <!-- Campo oculto donde se envían los IDs -->
-                            <input type="hidden" name="autores" id="autores-ids" value="">
-                            
-                            <small class="text-muted">
-                                Busca y selecciona uno o varios autores de la base de datos.
-                            </small>
-                        </div>
-                                                
-                        {% if tipo == 'LIBRO' %}
-                            <div class="mb-3 position-relative">
-                                <label for="editorial-busqueda" class="form-label fw-semibold">
-                                    <i class="fas fa-building"></i> Editorial
-                                    <span class="text-danger">*</span>
-                                </label>
-                                
-                                <input type="text" 
-                                    id="editorial-busqueda" 
-                                    class="form-control" 
-                                    placeholder="Escribe para buscar editoriales..."
-                                    autocomplete="off">
-                                
-                                <div id="editorial-sugerencias" 
-                                    class="list-group position-absolute w-100 shadow-sm" 
-                                    style="z-index: 1000; display: none; max-height: 300px; overflow-y: auto;">
-                                </div>
-                                
-                                <div id="editorial-seleccionada" class="mt-2 d-flex flex-wrap gap-2"></div>
-                                
-                                <input type="hidden" name="editorial" id="editorial-id" value="">
-                                
-                                <small class="text-muted">Busca y selecciona una editorial de la base de datos.</small>
-                            </div>
-                        {% endif %}
+                <!-- Input de búsqueda -->
+                <input type="text" id="autores-busqueda" class="form-control" placeholder="Escribe para buscar autores..." autocomplete="off" />
 
-                        {% if tipo == 'GRABACION' %}
-                            <div class="mb-3 position-relative">
-                                <label for="productora-busqueda" class="form-label fw-semibold">
-                                    <i class="fas fa-industry"></i> Productora
-                                    <span class="text-danger">*</span>
-                                </label>
-                                
-                                <input type="text" 
-                                    id="productora-busqueda" 
-                                    class="form-control" 
-                                    placeholder="Escribe para buscar productoras..."
-                                    autocomplete="off">
-                                
-                                <div id="productora-sugerencias" 
-                                    class="list-group position-absolute w-100 shadow-sm" 
-                                    style="z-index: 1000; display: none; max-height: 300px; overflow-y: auto;">
-                                </div>
-                                
-                                <div id="productora-seleccionada" class="mt-2 d-flex flex-wrap gap-2"></div>
-                                
-                                <input type="hidden" name="productora" id="productora-id" value="">
-                                
-                                <small class="text-muted">Busca y selecciona una productora de la base de datos.</small>
-                            </div>
-                        {% endif %}
-                        <!-- Resto de campos del formulario -->
-                        {% for field in form %}
-                            {% if field.name != 'titulo' and field.name != 'autores_busqueda' %}
-                                <div class="mb-3">
-                                    <label for="{{ field.id_for_label }}" class="form-label fw-semibold">
-                                        {{ field.label }}
-                                        {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
-                                    </label>
-                                    {{ field }}
-                                    {% if field.help_text %}
-                                        <small class="form-text text-muted">{{ field.help_text }}</small>
-                                    {% endif %}
-                                    {% for error in field.errors %}
-                                        <div class="invalid-feedback d-block">{{ error }}</div>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-
-                        <div class="d-flex justify-content-between mt-4">
-                            <a href="{% url 'catalogo:registrar_ejemplar' %}" class="btn btn-secondary">
-                                <i class="fas fa-times"></i> Cancelar
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Registrar {{ tipo_display }}
-                            </button>
-                        </div>
-                    </form>
+                <!-- Contenedor de sugerencias -->
+                <div id="autores-sugerencias" class="list-group position-absolute w-100 shadow-sm" style="z-index: 1000; display: none; max-height: 300px; overflow-y: auto;">
+                  <!-- Se rellena con JavaScript -->
                 </div>
-            </div>
+
+                <!-- Autores seleccionados -->
+                <div id="autores-seleccionados" class="mt-2 d-flex flex-wrap gap-2">
+                  <!-- Se rellena con JavaScript -->
+                </div>
+
+                <button type="button" class="btn btn-sm btn-outline-success mt-2" data-bs-toggle="modal" data-bs-target="#modalCrearAutor"><i class="fas fa-plus"></i> Añadir nuevo autor</button>
+
+                <!-- Campo oculto donde se envían los IDs -->
+                <input type="hidden" name="autores" id="autores-ids" value="" />
+
+                <small class="text-muted">Busca y selecciona uno o varios autores de la base de datos.</small>
+              </div>
+
+              {% if tipo == 'LIBRO' %}
+                <div class="mb-3 position-relative">
+                  <label for="editorial-busqueda" class="form-label fw-semibold">
+                    <i class="fas fa-building"></i> Editorial
+                    <span class="text-danger">*</span>
+                  </label>
+
+                  <input type="text" id="editorial-busqueda" class="form-control" placeholder="Escribe para buscar editoriales..." autocomplete="off" />
+
+                  <div id="editorial-sugerencias" class="list-group position-absolute w-100 shadow-sm" style="z-index: 1000; display: none; max-height: 300px; overflow-y: auto;"></div>
+
+                  <div id="editorial-seleccionada" class="mt-2 d-flex flex-wrap gap-2"></div>
+
+                  <input type="hidden" name="editorial" id="editorial-id" value="" />
+
+                  <button type="button" class="btn btn-sm btn-outline-success mt-2" data-bs-toggle="modal" data-bs-target="#modalCrearEditorial"><i class="fas fa-plus"></i> Añadir nueva editorial</button>
+
+                  <small class="text-muted">Busca y selecciona una editorial de la base de datos.</small>
+                </div>
+              {% endif %}
+
+              {% if tipo == 'GRABACION' %}
+                <div class="mb-3 position-relative">
+                  <label for="productora-busqueda" class="form-label fw-semibold">
+                    <i class="fas fa-industry"></i> Productora
+                    <span class="text-danger">*</span>
+                  </label>
+
+                  <input type="text" id="productora-busqueda" class="form-control" placeholder="Escribe para buscar productoras..." autocomplete="off" />
+
+                  <div id="productora-sugerencias" class="list-group position-absolute w-100 shadow-sm" style="z-index: 1000; display: none; max-height: 300px; overflow-y: auto;"></div>
+
+                  <div id="productora-seleccionada" class="mt-2 d-flex flex-wrap gap-2"></div>
+
+                  <button type="button" class="btn btn-sm btn-outline-success mt-2" data-bs-toggle="modal" data-bs-target="#modalCrearProductora"><i class="fas fa-plus"></i> Añadir nueva productora</button>
+
+                  <input type="hidden" name="productora" id="productora-id" value="" />
+
+                  <small class="text-muted">Busca y selecciona una productora de la base de datos.</small>
+                </div>
+              {% endif %}
+              <!-- Resto de campos del formulario -->
+              {% for field in form %}
+                {% if field.name != 'titulo' and field.name != 'autores_busqueda' %}
+                  <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label fw-semibold">
+                      {{ field.label }}
+                      {% if field.field.required %}
+                        <span class="text-danger">*</span>
+                      {% endif %}
+                    </label>
+                    {{ field }}
+                    {% if field.help_text %}
+                      <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                      <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+
+              <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'catalogo:registrar_ejemplar' %}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Registrar {{ tipo_display }}</button>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<!-- JavaScript para el autocompletado -->
-<script src="{% static 'js/incializarBuscador.js' %}"></script>
+  <!-- ========================================== -->
+  <!-- MODAL: CREAR AUTOR -->
+  <!-- ========================================== -->
+  <div class="modal fade" id="modalCrearAutor" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title"><i class="fas fa-user-plus"></i> Nuevo Autor</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="modalCrearAutor-error" class="alert alert-danger d-none"></div>
+          <div class="mb-3">
+            <label for="nuevo-autor-nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+            <input type="text" id="nuevo-autor-nombre" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label for="nuevo-autor-apellidos" class="form-label">Apellidos</label>
+            <input type="text" id="nuevo-autor-apellidos" class="form-control" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success" id="btn-crear-autor"><i class="fas fa-save"></i> Crear autor</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CREAR EDITORIAL -->
+  <!-- ========================================== -->
+  <div class="modal fade" id="modalCrearEditorial" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title"><i class="fas fa-building"></i> Nueva Editorial</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="modalCrearEditorial-error" class="alert alert-danger d-none"></div>
+          <div class="mb-3">
+            <label for="nuevo-editorial-nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+            <input type="text" id="nuevo-editorial-nombre" class="form-control" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success" id="btn-crear-editorial"><i class="fas fa-save"></i> Crear editorial</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CREAR PRODUCTORA -->
+  <!-- ========================================== -->
+  <div class="modal fade" id="modalCrearProductora" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title"><i class="fas fa-industry"></i> Nueva Productora</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="modalCrearProductora-error" class="alert alert-danger d-none"></div>
+          <div class="mb-3">
+            <label for="nuevo-productora-nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+            <input type="text" id="nuevo-productora-nombre" class="form-control" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success" id="btn-crear-productora"><i class="fas fa-save"></i> Crear productora</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript para el autocompletado -->
+  <script src="{% static 'js/incializarBuscador.js' %}"></script>
 {% endblock %}

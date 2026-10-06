@@ -4,7 +4,6 @@ from datetime import timedelta
 
 Usuario = get_user_model()  # Socio, Bibliotecario o Admin
 
-
 class Autor(models.Model):
     """Autor de una(s) obra(s)"""
     idAutor = models.AutoField(primary_key=True)

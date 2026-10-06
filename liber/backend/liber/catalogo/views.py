@@ -7,7 +7,10 @@ from .forms import LibroForm, RevistaForm, PeriodicoForm, GrabacionForm
 from gestionUsuarios.decorators import bibliotecario_required
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+import json
 from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.forms.models import model_to_dict
 
 # mapeo de los tipos de formulario
 FORMULARIOS_POR_TIPO = {
@@ -302,3 +305,40 @@ def buscar_productoras(request):
     ]
     
     return JsonResponse({'productoras': data})
+
+def _crear_entidad_simple(request, ModelClass, id_field, extra_fields=None):
+    """Crea una entidad simple (solo nombre + opcionalmente otros campos)."""
+    nombre = request.POST.get('nombre', '').strip()
+    if not nombre:
+        return JsonResponse({'error': 'El nombre es obligatorio.'}, status=400)
+    
+    kwargs = {'nombre': nombre}
+    if extra_fields:
+        for field in extra_fields:
+            value = request.POST.get(field, '').strip()
+            kwargs[field] = value or None
+    
+    obj = ModelClass.objects.create(**kwargs)
+    
+    return JsonResponse({
+        'id': getattr(obj, id_field),
+        'texto': str(obj),
+    })
+
+@login_required
+@bibliotecario_required
+@require_POST
+def crear_editorial(request):
+    return _crear_entidad_simple(request, Editorial, 'identificador')
+
+@login_required
+@bibliotecario_required
+@require_POST
+def crear_productora(request):
+    return _crear_entidad_simple(request, Productora, 'identificador')
+
+@login_required
+@bibliotecario_required
+@require_POST
+def crear_autor(request):
+    return _crear_entidad_simple(request, Autor, 'idAutor', extra_fields=['apellidos'])

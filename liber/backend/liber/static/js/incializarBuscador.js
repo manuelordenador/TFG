@@ -2,17 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /**
      * Inicializa un buscador con autocompletado
-     * @param {Object} config - Configuración del buscador
-     * @param {string} config.inputId - ID del input de búsqueda
-     * @param {string} config.sugerenciasId - ID del contenedor de sugerencias
-     * @param {string} config.seleccionadosId - ID del contenedor de seleccionados
-     * @param {string} config.hiddenId - ID del campo oculto con los IDs
-     * @param {string} config.apiUrl - URL de la API de búsqueda
-     * @param {string} config.claveRespuesta - Clave del JSON (ej: 'autores', 'editoriales')
-     * @param {string} config.claveId - Nombre del campo ID en el JSON (ej: 'id')
-     * @param {string} config.claveTexto - Nombre del campo texto en el JSON (ej: 'texto')
-     * @param {string} config.icono - Clase del icono FontAwesome
-     * @param {boolean} config.multiple - Si permite seleccionar varios (true) o uno solo (false)
      */
     function inicializarBuscador(config) {
         const input = document.getElementById(config.inputId);
@@ -22,18 +11,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!input || !sugerencias || !seleccionados || !hidden) {
             console.warn(`Buscador no inicializado: faltan elementos para ${config.inputId}`);
-            return;
+            return null;  // Devolver null si no existe el buscador
         }
 
         let elementosSeleccionados = [];
         let timeoutId = null;
 
-        // Debounce: esperar 300ms antes de buscar
         input.addEventListener('input', function () {
             clearTimeout(timeoutId);
             const query = this.value.trim();
 
-            // si texto búsqueda < 2 caracteres, no recomendar nada aún
             if (query.length < 2) {
                 sugerencias.style.display = 'none';
                 return;
@@ -42,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
             timeoutId = setTimeout(() => buscar(query), 300);
         });
 
-        // Buscar vía AJAX
         function buscar(query) {
             fetch(`${config.apiUrl}?q=${encodeURIComponent(query)}`)
                 .then(response => response.json())
@@ -52,11 +38,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch(error => console.error('Error:', error));
         }
 
-        // Mostrar sugerencias
         function mostrarSugerencias(items) {
             sugerencias.innerHTML = '';
 
-            // Filtrar los ya seleccionados
             const noSeleccionados = items.filter(
                 item => !elementosSeleccionados.some(s => s.id === item[config.claveId])
             );
@@ -82,11 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
             sugerencias.style.display = 'block';
         }
 
-        // Añadir elemento
         function agregar(item) {
             const id = item[config.claveId];
 
-            // Si es single, reemplazar el anterior
             if (!config.multiple) {
                 elementosSeleccionados = [];
             }
@@ -114,7 +96,6 @@ document.addEventListener('DOMContentLoaded', function () {
             actualizarHidden();
         }
 
-        // Actualizar la lista visual
         function actualizarSeleccionados() {
             seleccionados.innerHTML = '';
 
@@ -122,11 +103,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 const badge = document.createElement('span');
                 badge.className = 'badge bg-primary d-flex align-items-center gap-2 p-2';
 
-                // Texto
                 const texto = document.createTextNode(item.texto);
                 badge.appendChild(texto);
 
-                // Botón de eliminar
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.className = 'btn-close btn-close-white btn-sm';
@@ -139,26 +118,47 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        // Actualizar el campo oculto
         function actualizarHidden() {
             hidden.value = elementosSeleccionados.map(a => a.id).join(',');
         }
 
-        // Cerrar sugerencias al hacer clic fuera
         document.addEventListener('click', function (e) {
             if (!e.target.closest(`#${config.inputId}`) &&
                 !e.target.closest(`#${config.sugerenciasId}`)) {
                 sugerencias.style.display = 'none';
             }
         });
+
+        // Devolver la API pública del buscador
+        return {
+            agregarExterno: function (item) {
+                const id = item.id;
+
+                if (!config.multiple) {
+                    elementosSeleccionados = [];
+                }
+
+                if (elementosSeleccionados.some(a => a.id === id)) {
+                    return;
+                }
+
+                elementosSeleccionados.push({
+                    id: id,
+                    texto: item.texto
+                });
+
+                actualizarSeleccionados();
+                actualizarHidden();
+            }
+        };
     }
 
     // ==========================================
-    // INICIALIZAR LOS 3 BUSCADORES
+    // 1. INICIALIZAR LOS 3 BUSCADORES
+    //    (guardando las instancias en variables)
     // ==========================================
 
-    // Buscador de AUTORES (múltiple)
-    inicializarBuscador({
+    const buscadorAutores = inicializarBuscador({
         inputId: 'autores-busqueda',
         sugerenciasId: 'autores-sugerencias',
         seleccionadosId: 'autores-seleccionados',
@@ -171,8 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
         multiple: true
     });
 
-    // Buscador de EDITORIALES (solo uno)
-    inicializarBuscador({
+    const buscadorEditoriales = inicializarBuscador({
         inputId: 'editorial-busqueda',
         sugerenciasId: 'editorial-sugerencias',
         seleccionadosId: 'editorial-seleccionada',
@@ -185,8 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
         multiple: false
     });
 
-    // Buscador de PRODUCTORAS (solo uno)
-    inicializarBuscador({
+    const buscadorProductoras = inicializarBuscador({
         inputId: 'productora-busqueda',
         sugerenciasId: 'productora-sugerencias',
         seleccionadosId: 'productora-seleccionada',
@@ -198,4 +196,123 @@ document.addEventListener('DOMContentLoaded', function () {
         icono: 'fas fa-industry',
         multiple: false
     });
+
+    // ==========================================
+    // 2. FUNCIÓN GENÉRICA PARA CREAR ENTIDADES
+    // ==========================================
+    function configurarModalCrear(config) {
+        const btnCrear = document.getElementById(config.btnId);
+        const inputNombre = document.getElementById(config.inputNombreId);
+        const inputApellidos = config.inputApellidosId ? document.getElementById(config.inputApellidosId) : null;
+        const errorDiv = document.getElementById(config.errorDivId);
+        const modalEl = document.getElementById(config.modalId);
+
+        if (!btnCrear || !modalEl) return;
+
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+
+        function getCsrfToken() {
+            const input = document.querySelector('[name=csrfmiddlewaretoken]');
+            return input ? input.value : '';
+        }
+
+        btnCrear.addEventListener('click', function () {
+            errorDiv.classList.add('d-none');
+            errorDiv.textContent = '';
+
+            const nombre = inputNombre.value.trim();
+            const apellidos = inputApellidos ? inputApellidos.value.trim() : '';
+
+            if (!nombre) {
+                errorDiv.textContent = 'El nombre es obligatorio.';
+                errorDiv.classList.remove('d-none');
+                return;
+            }
+
+            const body = new FormData();
+            body.append('nombre', nombre);
+            if (inputApellidos) body.append('apellidos', apellidos);
+            body.append('csrfmiddlewaretoken', getCsrfToken());
+
+            fetch(config.apiUrl, {
+                method: 'POST',
+                body: body,
+                headers: {
+                    'X-CSRFToken': getCsrfToken(),
+                },
+            })
+                .then(async response => {
+                    const data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Error al crear el registro.');
+                    }
+                    return data;
+                })
+                .then(data => {
+                    if (config.onSuccess) {
+                        config.onSuccess(data);
+                    }
+                    modal.hide();
+                    inputNombre.value = '';
+                    if (inputApellidos) inputApellidos.value = '';
+                })
+                .catch(error => {
+                    errorDiv.textContent = error.message;
+                    errorDiv.classList.remove('d-none');
+                });
+        });
+
+        modalEl.addEventListener('hidden.bs.modal', function () {
+            inputNombre.value = '';
+            if (inputApellidos) inputApellidos.value = '';
+            errorDiv.classList.add('d-none');
+            errorDiv.textContent = '';
+        });
+    }
+
+    // ==========================================
+    // 3. CONFIGURAR LOS 3 MODALES
+    //    (usando las instancias guardadas arriba)
+    // ==========================================
+
+    configurarModalCrear({
+        btnId: 'btn-crear-autor',
+        modalId: 'modalCrearAutor',
+        inputNombreId: 'nuevo-autor-nombre',
+        inputApellidosId: 'nuevo-autor-apellidos',
+        errorDivId: 'modalCrearAutor-error',
+        apiUrl: '/catalogo/api/crear-autor/',
+        onSuccess: function (data) {
+            if (buscadorAutores) {
+                buscadorAutores.agregarExterno({ id: data.id, texto: data.texto });
+            }
+        }
+    });
+
+    configurarModalCrear({
+        btnId: 'btn-crear-editorial',
+        modalId: 'modalCrearEditorial',
+        inputNombreId: 'nuevo-editorial-nombre',
+        errorDivId: 'modalCrearEditorial-error',
+        apiUrl: '/catalogo/api/crear-editorial/',
+        onSuccess: function (data) {
+            if (buscadorEditoriales) {
+                buscadorEditoriales.agregarExterno({ id: data.id, texto: data.texto });
+            }
+        }
+    });
+
+    configurarModalCrear({
+        btnId: 'btn-crear-productora',
+        modalId: 'modalCrearProductora',
+        inputNombreId: 'nuevo-productora-nombre',
+        errorDivId: 'modalCrearProductora-error',
+        apiUrl: '/catalogo/api/crear-productora/',
+        onSuccess: function (data) {
+            if (buscadorProductoras) {
+                buscadorProductoras.agregarExterno({ id: data.id, texto: data.texto });
+            }
+        }
+    });
+
 });

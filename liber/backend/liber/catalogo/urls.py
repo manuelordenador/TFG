@@ -12,8 +12,13 @@ urlpatterns = [
     # Autores
     path('autores/', views.lista_autores, name='lista_autores'),
     path('autores/<int:pk>/', views.detalle_autor, name='detalle_autor'),
-    path('registrar/', views.registrar_ejemplar, name='registrar_ejemplar'),
+    # Búsqueda de entidades en formulario
     path('api/buscar-autores/', views.buscar_autores, name='buscar_autores'),
     path('api/buscar-editoriales/', views.buscar_editoriales, name='buscar_editoriales'),
     path('api/buscar-productoras/', views.buscar_productoras, name='buscar_productoras'),
+    # Creación de entidades
+    path('registrar/', views.registrar_ejemplar, name='registrar_ejemplar'),
+    path('api/crear-autor/', views.crear_autor, name='crear_autor'),
+    path('api/crear-editorial/', views.crear_editorial, name='crear_editorial'),
+    path('api/crear-productora/', views.crear_productora, name='crear_productora'),
 ]
