@@ -10,10 +10,11 @@ from django.core.paginator import Paginator
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from .decorators import bibliotecario_required, es_bibliotecario
+from .decorators import bibliotecario_required, solo_invitados
 from .models import Usuario
 from .forms import *
 
+@solo_invitados
 def registro_view(request):
     if request.method == 'POST':
         form = RegistroSocioForm(request.POST)
@@ -25,6 +26,7 @@ def registro_view(request):
         form = RegistroSocioForm()
     return render(request, 'registro.html', {'form':form})
 
+@solo_invitados
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request, data=request.POST)

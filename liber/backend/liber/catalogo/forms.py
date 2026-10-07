@@ -92,9 +92,6 @@ class PeriodicoForm(ObraBaseForm):
 
 class GrabacionForm(ObraBaseForm):
     """Formulario para registrar una Grabación"""
-    
-   
-    
     class Meta(ObraBaseForm.Meta):
         model = Grabacion
         fields = ObraBaseForm.Meta.fields + ['ean', 'soporte', 'duracion', 'genero']

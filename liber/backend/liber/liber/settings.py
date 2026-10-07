@@ -150,3 +150,20 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False #la cookie persiste al cerrar el navegad
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
 # SECURE_HSTS_SECONDS = 31536000  # 1 año
+
+# CONFIGURACIÓN CORREO
+
+MAILERS = {
+    "default": {
+        "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+        "OPTIONS": {
+            "host": "smtp.gmail.com",
+            "port": 587,
+            "use_tls": True,
+            "username": os.environ.get("EMAIL_HOST_USER"),
+            "password": os.environ.get("EMAIL_HOST_PASSWORD"),
+            "fail_silently": False,
+        },
+    },
+}
+DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER", "noreply@liber.local")

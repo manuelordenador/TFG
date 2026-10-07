@@ -44,15 +44,8 @@ services:
       - net
     ports:
       - "8000:8000"
-    environment:
-      - DB_HOST=db
-      - DB_NAME=liber_bd
-      - DB_USER=admin
-      - DB_PASSWORD=admin
-      - DB_PORT=5432
-      - RUN_MIGRATIONS=false
-      - RUN_POPULATE=false
-      - RUN_PIP=false
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy

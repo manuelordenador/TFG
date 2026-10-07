@@ -41,6 +41,13 @@
                   <div class="invalid-feedback d-block">{{ form.password.errors|striptags }}</div>
                 {% endif %}
               </div>
+              {% if not user.is_authenticated %}
+                <div class="text-end mb-3">
+                  <a href="{% url 'reset_password' %}" class="text-decoration-none small">
+                    ¿Olvidaste tu contraseña?
+                  </a>
+                </div>
+              {% endif %}
 
               <div class="d-grid mt-3">
                 <button type="submit" class="btn btn-primary btn-lg">Ingresar</button>

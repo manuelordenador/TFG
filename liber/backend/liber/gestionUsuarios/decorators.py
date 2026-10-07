@@ -2,6 +2,7 @@
 from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import PermissionDenied
 from functools import wraps
+from django.shortcuts import redirect
 
 def es_bibliotecario(user):
     """Verifica si el usuario es bibliotecario"""
@@ -23,5 +24,17 @@ def bibliotecario_required(view_func):
             raise PermissionDenied
         if request.user.tipo not in ['BIBLIOTECARIO', 'ADMIN']:
             raise PermissionDenied
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+def solo_invitados(view_func):
+    """
+    Permite el acceso solo a usuarios NO autenticados.
+    Si el usuario ya está logueado, lo redirige a 'home'.
+    """
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home')
         return view_func(request, *args, **kwargs)
     return wrapper
