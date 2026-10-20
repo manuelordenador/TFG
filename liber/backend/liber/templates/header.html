@@ -42,7 +42,7 @@
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-tools"></i> Gestión</a>
             <ul class="dropdown-menu">
               <li>
-                <a class="dropdown-item" href="{% url 'lista_usuarios' %}"><i class="fas fa-users"></i> Usuarios</a>
+                <a class="dropdown-item" href="{% url 'gestionUsuarios:lista_usuarios' %}"><i class="fas fa-users"></i> Usuarios</a>
               </li>
               <li>
                 <hr class="dropdown-divider" />
@@ -84,20 +84,23 @@
             <ul class="dropdown-menu dropdown-menu-end">
               {% if user.is_authenticated %}
                 <li>
-                  <a class="dropdown-item" href="{% url 'perfil' %}">Mi perfil</a>
+                  <a class="dropdown-item" href="{% url 'gestionUsuarios:perfil' %}">Mi perfil</a>
                 </li>
                 <li>
                   <hr class="dropdown-divider" />
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>
+                  <a class="dropdown-item" href="{% url 'gestionUsuarios:logout' %}">Cerrar sesión</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'gestionUsuarios:configuracion_cuenta' %}">Configurar perfil</a>
                 </li>
               {% else %}
                 <li>
-                  <a class="dropdown-item" href="{% url 'login' %}">Iniciar sesión</a>
+                  <a class="dropdown-item" href="{% url 'gestionUsuarios:login' %}">Iniciar sesión</a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{% url 'registro' %}">Registrarse</a>
+                  <a class="dropdown-item" href="{% url 'gestionUsuarios:registro' %}">Registrarse</a>
                 </li>
               {% endif %}
             </ul>

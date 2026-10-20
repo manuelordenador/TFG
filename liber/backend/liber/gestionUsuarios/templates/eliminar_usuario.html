@@ -51,7 +51,7 @@
                     
                     <form method="post" class="d-flex justify-content-between mt-4">
                         {% csrf_token %}
-                        <a href="{% url 'detalle_usuario' usuario.pk %}" class="btn btn-secondary">
+                        <a href="{% url 'gestionUsuarios:detalle_usuario' usuario.pk %}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Cancelar
                         </a>
                         <button type="submit" class="btn btn-danger">

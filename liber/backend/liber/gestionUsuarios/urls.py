@@ -1,8 +1,11 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, reverse_lazy
 from . import views
 from django.contrib.auth import views as auth_views
 from .decorators import solo_invitados
+
+app_name = 'gestionUsuarios'
+
 urlpatterns = [
     # lógica de inicio de sesión
     path('login/', views.login_view, name='login'),
@@ -28,4 +31,20 @@ urlpatterns = [
     path('<int:pk>/', views.detalle_usuario, name='detalle_usuario'),
     path('<int:pk>/editar/', views.editar_usuario, name='editar_usuario'),
     path('<int:pk>/eliminar/', views.eliminar_usuario, name='eliminar_usuario'),
+    path('configuracion_cuenta', views.configuracion_cuenta, name='configuracion_cuenta'),
+    path(
+        'cambiar-contraseña/',
+        auth_views.PasswordChangeView.as_view(
+            template_name='password_change_form.html',
+            success_url=reverse_lazy('password_change_done'),
+        ),
+        name='password_change',
+    ),
+    path(
+        'cambiar-contraseña/hecho/',
+        auth_views.PasswordChangeDoneView.as_view(
+            template_name='password_change_done.html',
+        ),
+        name='password_change_done',
+    ),
 ]

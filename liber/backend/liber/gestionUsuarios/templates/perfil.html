@@ -7,5 +7,12 @@
 <h2 class="text-body">Bienvenido, {{ user.username }}</h2>
 <p class="text-body">Email: {{ user.email }}</p>
 <p class="text-body">Tipo de usuario: {{user.tipo}}</p>
-<a href="{% url 'logout' %}" class="btn btn-danger">Cerrar sesión</a>
+<p class="text-body">Nombre: {{user.first_name}}</p>
+<p class="text-body">Apellidos: {{user.last_name}}</p>
+<p class="text-body">Correo: {{user.email}}</p>
+<p class="text-body">Staff: {{user.is_staff}}</p>
+<p class="text-body">Día de ingreso: {{user.date_joined}}</p>
+<p class="text-body">Teléfono: {{user.telefono}}</p>
+<p class="text-body">Género: {{user.genero}}</p>
+<a href="{% url 'gestionUsuarios:logout' %}" class="btn btn-danger">Cerrar sesión</a>
 {% endblock %}

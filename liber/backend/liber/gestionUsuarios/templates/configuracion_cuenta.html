@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Configuración de cuenta
+{% endblock %}
+
+{% block content %}
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+        <!-- Cabecera -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2><i class="fas fa-user-cog text-primary"></i> Configuración de cuenta</h2>
+          <a href="{% url 'home' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver</a>
+        </div>
+
+        <!-- Info del tipo de usuario -->
+        <div class="alert alert-info d-flex align-items-center mb-4">
+          <i class="fas fa-user-tag fa-2x me-3"></i>
+          <div>
+            <strong>Eres {{ user.get_tipo_display }}</strong>
+            {% if es_socio %}
+              <br /><small>Puedes actualizar tus datos de contacto. Los datos de socio los gestiona la biblioteca.</small>
+            {% elif es_bibliotecario %}
+              <br /><small>Puedes actualizar tus datos personales y laborales.</small>
+            {% elif es_admin %}
+              <br /><small>Puedes actualizar tu información de administrador.</small>
+            {% endif %}
+          </div>
+        </div>
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          <!-- ============================================ -->
+          <!-- SECCIÓN 1: Datos personales (comunes a todos) -->
+          <!-- ============================================ -->
+          <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0"><i class="fas fa-id-card"></i> Datos personales</h5>
+            </div>
+            <div class="card-body">
+              {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                  {% for error in form.non_field_errors %}
+                    {{ error }}
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="{{ form.first_name.id_for_label }}" class="form-label fw-semibold">{{ form.first_name.label }}</label>
+                  {{ form.first_name }}
+                  {% for error in form.first_name.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                  {% endfor %}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="{{ form.last_name.id_for_label }}" class="form-label fw-semibold">{{ form.last_name.label }}</label>
+                  {{ form.last_name }}
+                  {% for error in form.last_name.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold"><i class="fas fa-envelope text-primary"></i> {{ form.email.label }}</label>
+                {{ form.email }}
+                {% if form.email.help_text %}
+                  <small class="form-text text-muted">{{ form.email.help_text }}</small>
+                {% endif %}
+                {% for error in form.email.errors %}
+                  <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="{{ form.telefono.id_for_label }}" class="form-label fw-semibold"><i class="fas fa-phone text-primary"></i> {{ form.telefono.label }}</label>
+                  {{ form.telefono }}
+                  {% for error in form.telefono.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                  {% endfor %}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="{{ form.genero.id_for_label }}" class="form-label fw-semibold"><i class="fas fa-venus-mars text-primary"></i> {{ form.genero.label }}</label>
+                  {{ form.genero }}
+                  {% for error in form.genero.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- SECCIÓN 2: Datos laborales (solo bibliotecarios) -->
+          <!-- ============================================ -->
+          {% if es_bibliotecario and form_bibliotecario %}
+            <div class="card shadow-sm mb-4">
+              <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="fas fa-briefcase"></i> Datos laborales</h5>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="{{ form_bibliotecario.turno.id_for_label }}" class="form-label fw-semibold"><i class="fas fa-clock text-warning"></i> {{ form_bibliotecario.turno.label }}</label>
+                  {{ form_bibliotecario.turno }}
+                  {% if form_bibliotecario.turno.help_text %}
+                    <small class="form-text text-muted">{{ form_bibliotecario.turno.help_text }}</small>
+                  {% endif %}
+                  {% for error in form_bibliotecario.turno.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- ============================================ -->
+          <!-- SECCIÓN 3: Información de solo lectura -->
+          <!-- ============================================ -->
+          {% if datos_solo_lectura %}
+            <div class="card shadow-sm mb-4">
+              <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="fas fa-lock"></i> Información del sistema</h5>
+              </div>
+              <div class="card-body">
+                <div class="alert alert-light border small mb-3">
+                  <i class="fas fa-info-circle text-secondary"></i>
+                  Esta información la gestiona la biblioteca y <strong>no es editable</strong> por el usuario.
+                </div>
+
+                <dl class="row mb-0">
+                  {% for label, valor in datos_solo_lectura.items %}
+                    <dt class="col-sm-5 text-muted">{{ label }}</dt>
+                    <dd class="col-sm-7">
+                      {% if valor == None or valor == '—' %}
+                        <span class="text-muted">—</span>
+                      {% elif valor == 'Sí' %}
+                        <span class="badge bg-danger">{{ valor }}</span>
+                      {% elif valor == 'No' %}
+                        <span class="badge bg-success">{{ valor }}</span>
+                      {% else %}
+                        <strong>{{ valor }}</strong>
+                      {% endif %}
+                    </dd>
+                  {% endfor %}
+                </dl>
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- ============================================ -->
+          <!-- SECCIÓN 4: Cambio de contraseña (enlace) -->
+          <!-- ============================================ -->
+          <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+              <h5 class="mb-0"><i class="fas fa-key text-secondary"></i> Seguridad</h5>
+            </div>
+            <div class="card-body d-flex justify-content-between align-items-center">
+              <div>
+                <strong>Contraseña</strong>
+                <p class="text-muted small mb-0">Cambia tu contraseña periódicamente para mantener tu cuenta segura.</p>
+              </div>
+              <a href="{% url 'gestionUsuarios:password_change' %}" class="btn btn-outline-warning"><i class="fas fa-key"></i> Cambiar contraseña</a>
+            </div>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- Botones finales -->
+          <!-- ============================================ -->
+          <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'home' %}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar cambios</button>
+          </div>
+        </form>
+
+        <!-- ============================================ -->
+        <!-- Zona de peligro (opcional, solo socios) -->
+        <!-- ============================================ -->
+        {% if es_socio %}
+          <div class="card shadow-sm mt-4 border-danger">
+            <div class="card-body">
+              <h6 class="text-danger mb-2"><i class="fas fa-exclamation-triangle"></i> Zona de riesgo</h6>
+              <p class="small text-muted mb-3">Si solicitas la baja de tu cuenta, perderás el acceso y todos tus datos asociados de forma permanente. Para ello, contacta con el personal de la biblioteca.</p>
+              <button type="button" class="btn btn-outline-danger btn-sm" disabled><i class="fas fa-user-slash"></i> Solicitar baja de cuenta</button>
+              <small class="text-muted d-block mt-2">(Función no implementada todavía)</small>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

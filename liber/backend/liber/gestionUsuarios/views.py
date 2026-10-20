@@ -43,7 +43,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.info(request, "logout OK")
-    return redirect('login')
+    return redirect('gestionUsuarios:login')
 
 @login_required
 def perfil_view(request):
@@ -101,7 +101,6 @@ def detalle_usuario(request, pk):
     }
     return render(request, 'detalle_usuario.html', context)
 
-# gestionUsuarios/views.py
 @login_required
 @bibliotecario_required 
 def editar_usuario(request, pk):
@@ -113,17 +112,17 @@ def editar_usuario(request, pk):
     elif request.user.tipo == 'BIBLIOTECARIO':
         if usuario_a_editar.tipo != 'SOCIO':
             messages.error(request, 'Los bibliotecarios solo pueden editar socios.')
-            return redirect('lista_usuarios')
+            return redirect('gestionUsuarios:lista_usuarios')
     else:
         messages.error(request, 'No tienes permiso para editar usuarios.')
-        return redirect('lista_usuarios')
+        return redirect('gestionUsuarios:lista_usuarios')
 
     if request.method == 'POST':
         form = UsuarioEditForm(request.POST, instance=usuario_a_editar)
         if form.is_valid():
             form.save()
             messages.success(request, f'Usuario {usuario_a_editar.username} actualizado correctamente.')
-            return redirect('detalle_usuario', pk=usuario_a_editar.pk)
+            return redirect('gestionUsuarios:detalle_usuario', pk=usuario_a_editar.pk)
         else:
             messages.error(request, 'Por favor corrige los errores del formulario.')
     else:
@@ -133,7 +132,7 @@ def editar_usuario(request, pk):
         'form': form,
         'usuario': usuario_a_editar,
     })
-    
+
 @login_required
 @bibliotecario_required  # Solo bibliotecarios y admins 
 def eliminar_usuario(request, pk):
@@ -146,24 +145,98 @@ def eliminar_usuario(request, pk):
     elif request.user.tipo == 'BIBLIOTECARIO':
         if usuario_a_eliminar.tipo != 'SOCIO':
             messages.error(request, 'Los bibliotecarios solo pueden eliminar socios.')
-            return redirect('lista_usuarios')
+            return redirect('gestionUsuarios:lista_usuarios')
     else:
         messages.error(request, 'No tienes permiso para eliminar usuarios.')
-        return redirect('lista_usuarios')
+        return redirect('gestionUsuarios:lista_usuarios')
     
     # Prevenir autoeliminación de usuario
     if request.user.pk == usuario_a_eliminar.pk:
         messages.error(request, 'No puedes eliminarte a ti mismo.')
-        return redirect('lista_usuarios')
+        return redirect('gestionUsuarios:lista_usuarios')
     
     # eliminación de usuario
     if request.method == 'POST':
         nombre_usuario = usuario_a_eliminar.get_full_name() or usuario_a_eliminar.username
         usuario_a_eliminar.delete()
         messages.success(request, f'Usuario {nombre_usuario} eliminado correctamente.')
-        return redirect('lista_usuarios')
+        return redirect('gestionUsuarios:lista_usuarios')
     
     return render(request, 'eliminar_usuario.html', {
         'usuario': usuario_a_eliminar,
         'titulo': 'Confirmar eliminación'
+    })
+
+@login_required
+def configuracion_cuenta(request):
+    """
+    Vista para que cualquier usuario autenticado (socio, bibliotecario o admin)
+    edite sus datos personales. Los campos específicos se muestran según el tipo.
+    """
+    usuario = request.user
+
+    es_bibliotecario = (
+        usuario.tipo == 'BIBLIOTECARIO'
+        and hasattr(usuario, 'bibliotecario_profile')
+    )
+    es_socio = (
+        usuario.tipo == 'SOCIO'
+        and hasattr(usuario, 'socio_profile')
+    )
+    es_admin = usuario.tipo == 'ADMIN'
+
+    if request.method == 'POST':
+        form = ConfiguracionCuentaBaseForm(request.POST, instance=usuario)
+
+        form_bibliotecario = None
+        if es_bibliotecario:
+            form_bibliotecario = ConfiguracionBibliotecarioForm(
+                request.POST,
+                instance=usuario.bibliotecario_profile
+            )
+
+        # Validar todos los formularios que existan
+        forms_validos = form.is_valid()
+        if form_bibliotecario is not None:
+            forms_validos = forms_validos and form_bibliotecario.is_valid()
+
+        if forms_validos:
+            form.save()
+            if form_bibliotecario is not None:
+                form_bibliotecario.save()
+            messages.success(request, 'Tus datos se han actualizado correctamente.')
+            return redirect('gestionUsuarios:configuracion_cuenta')
+        else:
+            messages.error(request, 'Por favor corrige los errores del formulario.')
+    else:
+        form = ConfiguracionCuentaBaseForm(instance=usuario)
+        form_bibliotecario = None
+        if es_bibliotecario:
+            form_bibliotecario = ConfiguracionBibliotecarioForm(
+                instance=usuario.bibliotecario_profile
+            )
+
+    # Datos de solo lectura según tipo (para mostrarlos en el template)
+    datos_solo_lectura = {}
+    if es_socio:
+        perfil = usuario.socio_profile
+        datos_solo_lectura = {
+            'Número de socio': perfil.numSocio,
+            'Penalizado': 'Sí' if perfil.penalizado else 'No',
+            'Fecha de penalización': perfil.fechaPenalizacion.strftime('%d/%m/%Y') if perfil.fechaPenalizacion else '—',
+            'Fecha de baja': perfil.fechaBaja.strftime('%d/%m/%Y') if perfil.fechaBaja else '—',
+        }
+    elif es_bibliotecario:
+        perfil = usuario.bibliotecario_profile
+        datos_solo_lectura = {
+            'Número de empleado': perfil.numEmpleado,
+        }
+
+    return render(request, 'configuracion_cuenta.html', {
+        'form': form,
+        'form_bibliotecario': form_bibliotecario,
+        'es_bibliotecario': es_bibliotecario,
+        'es_socio': es_socio,
+        'es_admin': es_admin,
+        'datos_solo_lectura': datos_solo_lectura,
     })

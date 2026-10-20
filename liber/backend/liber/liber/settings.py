@@ -137,9 +137,9 @@ MESSAGE_TAGS = {
 }
 
 AUTH_USER_MODEL = 'gestionUsuarios.Usuario'
-LOGIN_URL = 'login'
+LOGIN_URL = 'gestionUsuarios:login'
 LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'gestionUsuarios:login'
 
 # Manejo de cookies
 SESSION_COOKIE_AGE = 3600 #1 hora
