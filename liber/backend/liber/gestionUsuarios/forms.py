@@ -78,7 +78,7 @@ class UsuarioFormBase(forms.ModelForm):
 
 class ConfiguracionCuentaBaseForm(UsuarioFormBase):
     """Formulario para que el usuario edite SU propia cuenta."""
-    pass  # Solo hereda los campos comunes
+    pass  # Solo hereda los campos comunes del usuario base form
 
 
 class UsuarioEditForm(UsuarioFormBase):
@@ -114,10 +114,7 @@ class ConfiguracionBibliotecarioForm(forms.ModelForm):
         model = Bibliotecario
         fields = ['turno']
         widgets = {
-            'turno': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Ej: Mañana, Tarde, Noche',
-            }),
+            'turno': forms.Select(attrs={'class': 'form-select'}),
         }
         labels = {
             'turno': 'Turno',

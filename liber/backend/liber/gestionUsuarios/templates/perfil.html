@@ -1,18 +1,231 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Perfil{% endblock %}
+{% block title %}
+  Perfil de {{ user.username }}
+{% endblock %}
 
 {% block content %}
-<h2 class="text-body">Bienvenido, {{ user.username }}</h2>
-<p class="text-body">Email: {{ user.email }}</p>
-<p class="text-body">Tipo de usuario: {{user.tipo}}</p>
-<p class="text-body">Nombre: {{user.first_name}}</p>
-<p class="text-body">Apellidos: {{user.last_name}}</p>
-<p class="text-body">Correo: {{user.email}}</p>
-<p class="text-body">Staff: {{user.is_staff}}</p>
-<p class="text-body">Día de ingreso: {{user.date_joined}}</p>
-<p class="text-body">Teléfono: {{user.telefono}}</p>
-<p class="text-body">Género: {{user.genero}}</p>
-<a href="{% url 'gestionUsuarios:logout' %}" class="btn btn-danger">Cerrar sesión</a>
+  <div class="container py-5">
+    <!-- Cabecera con avatar y datos básicos -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-12 col-md-10 col-lg-8">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+          <div class="card-body p-0">
+            <div class="d-flex flex-column flex-md-row align-items-center p-4 p-md-5 bg-primary text-white">
+              <div class="rounded-circle bg-white text-primary d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-4" style="width: 90px; height: 90px; font-size: 2.5rem; font-weight: 600;">
+                {{ user.username|slice:':1'|upper }}
+              </div>
+              <div class="text-center text-md-start flex-grow-1">
+                <h2 class="mb-1 fw-bold">{{ user.first_name }} {{ user.last_name }}</h2>
+                <p class="mb-2 opacity-75">
+                  <i class="fas fa-at"></i> {{ user.username }}
+                </p>
+                <span class="badge bg-white text-primary px-3 py-2">
+                  {% if user.tipo == 'ADMIN' %}
+                    <i class="fas fa-crown"></i>
+                  {% elif user.tipo == 'BIBLIOTECARIO' %}
+                    <i class="fas fa-user-tie"></i>
+                  {% else %}
+                    <i class="fas fa-user"></i>
+                  {% endif %}
+                  {{ user.get_tipo_display }}
+                </span>
+                {% if user.is_staff %}
+                  <span class="badge bg-warning text-dark px-3 py-2 ms-2"><i class="fas fa-shield-alt"></i> Staff</span>
+                {% endif %}
+                {% if user.tipo == 'SOCIO' and user.socio_profile.penalizado %}
+                  <span class="badge bg-danger px-3 py-2 ms-2"><i class="fas fa-exclamation-triangle"></i> Penalizado</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjetas con la información -->
+    <div class="row justify-content-center g-4">
+      <div class="col-12 col-md-10 col-lg-8">
+        <!-- Sección: Información personal -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+          <div class="card-body p-4">
+            <h5 class="card-title mb-4 text-primary fw-bold"><i class="fas fa-id-card"></i> Información personal</h5>
+            <div class="row g-4">
+              <div class="col-sm-6">
+                <small class="text-muted d-block mb-1"><i class="fas fa-user"></i> Nombre</small>
+                <p class="fs-5 fw-semibold mb-0">{{ user.first_name|default:'—' }}</p>
+              </div>
+              <div class="col-sm-6">
+                <small class="text-muted d-block mb-1"><i class="fas fa-user-tag"></i> Apellidos</small>
+                <p class="fs-5 fw-semibold mb-0">{{ user.last_name|default:'—' }}</p>
+              </div>
+              <div class="col-sm-6">
+                <small class="text-muted d-block mb-1"><i class="fas fa-envelope"></i> Correo electrónico</small>
+                <p class="fs-5 fw-semibold mb-0 text-break">{{ user.email }}</p>
+              </div>
+              <div class="col-sm-6">
+                <small class="text-muted d-block mb-1"><i class="fas fa-phone"></i> Teléfono</small>
+                <p class="fs-5 fw-semibold mb-0">{{ user.telefono|default:'No especificado' }}</p>
+              </div>
+              <div class="col-sm-6">
+                <small class="text-muted d-block mb-1"><i class="fas fa-venus-mars"></i> Género</small>
+                <p class="fs-5 fw-semibold mb-0">
+                  {% if user.genero is not None %}
+                    {% if user.genero %}
+                      Mujer
+                    {% else %}
+                      Hombre
+                    {% endif %}
+                  {% else %}
+                    No especificado
+                  {% endif %}
+                </p>
+              </div>
+              <div class="col-sm-6">
+                <small class="text-muted d-block mb-1"><i class="fas fa-calendar-alt"></i> Miembro desde</small>
+                <p class="fs-5 fw-semibold mb-0">{{ user.date_joined|date:'d/m/Y' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- SECCIÓN: Datos de bibliotecario (solo BIBLIOTECARIO) -->
+        <!-- ================================================== -->
+        {% if user.tipo == 'BIBLIOTECARIO' and user.bibliotecario_profile %}
+          <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+              <h5 class="card-title mb-4 text-warning fw-bold">
+                <i class="fas fa-briefcase"></i> Datos laborales
+              </h5>
+              <div class="row g-4">
+                <div class="col-sm-6">
+                  <small class="text-muted d-block mb-1">
+                    <i class="fas fa-id-badge"></i> Número de empleado
+                  </small>
+                  <p class="fs-5 fw-semibold mb-0">{{ user.bibliotecario_profile.numEmpleado }}</p>
+                </div>
+                <div class="col-sm-6">
+                  <small class="text-muted d-block mb-1">
+                    <i class="fas fa-clock"></i> Turno
+                  </small>
+                  <p class="fs-5 fw-semibold mb-0">
+                    {{ user.bibliotecario_profile.get_turno_display|default:'No asignado' }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- ================================================== -->
+        <!-- SECCIÓN: Datos de socio (solo SOCIO) -->
+        <!-- ================================================== -->
+        {% if user.tipo == 'SOCIO' and user.socio_profile %}
+          <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+              <h5 class="card-title mb-4 text-success fw-bold">
+                <i class="fas fa-user-friends"></i> Datos de socio
+              </h5>
+              <div class="row g-4">
+                <div class="col-sm-6">
+                  <small class="text-muted d-block mb-1">
+                    <i class="fas fa-hashtag"></i> Número de socio
+                  </small>
+                  <p class="fs-5 fw-semibold mb-0">{{ user.socio_profile.numSocio|default:'—' }}</p>
+                </div>
+                <div class="col-sm-6">
+                  <small class="text-muted d-block mb-1">
+                    <i class="fas fa-exclamation-triangle"></i> Estado de penalización
+                  </small>
+                  <p class="fs-5 fw-semibold mb-0">
+                    {% if user.socio_profile.penalizado %}
+                      <span class="badge bg-danger px-3 py-2">
+                        <i class="fas fa-times-circle"></i> Penalizado
+                      </span>
+                    {% else %}
+                      <span class="badge bg-success px-3 py-2">
+                        <i class="fas fa-check-circle"></i> Sin penalizaciones
+                      </span>
+                    {% endif %}
+                  </p>
+                </div>
+
+                {% if user.socio_profile.penalizado %}
+                  <div class="col-sm-6">
+                    <small class="text-muted d-block mb-1">
+                      <i class="fas fa-calendar-times"></i> Fecha de penalización
+                    </small>
+                    <p class="fs-5 fw-semibold mb-0">
+                      {{ user.socio_profile.fechaPenalizacion|date:'d/m/Y'|default:'—' }}
+                    </p>
+                  </div>
+                {% endif %}
+
+                {% if user.socio_profile.fechaBaja %}
+                  <div class="col-sm-6">
+                    <small class="text-muted d-block mb-1">
+                      <i class="fas fa-user-slash"></i> Fecha de baja
+                    </small>
+                    <p class="fs-5 fw-semibold mb-0">
+                      {{ user.socio_profile.fechaBaja|date:'d/m/Y' }}
+                    </p>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Sección: Datos de cuenta -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+          <div class="card-body p-4">
+            <h5 class="card-title mb-4 text-primary fw-bold"><i class="fas fa-shield-alt"></i> Datos de la cuenta</h5>
+            <div class="row g-4">
+              <div class="col-sm-6">
+                <small class="text-muted d-block mb-1"><i class="fas fa-user-circle"></i> Usuario</small>
+                <p class="fs-5 fw-semibold mb-0">{{ user.username }}</p>
+              </div>
+              <div class="col-sm-6">
+                <small class="text-muted d-block mb-1"><i class="fas fa-user-tag"></i> Tipo de cuenta</small>
+                <p class="fs-5 fw-semibold mb-0">
+                  <span class="badge 
+                    {% if user.tipo == 'ADMIN' %}
+                      bg-danger
+                    {% elif user.tipo == 'BIBLIOTECARIO' %}
+                      bg-warning text-dark
+                    {% else %}
+                      bg-success
+                    {% endif %} px-3 py-2">
+                    {{ user.get_tipo_display }}
+                  </span>
+                </p>
+              </div>
+              <div class="col-sm-6">
+                <small class="text-muted d-block mb-1"><i class="fas fa-check-circle"></i> Estado</small>
+                <p class="fs-5 fw-semibold mb-0">
+                  {% if user.is_active %}
+                    <span class="badge bg-success px-3 py-2"><i class="fas fa-check"></i> Activa</span>
+                  {% else %}
+                    <span class="badge bg-secondary px-3 py-2"><i class="fas fa-times"></i> Inactiva</span>
+                  {% endif %}
+                </p>
+              </div>
+              <div class="col-sm-6">
+                <small class="text-muted d-block mb-1"><i class="fas fa-clock"></i> Último acceso</small>
+                <p class="fs-5 fw-semibold mb-0">{{ user.last_login|date:'d/m/Y H:i'|default:'Primera vez' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="d-flex flex-column flex-sm-row gap-2 justify-content-end">
+          <a href="{% url 'gestionUsuarios:configuracion_cuenta' %}" class="btn btn-primary btn-lg"><i class="fas fa-user-cog"></i> Configuración de cuenta</a>
+          <a href="{% url 'gestionUsuarios:logout' %}" class="btn btn-outline-danger btn-lg"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

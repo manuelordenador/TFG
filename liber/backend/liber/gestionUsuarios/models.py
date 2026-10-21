@@ -28,6 +28,11 @@ reflejará fielmente la jerarquía planteada originalmente"""
 
 class Bibliotecario(models.Model):
     """Especialización para empleados de la biblioteca"""
+    
+    class Turno(models.TextChoices):
+        MANANA = 'MANANA', 'Mañana'
+        TARDE = 'TARDE', 'Tarde'
+    
     usuario = models.OneToOneField(
         Usuario, 
         on_delete=models.CASCADE, 
@@ -35,7 +40,12 @@ class Bibliotecario(models.Model):
         related_name='bibliotecario_profile'
     )
     numEmpleado = models.CharField(max_length=20, unique=True, blank=True)
-    turno = models.CharField(max_length=50, blank=True, help_text="Ej: Mañana, Tarde")
+    turno = models.CharField(
+        max_length=10,
+        choices=Turno.choices,
+        blank=True,
+        help_text="Turno en el que trabaja el bibliotecario"
+    )
 
     def save(self, *args, **kwargs):
         if not self.numEmpleado:
