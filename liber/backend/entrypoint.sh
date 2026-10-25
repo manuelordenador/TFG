@@ -22,7 +22,6 @@ else
 fi
 
 if [ "$RUN_POPULATE" = "true" ]; then
-    echo "Poblando base de datos..."
     python liber/manage.py populate_all
 else
     echo "Saltando poblamiento (RUN_POPULATE=false)"

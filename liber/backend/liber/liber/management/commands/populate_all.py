@@ -6,7 +6,7 @@ class Command(BaseCommand):
     help = 'Puebla TODA la base de datos del catálogo de una sola vez'
 
     def handle(self, *args, **options):
-        self.stdout.write('🚀 Poblando catálogo completo...')
+        self.stdout.write('POBLANDO BASE DE DATOS...')
         
         call_command('populate_autores', numero=30)
         call_command('populate_editoriales', numero=30)
@@ -16,5 +16,6 @@ class Command(BaseCommand):
         call_command('populate_periodicos', numero=10)
         call_command('populate_grabaciones', numero=15)
         call_command('populate_ejemplares', por_obra=2)
+        call_command('populate_socios', numero=30)
         
-        self.stdout.write(self.style.SUCCESS('✅ Catálogo poblado completamente'))
+        self.stdout.write(self.style.SUCCESS('BASE DE DATOS POBLADA CORRECTAMENTE'))

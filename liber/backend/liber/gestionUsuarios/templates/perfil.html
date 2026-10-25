@@ -13,9 +13,7 @@
         <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
           <div class="card-body p-0">
             <div class="d-flex flex-column flex-md-row align-items-center p-4 p-md-5 bg-primary text-white">
-              <div class="rounded-circle bg-white text-primary d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-4" style="width: 90px; height: 90px; font-size: 2.5rem; font-weight: 600;">
-                {{ user.username|slice:':1'|upper }}
-              </div>
+              <div class="rounded-circle bg-white text-primary d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-4" style="width: 90px; height: 90px; font-size: 2.5rem; font-weight: 600;">{{ user.username|slice:':1'|upper }}</div>
               <div class="text-center text-md-start flex-grow-1">
                 <h2 class="mb-1 fw-bold">{{ user.first_name }} {{ user.last_name }}</h2>
                 <p class="mb-2 opacity-75">
@@ -70,17 +68,7 @@
               </div>
               <div class="col-sm-6">
                 <small class="text-muted d-block mb-1"><i class="fas fa-venus-mars"></i> Género</small>
-                <p class="fs-5 fw-semibold mb-0">
-                  {% if user.genero is not None %}
-                    {% if user.genero %}
-                      Mujer
-                    {% else %}
-                      Hombre
-                    {% endif %}
-                  {% else %}
-                    No especificado
-                  {% endif %}
-                </p>
+                <p class="fs-5 fw-semibold mb-0">{{ user.genero_display }}</p>
               </div>
               <div class="col-sm-6">
                 <small class="text-muted d-block mb-1"><i class="fas fa-calendar-alt"></i> Miembro desde</small>
@@ -96,23 +84,15 @@
         {% if user.tipo == 'BIBLIOTECARIO' and user.bibliotecario_profile %}
           <div class="card border-0 shadow-sm rounded-4 mb-4">
             <div class="card-body p-4">
-              <h5 class="card-title mb-4 text-warning fw-bold">
-                <i class="fas fa-briefcase"></i> Datos laborales
-              </h5>
+              <h5 class="card-title mb-4 text-warning fw-bold"><i class="fas fa-briefcase"></i> Datos laborales</h5>
               <div class="row g-4">
                 <div class="col-sm-6">
-                  <small class="text-muted d-block mb-1">
-                    <i class="fas fa-id-badge"></i> Número de empleado
-                  </small>
+                  <small class="text-muted d-block mb-1"><i class="fas fa-id-badge"></i> Número de empleado</small>
                   <p class="fs-5 fw-semibold mb-0">{{ user.bibliotecario_profile.numEmpleado }}</p>
                 </div>
                 <div class="col-sm-6">
-                  <small class="text-muted d-block mb-1">
-                    <i class="fas fa-clock"></i> Turno
-                  </small>
-                  <p class="fs-5 fw-semibold mb-0">
-                    {{ user.bibliotecario_profile.get_turno_display|default:'No asignado' }}
-                  </p>
+                  <small class="text-muted d-block mb-1"><i class="fas fa-clock"></i> Turno</small>
+                  <p class="fs-5 fw-semibold mb-0">{{ user.bibliotecario_profile.get_turno_display|default:'No asignado' }}</p>
                 </div>
               </div>
             </div>
@@ -125,52 +105,34 @@
         {% if user.tipo == 'SOCIO' and user.socio_profile %}
           <div class="card border-0 shadow-sm rounded-4 mb-4">
             <div class="card-body p-4">
-              <h5 class="card-title mb-4 text-success fw-bold">
-                <i class="fas fa-user-friends"></i> Datos de socio
-              </h5>
+              <h5 class="card-title mb-4 text-success fw-bold"><i class="fas fa-user-friends"></i> Datos de socio</h5>
               <div class="row g-4">
                 <div class="col-sm-6">
-                  <small class="text-muted d-block mb-1">
-                    <i class="fas fa-hashtag"></i> Número de socio
-                  </small>
+                  <small class="text-muted d-block mb-1"><i class="fas fa-hashtag"></i> Número de socio</small>
                   <p class="fs-5 fw-semibold mb-0">{{ user.socio_profile.numSocio|default:'—' }}</p>
                 </div>
                 <div class="col-sm-6">
-                  <small class="text-muted d-block mb-1">
-                    <i class="fas fa-exclamation-triangle"></i> Estado de penalización
-                  </small>
+                  <small class="text-muted d-block mb-1"><i class="fas fa-exclamation-triangle"></i> Estado de penalización</small>
                   <p class="fs-5 fw-semibold mb-0">
                     {% if user.socio_profile.penalizado %}
-                      <span class="badge bg-danger px-3 py-2">
-                        <i class="fas fa-times-circle"></i> Penalizado
-                      </span>
+                      <span class="badge bg-danger px-3 py-2"><i class="fas fa-times-circle"></i> Penalizado</span>
                     {% else %}
-                      <span class="badge bg-success px-3 py-2">
-                        <i class="fas fa-check-circle"></i> Sin penalizaciones
-                      </span>
+                      <span class="badge bg-success px-3 py-2"><i class="fas fa-check-circle"></i> Sin penalizaciones</span>
                     {% endif %}
                   </p>
                 </div>
 
                 {% if user.socio_profile.penalizado %}
                   <div class="col-sm-6">
-                    <small class="text-muted d-block mb-1">
-                      <i class="fas fa-calendar-times"></i> Fecha de penalización
-                    </small>
-                    <p class="fs-5 fw-semibold mb-0">
-                      {{ user.socio_profile.fechaPenalizacion|date:'d/m/Y'|default:'—' }}
-                    </p>
+                    <small class="text-muted d-block mb-1"><i class="fas fa-calendar-times"></i> Fecha de penalización</small>
+                    <p class="fs-5 fw-semibold mb-0">{{ user.socio_profile.fechaPenalizacion|date:'d/m/Y'|default:'—' }}</p>
                   </div>
                 {% endif %}
 
                 {% if user.socio_profile.fechaBaja %}
                   <div class="col-sm-6">
-                    <small class="text-muted d-block mb-1">
-                      <i class="fas fa-user-slash"></i> Fecha de baja
-                    </small>
-                    <p class="fs-5 fw-semibold mb-0">
-                      {{ user.socio_profile.fechaBaja|date:'d/m/Y' }}
-                    </p>
+                    <small class="text-muted d-block mb-1"><i class="fas fa-user-slash"></i> Fecha de baja</small>
+                    <p class="fs-5 fw-semibold mb-0">{{ user.socio_profile.fechaBaja|date:'d/m/Y' }}</p>
                   </div>
                 {% endif %}
               </div>
@@ -192,11 +154,17 @@
                 <p class="fs-5 fw-semibold mb-0">
                   <span class="badge 
                     {% if user.tipo == 'ADMIN' %}
+                      
                       bg-danger
+
                     {% elif user.tipo == 'BIBLIOTECARIO' %}
+                      
                       bg-warning text-dark
+
                     {% else %}
+                      
                       bg-success
+
                     {% endif %} px-3 py-2">
                     {{ user.get_tipo_display }}
                   </span>

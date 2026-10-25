@@ -50,6 +50,14 @@
               <li>
                 <a class="dropdown-item" href="{% url 'catalogo:registrar_ejemplar' %}"><i class="fas fa-plus-circle"></i> Registrar ejemplar</a>
               </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'gestionUsuarios:alta_socio' %}"><i class="fas fa-user-plus"></i> Alta de socio</a>
+              </li>
+              {% if user.tipo == 'ADMIN' %}
+              <li>
+                <a class="dropdown-item" href="{% url 'gestionUsuarios:crear_bibliotecario' %}"><i class="fas fa-user-tie"></i> Crear bibliotecario</a>
+              </li>
+              {% endif %}
             </ul>
           </li>
         {% endif %}

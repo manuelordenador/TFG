@@ -33,7 +33,7 @@ class Command(BaseCommand):
                 password=make_password('password123'),
                 tipo=Usuario.TipoUsuario.SOCIO,
                 telefono=fake.numerify('6#########'),
-                genero=random.choice([True, False]),
+                genero=random.choice(['H', 'M', None]),
                 is_active=True,
                 is_staff=False,
                 is_superuser=False,

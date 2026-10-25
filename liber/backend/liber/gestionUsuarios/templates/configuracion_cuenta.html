@@ -86,10 +86,9 @@
                     <div class="invalid-feedback d-block">{{ error }}</div>
                   {% endfor %}
                 </div>
-
                 <div class="col-md-6 mb-3">
                   <label for="{{ form.genero.id_for_label }}" class="form-label fw-semibold"><i class="fas fa-venus-mars text-primary"></i> {{ form.genero.label }}</label>
-                  {{ form.genero }}
+                  {{ form.genero }} 
                   {% for error in form.genero.errors %}
                     <div class="invalid-feedback d-block">{{ error }}</div>
                   {% endfor %}

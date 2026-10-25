@@ -11,13 +11,31 @@ class Usuario(AbstractUser):
         BIBLIOTECARIO = 'BIBLIOTECARIO', 'Bibliotecario'
         ADMIN = 'ADMIN', 'Administrador'
 
+    class Genero(models.TextChoices):
+            HOMBRE = 'H', 'Hombre'
+            MUJER = 'M', 'Mujer'
+            OTRO = 'O', 'Otro'
+            PREFIERO_NO_DECIRLO = 'X', 'Prefiero no decirlo'
+    
     tipo = models.CharField(
         max_length=20, 
         choices=TipoUsuario.choices, 
         default=TipoUsuario.SOCIO
     )
     telefono = models.CharField(max_length=20, null=True, blank=True)
-    genero = models.BooleanField(null=True, blank=True, help_text="0=Hombre, 1=Mujer")
+    
+    genero = models.CharField(
+        max_length=1,
+        choices=Genero.choices,
+        null=True,
+        blank=True,
+        help_text="Género del usuario"
+    )
+    
+    @property
+    def genero_display(self):
+        """Devuelve el género como texto legible (o 'Sin especificar')."""
+        return self.get_genero_display() or 'Sin especificar'
 
     def __str__(self):
         return f"{self.username} ({self.get_tipo_display()})"

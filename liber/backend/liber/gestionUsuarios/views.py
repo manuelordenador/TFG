@@ -1,30 +1,87 @@
 """
 Documento base de vistas de la gestión de usuarios.
 """
-from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
+from .decorators import admin_required, bibliotecario_required
 from .decorators import bibliotecario_required, solo_invitados
 from .models import Usuario
 from .forms import *
 
-@solo_invitados
-def registro_view(request):
+def _procesar_registro_socio(request, template_name, on_success):
+    """
+    Lógica común para crear un socio.
+    
+    Args:
+        request: HttpRequest
+        template_name: ruta del template a renderizar
+        on_success: callable(usuario) → HttpResponse a devolver tras guardar
+    
+    Returns:
+        HttpResponse
+    """
     if request.method == 'POST':
         form = RegistroSocioForm(request.POST)
         if form.is_valid():
-            usuario = form.save() #aqui se le pasa la password hasheada a la bdd, y se descartan las passwords de texto plano
-            login(request, usuario) #garantiza persistencia de sesión
-            return redirect('home')
+            usuario = form.save()
+            return on_success(usuario)
+        else:
+            messages.error(request, 'Por favor corrige los errores del formulario.')
     else:
         form = RegistroSocioForm()
-    return render(request, 'registro.html', {'form':form})
+    
+    return render(request, template_name, {'form': form})
+
+@solo_invitados
+def registro_view(request):
+    """Registro público: el propio usuario se da de alta y queda logueado."""
+    
+    def on_success(usuario):
+        login(request, usuario)
+        messages.success(request, '¡Bienvenido a Liber!')
+        return redirect('home')
+    
+    return _procesar_registro_socio(
+        request,
+        template_name='registro.html',
+        on_success=on_success,
+    )
+
+
+@login_required
+@bibliotecario_required
+def alta_socio_view(request):
+    """Alta de socio por bibliotecario/admin."""
+    
+    def on_success(usuario):
+        messages.success(
+            request,
+            f'Socio {usuario.get_full_name() or usuario.username} creado correctamente.'
+        )
+        return redirect('gestionUsuarios:lista_usuarios')
+    
+    return _procesar_registro_socio(
+        request,
+        template_name='alta_socio.html',
+        on_success=on_success,
+    )
+    
+@login_required
+@admin_required
+def crear_bibliotecario_view(request):
+    if request.method == 'POST':
+        form = RegistroBibliotecarioForm(request.POST)
+        if form.is_valid():
+            usuario = form.save()
+            messages.success(request, f'Bibliotecario {usuario.username} creado.')
+            return redirect('gestionUsuarios:lista_usuarios')
+    else:
+        form = RegistroBibliotecarioForm()
+    return render(request, 'crear_bibliotecario.html', {'form': form})
 
 @solo_invitados
 def login_view(request):

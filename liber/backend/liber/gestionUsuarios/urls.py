@@ -29,6 +29,8 @@ urlpatterns = [
 
     # lógica de visionado y edición de datos
     path('lista_usuarios/', views.lista_usuarios, name='lista_usuarios'),
+    path('alta_socio/', views.alta_socio_view, name='alta_socio'),
+    path('crear_bibliotecario/', views.crear_bibliotecario_view, name='crear_bibliotecario'),
     path('<int:pk>/', views.detalle_usuario, name='detalle_usuario'),
     path('<int:pk>/editar/', views.editar_usuario, name='editar_usuario'),
     path('<int:pk>/eliminar/', views.eliminar_usuario, name='eliminar_usuario'),
