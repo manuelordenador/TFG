@@ -50,4 +50,5 @@ urlpatterns = [
         ),
         name='password_change_done',
     ),
+    path('baja_cuenta', views.baja_cuenta, name='baja_cuenta'),
 ]

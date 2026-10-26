@@ -3,17 +3,6 @@ from django.core.exceptions import PermissionDenied
 from functools import wraps
 from django.shortcuts import redirect
 
-def es_bibliotecario(user):
-    """Verifica si el usuario es bibliotecario"""
-    return user.is_authenticated and user.tipo == 'BIBLIOTECARIO'
-
-def es_admin(user):
-    """Verifica si el usuario es administrador"""
-    return user.is_authenticated and user.tipo == 'ADMIN'
-
-def es_socio(user):
-    """Verifica si el usuario es socio"""
-    return user.is_authenticated and user.tipo == 'SOCIO'
 
 def roles_required(*tipos_permitidos):
     """
@@ -39,6 +28,7 @@ def roles_required(*tipos_permitidos):
 # Atajos 
 admin_required = roles_required('ADMIN')
 bibliotecario_required = roles_required('BIBLIOTECARIO', 'ADMIN')
+socio_required = roles_required('SOCIO')
 
 def solo_invitados(view_func):
     """

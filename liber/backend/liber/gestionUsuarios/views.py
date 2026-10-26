@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from .decorators import admin_required, bibliotecario_required
+from .decorators import admin_required, bibliotecario_required, socio_required
 from .decorators import bibliotecario_required, solo_invitados
 from .models import Usuario
 from .forms import *
@@ -223,6 +223,17 @@ def eliminar_usuario(request, pk):
         'usuario': usuario_a_eliminar,
         'titulo': 'Confirmar eliminación'
     })
+    
+@login_required
+@socio_required
+def baja_cuenta(request):
+    if request.method == 'POST':
+        usuario = request.user
+        logout(request)
+        usuario.delete()
+        return redirect('home')
+    
+    return redirect('gestionUsuarios:configuracion_cuenta')
 
 @login_required
 def configuracion_cuenta(request):

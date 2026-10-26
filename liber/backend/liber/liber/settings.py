@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'liber',
     'gestionUsuarios',
     'catalogo',
+    'prestamos',
 ]
 
 MIDDLEWARE = [
