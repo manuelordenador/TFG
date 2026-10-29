@@ -117,6 +117,21 @@ def registrar_ejemplar(request):
         'tipo_display': dict(Obra.TIPO_OBRA).get(tipo, tipo),
     })
 
+
+@login_required
+@bibliotecario_required
+def agregar_ejemplar(request, pk):
+    """Crea un nuevo ejemplar asociado a una obra existente."""
+    obra = get_object_or_404(Obra, pk=pk)
+
+    if request.method == 'POST':
+        Ejemplar.objects.create(obra=obra, reservado=False)
+        messages.success(request, f'Se ha añadido un nuevo ejemplar a "{obra.titulo}".')
+        return redirect('catalogo:detalle_obra', pk=obra.pk)
+
+    # Si llega un GET, redirigimos al detalle
+    return redirect('catalogo:detalle_obra', pk=obra.pk)
+
 def catalogo_home(request):
     """Página principal del catálogo público"""
     context = {

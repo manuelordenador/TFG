@@ -18,6 +18,7 @@ urlpatterns = [
     path('api/buscar-productoras/', views.buscar_productoras, name='buscar_productoras'),
     # Creación de entidades
     path('registrar/', views.registrar_ejemplar, name='registrar_ejemplar'),
+    path('obras/<int:pk>/agregar-ejemplar/', views.agregar_ejemplar, name='agregar_ejemplar'),
     path('api/crear-autor/', views.crear_autor, name='crear_autor'),
     path('api/crear-editorial/', views.crear_editorial, name='crear_editorial'),
     path('api/crear-productora/', views.crear_productora, name='crear_productora'),
