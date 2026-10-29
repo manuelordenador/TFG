@@ -28,16 +28,24 @@
             <div class="d-flex justify-content-between align-items-start mb-3">
               <span class="badge fs-6 
                             {% if obra.tipo == 'LIBRO' %}
+                  
                   bg-primary
 
+
                 {% elif obra.tipo == 'REVISTA' %}
+                  
                   bg-success
 
+
                 {% elif obra.tipo == 'PERIODICO' %}
+                  
                   bg-warning
 
+
                 {% else %}
+                  
                   bg-danger
+
                 {% endif %}">
                 {{ obra.get_tipo_display }}
               </span>
@@ -82,7 +90,11 @@
 
                   {% if datos_especificos.materia %}
                     <dt class="col-sm-4">Materia</dt>
-                    <dd class="col-sm-8">{{ datos_especificos.materia }}</dd>
+                    <dd class="col-sm-8">{{ datos_especificos.get_materia_display }}</dd>
+                  {% endif %}
+                  {% if datos_especificos.submateria %}
+                    <dt class="col-sm-4">Submateria</dt>
+                    <dd class="col-sm-8">{{ datos_especificos.get_submateria_display }}</dd>
                   {% endif %}
 
                   {% if datos_especificos.coleccion %}
@@ -115,7 +127,7 @@
 
                   {% if datos_especificos.materia %}
                     <dt class="col-sm-4">Materia</dt>
-                    <dd class="col-sm-8">{{ datos_especificos.materia }}</dd>
+                    <dd class="col-sm-8">{{ datos_especificos.get_materia_display }}</dd>
                   {% endif %}
                 {% elif obra.tipo == 'PERIODICO' %}
                   <dt class="col-sm-4">ISSN</dt>
@@ -157,19 +169,24 @@
 
                   {% if datos_especificos.genero %}
                     <dt class="col-sm-4">Género</dt>
-                    <dd class="col-sm-8">{{ datos_especificos.genero }}</dd>
+                    <dd class="col-sm-8">{{ datos_especificos.get_genero_display }}</dd>
+                  {% endif %}
+
+                  {% if datos_especificos.subgenero %}
+                    <dt class="col-sm-4">Subgénero</dt>
+                    <dd class="col-sm-8">{{ datos_especificos.get_subgenero_display }}</dd>
                   {% endif %}
                 {% endif %}
               </dl>
             {% endif %}
             {% if user.tipo in 'BIBLIOTECARIO,ADMIN' %}
-            <div class="text-end mt-3">
-              <form method="post" action="{% url 'catalogo:agregar_ejemplar' obra.pk %}" class="d-inline" onsubmit="return confirm('¿Seguro que quieres añadir un nuevo ejemplar a esta obra?')">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i> Agregar ejemplar</button>
-              </form>
-            </div>
-          {% endif %}
+              <div class="text-end mt-3">
+                <form method="post" action="{% url 'catalogo:agregar_ejemplar' obra.pk %}" class="d-inline" onsubmit="return confirm('¿Seguro que quieres añadir un nuevo ejemplar a esta obra?')">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i> Agregar ejemplar</button>
+                </form>
+              </div>
+            {% endif %}
           </div>
         </div>
       </div>

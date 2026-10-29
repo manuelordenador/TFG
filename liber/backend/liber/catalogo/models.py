@@ -50,9 +50,47 @@ class Editorial(models.Model):
         return f"{self.nombre}"
 
 class Libro(Obra):
+    
+    class Materia(models.TextChoices):
+        NOVELA = 'NOV', 'Novela'
+        POESIA = 'POE', 'Poesía'
+        ENSAYO = 'ENS', 'Ensayo'
+        CIENCIA = 'CIE', 'Ciencia'
+        HISTORIA = 'HIS', 'Historia'
+        BIOGRAFIA = 'BIO', 'Biografía'
+        COMIC = 'COM', 'Cómic'
+        ARTE = 'ART', 'Arte'
+        FILOSOFIA = 'FIL', 'Filosofía'
+        TECNOLOGIA = 'TEC', 'Tecnología'
+        
+    class Submateria(models.TextChoices):
+        POLICIACA = 'POL', 'Policíaca'
+        CIENCIA_FICCION = 'CFI', 'Ciencia ficción'
+        ROMANTICA = 'ROM', 'Romántica'
+        TERROR = 'TER', 'Terror'
+        AVENTURA = 'AVE', 'Aventura'
+        HISTORICA = 'HTR', 'Histórica'
+        FANTASTICA = 'FAN', 'Fantástica'
+        DRAMATICA = 'DRA', 'Dramática'
+        COMEDIA = 'COM', 'Comedia'
+        SATIRICA = 'SAT', 'Satírica'
+        
     isbn = models.CharField(max_length=13, unique=True)
     editorial = models.ForeignKey(Editorial, on_delete=models.CASCADE, related_name='Libros')
-    materia = models.CharField(max_length=255, null=True, blank=True)
+    materia = models.CharField(
+        max_length=3,
+        choices=Materia.choices,
+        null=True,
+        blank=True,
+        help_text='Materia del libro'
+    )
+    submateria = models.CharField(
+        max_length=3,
+        choices=Submateria.choices,
+        null=True,
+        blank=True,
+        help_text='Submateria del libro'
+    )
     coleccion = models.CharField(max_length=255, null=True, blank=True)
     
     def save(self, *args, **kwargs):
@@ -100,6 +138,30 @@ class Productora(models.Model):
         return f"{self.nombre}"
 
 class Grabacion(Obra):
+    class Genero(models.TextChoices):
+        ROCK = 'ROC', 'Rock'
+        POP = 'POP', 'Pop'
+        JAZZ = 'JAZ', 'Jazz'
+        CLASICA = 'CLA', 'Clásica'
+        ELECTRONICA = 'ELE', 'Electrónica'
+        FLAMENCO = 'FLA', 'Flamenco'
+        HIP_HOP = 'HIP', 'Hip-Hop'
+        BLUES = 'BLU', 'Blues'
+        REGGAE = 'REG', 'Reggae'
+        FOLK = 'FOL', 'Folk'
+    
+    class Subgenero(models.TextChoices):
+        ROCK_ALTERNATIVO = 'RAL', 'Rock alternativo'
+        ROCK_DURO = 'RDU', 'Rock duro'
+        POP_ROCK = 'PRO', 'Pop rock'
+        JAZZ_SMOOTH = 'JSM', 'Jazz smooth'
+        JAZZ_BEBOP = 'JBE', 'Jazz bebop'
+        CLASICA_BARROCA = 'CBA', 'Clásica barroca'
+        CLASICA_ROMANTICA = 'CRO', 'Clásica romántica'
+        ELECTRO_HOUSE = 'EHO', 'Electro house'
+        ELECTRO_TECHNO = 'ETE', 'Electro techno'
+        FLAMENCO_RUMBA = 'FRU', 'Flamenco rumba'
+        
     ean = models.CharField(max_length=13, unique=True)
     soporte = models.CharField(max_length=20, choices=[
         ('CD', 'CD'),
@@ -111,7 +173,20 @@ class Grabacion(Obra):
     ])
     duracion = models.DurationField()
     productora = models.ForeignKey(Productora,on_delete=models.SET_NULL,null=True,blank=True,related_name='grabaciones')
-    genero = models.CharField(max_length=255, blank=True, null=True)
+    genero = models.CharField(
+        max_length=3,
+        choices=Genero.choices,
+        null=True,
+        blank=True,
+        help_text='Género de la grabación'
+    )
+    subgenero = models.CharField(
+        max_length=3,
+        choices=Subgenero.choices,
+        null=True,
+        blank=True,
+        help_text='Subgénero de la grabación'
+    )
     
     def save(self, *args, **kwargs):
         self.tipo = 'GRABACION'

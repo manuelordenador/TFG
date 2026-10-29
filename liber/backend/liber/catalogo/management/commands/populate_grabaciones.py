@@ -28,7 +28,8 @@ class Command(BaseCommand):
             return
         
         soportes = ['CD', 'DVD', 'BLURAY', 'VINILO', 'CASETE']
-        generos = ['Rock', 'Pop', 'Jazz', 'Clásica', 'Electrónica', 'Flamenco', 'Hip-Hop']
+        generos = [g.value for g in Grabacion.Genero]
+        subgeneros = [s.value for s in Grabacion.Subgenero]
         
         for i in range(n):
             duracion_minutos = random.randint(30, 120)
@@ -44,6 +45,7 @@ class Command(BaseCommand):
                 duracion=timedelta(minutes=duracion_minutos),
                 productora=productora_seleccionada,
                 genero=random.choice(generos),
+                subgenero=random.choice(subgeneros),   
             )
             grabacion.save()
             

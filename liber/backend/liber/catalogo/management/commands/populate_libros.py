@@ -32,7 +32,8 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR('❌ No hay editoriales. Ejecuta primero: python manage.py populate_editoriales'))
             return
         
-        materias = ['Novela', 'Poesía', 'Ensayo', 'Historia', 'Ciencia', 'Filosofía', 'Arte', 'Tecnología']
+        materias = [m.value for m in Libro.Materia]
+        submaterias = [s.value for s in Libro.Submateria]
         
         for i in range(n):
             editorial_seleccionada = random.choice(editoriales)
@@ -44,7 +45,8 @@ class Command(BaseCommand):
                 tipo='LIBRO',
                 isbn=fake.isbn13().replace('-', ''),
                 editorial=editorial_seleccionada,
-                materia=random.choice(materias),
+                materia=random.choice(materias), 
+                submateria=random.choice(submaterias),  
                 coleccion=fake.word().capitalize() if random.choice([True, False]) else None,
             )
             obra.save()
