@@ -197,6 +197,19 @@ document.addEventListener('DOMContentLoaded', function () {
         multiple: false
     });
 
+    const buscadorSocios = inicializarBuscador({
+    inputId: 'socio-busqueda',
+    sugerenciasId: 'socio-sugerencias',
+    seleccionadosId: 'socio-seleccionado',
+    hiddenId: 'socio-id',
+    apiUrl: '/prestamos/api/buscar-socios/',
+    claveRespuesta: 'socios',
+    claveId: 'id',
+    claveTexto: 'texto',
+    icono: 'fas fa-user',
+    multiple: false
+});
+
     // ==========================================
     // 2. FUNCIÓN GENÉRICA PARA CREAR ENTIDADES
     // ==========================================

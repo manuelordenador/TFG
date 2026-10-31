@@ -2,11 +2,11 @@ from datetime import timedelta
 
 from django.db import models
 
-from catalogo.models import Ejemplar
-from gestionUsuarios.models import Usuario
+from catalogo.models import Ejemplar, Obra
+from gestionUsuarios.models import Socio
 
 class Prestamo(models.Model):
-    socio = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='prestamos')
+    socio = models.ForeignKey(Socio, on_delete=models.CASCADE, related_name='prestamos')
     ejemplar = models.ForeignKey(Ejemplar, on_delete=models.CASCADE, related_name='prestamos')
     fechaInicio = models.DateField(auto_now_add=True)
     fechaFin = models.DateField()

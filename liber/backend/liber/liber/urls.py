@@ -7,4 +7,5 @@ urlpatterns = [
     path('',views.home, name='home'),
     path('usuarios/', include('gestionUsuarios.urls')),
     path('catalogo/', include('catalogo.urls')),
+    path('prestamos/', include('prestamos.urls')),
 ]

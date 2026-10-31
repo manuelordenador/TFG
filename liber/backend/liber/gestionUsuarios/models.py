@@ -1,6 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+LIMITE_LIBROS = 3
+LIMITE_GRABACIONES = 2
+
+LIMITES_POR_TIPO = {
+    'LIBRO': LIMITE_LIBROS,
+    'GRABACION': LIMITE_GRABACIONES,
+}
+
 class Usuario(AbstractUser):
     """
     Modelo concreto principal (AUTH_USER_MODEL).
@@ -80,7 +88,7 @@ class Bibliotecario(models.Model):
 
 
 class Socio(models.Model):
-    """Especialización para socios de la biblioteca"""
+    """Especialización para socios de la biblioteca"""        
     usuario = models.OneToOneField(
         Usuario, 
         on_delete=models.CASCADE, 
@@ -91,7 +99,9 @@ class Socio(models.Model):
     penalizado = models.BooleanField(default=False)
     fechaPenalizacion = models.DateField(null=True, blank=True)
     fechaBaja = models.DateField(null=True, blank=True)
-
+    librosPrestados = models.IntegerField(default=0)
+    grabacionesPrestadas = models.IntegerField(default=0)
+    
     def save(self, *args, **kwargs):
         if not self.numSocio:
             ultimo = Socio.objects.order_by('-numSocio').first()
@@ -100,3 +110,17 @@ class Socio(models.Model):
 
     def __str__(self):
         return f"{self.usuario.username} - Socio #{self.numSocio}"
+    
+    def prestamos_activos_por_tipo(self, tipo_obra):
+        """Devuelve el número de préstamos activos de un tipo de obra."""
+        return self.prestamos.filter(
+            fechaDevolucion__isnull=True,
+            ejemplar__obra__tipo=tipo_obra,
+        ).count()
+    
+    def puede_prestar(self, tipo_obra):
+        """Devuelve True si el socio puede tomar prestado un ejemplar del tipo dado."""
+        limite = LIMITES_POR_TIPO.get(tipo_obra)
+        if limite is None:
+            return True  # Sin límite para tipos no listados
+        return self.prestamos_activos_por_tipo(tipo_obra) < limite

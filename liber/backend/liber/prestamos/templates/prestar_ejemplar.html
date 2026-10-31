@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Prestar ejemplar - {{ ejemplar.obra.titulo }}
+{% endblock %}
+
+{% block content %}
+  <div class="container py-4">
+    <!-- Migas de pan -->
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'catalogo:catalogo_home' %}">Catálogo</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="{% url 'catalogo:lista_obras' %}">Obras</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="{% url 'catalogo:detalle_obra' ejemplar.obra.pk %}">{{ ejemplar.obra.titulo|truncatechars:30 }}</a>
+        </li>
+        <li class="breadcrumb-item active">Prestar ejemplar</li>
+      </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-hand-holding"></i> Prestar ejemplar</h5>
+          </div>
+          <div class="card-body">
+            <!-- Info del ejemplar -->
+            <div class="alert alert-info mb-4">
+              <strong>Ejemplar:</strong> #{{ ejemplar.idEjemplar }}<br />
+              <strong>Obra:</strong> {{ ejemplar.obra.titulo }}<br />
+              <strong>Signatura:</strong> {{ ejemplar.obra.signatura }}
+            </div>
+
+            <form method="post" novalidate>
+              {% csrf_token %}
+
+              <!-- Buscador de socio -->
+              <div class="mb-3 position-relative">
+                <label for="socio-busqueda" class="form-label fw-semibold"><i class="fas fa-user"></i> Socio <span class="text-danger">*</span></label>
+                <input type="text" id="socio-busqueda" class="form-control" placeholder="Buscar socio por nombre, email o nº socio..." autocomplete="off" required />
+                <div id="socio-sugerencias" class="list-group position-absolute w-100 shadow-sm" style="z-index: 1000; display: none; max-height: 300px; overflow-y: auto;"></div>
+                <div id="socio-seleccionado" class="mt-2"></div>
+                <input type="hidden" name="socio" id="socio-id" value="" required />
+                <small class="text-muted">Busca y selecciona el socio al que prestar el ejemplar.</small>
+              </div>
+
+              <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'catalogo:detalle_obra' ejemplar.obra.pk %}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Confirmar préstamo</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'js/incializarBuscador.js' %}"></script>
+{% endblock %}
