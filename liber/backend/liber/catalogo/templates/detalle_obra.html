@@ -30,28 +30,36 @@
                             {% if obra.tipo == 'LIBRO' %}
                   
                   
+                  
                   bg-primary
+
 
 
 
                 {% elif obra.tipo == 'REVISTA' %}
                   
                   
+                  
                   bg-success
+
 
 
 
                 {% elif obra.tipo == 'PERIODICO' %}
                   
                   
+                  
                   bg-warning
+
 
 
 
                 {% else %}
                   
                   
+                  
                   bg-danger
+
 
 
                 {% endif %}">
@@ -223,7 +231,11 @@
                     {% else %}
                       <span class="badge bg-danger">Prestado</span>
                     {% endif %}
-                    <a  href="{% url 'prestamos:prestar_ejemplar' ejemplar.pk %}" class="btn btn-sm btn-outline-primary"><i class="fas fa-hand-holding"></i> Prestar</a>
+                    {% if user.tipo == 'BIBLIOTECARIO' or user.tipo == 'ADMIN' %}
+                      {% if obra.tipo != 'PERIODICO' %}
+                        <a href="{% url 'prestamos:prestar_ejemplar' ejemplar.pk %}" class="btn btn-sm btn-outline-primary"><i class="fas fa-hand-holding"></i> Prestar</a>
+                      {% endif %}
+                    {% endif %}
                   </div>
                 </li>
               {% empty %}

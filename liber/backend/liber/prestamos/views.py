@@ -6,17 +6,23 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import timedelta
 from .models import Obra, Ejemplar, Prestamo
-from gestionUsuarios.models import LIMITES_POR_TIPO, Socio
+from gestionUsuarios.models import Socio
 from gestionUsuarios.decorators import bibliotecario_required
+from prestamos.models import Prestamo, DIAS_PRESTAMO, PRORROGAS_INICIALES
+from .utils import puede_prestar, prestamos_activos_por_tipo
 
 
 @login_required
 @bibliotecario_required
 def prestar_ejemplar(request, pk):
+    """Vista para que bibliotecarios presten ejemplar a socio"""
     ejemplar = get_object_or_404(Ejemplar, pk=pk)
+    tipo_obra = ejemplar.obra.tipo
     
-    # sacar tipo de obra del ejemplar
-    tipo_obra = ejemplar.obra.tipo 
+    puede, motivo = ejemplar.obra.puede_prestarse()
+    if not puede:
+        messages.error(request, motivo)
+        return redirect('catalogo:detalle_obra', pk=ejemplar.obra.pk)
     
     # Verificar disponibilidad
     if ejemplar.estado == 'PRESTADO':
@@ -44,27 +50,23 @@ def prestar_ejemplar(request, pk):
             )
             return render(request, 'prestar_ejemplar.html', {'ejemplar': ejemplar})
         
-        # Verificar límite de préstamos de socio
-        if not socio.puede_prestar(tipo_obra):
-            activos = socio.prestamos_activos_por_tipo(tipo_obra)
-            limite = LIMITES_POR_TIPO.get(tipo_obra)
-            messages.error(
-                request,
-                f'{socio.usuario.get_full_name()} ya tiene {activos} '
-                f'préstamo(s) activo(s) de tipo {tipo_obra} (límite: {limite}).'
-            )
+        
+        
+        puede, motivo = puede_prestar(socio, tipo_obra)
+        if not puede:
+            messages.error(request, motivo)
             return render(request, 'prestar_ejemplar.html', {'ejemplar': ejemplar})
         
         # Crear el préstamo
         hoy = timezone.now().date()
-        fecha_fin = hoy + timedelta(days=20)
+        fecha_fin = hoy + timedelta(days=DIAS_PRESTAMO)
         
         Prestamo.objects.create(
             socio=socio,
             ejemplar=ejemplar,
             fechaInicio=hoy,
             fechaFin=fecha_fin,
-            prorrogasRestantes=3,
+            prorrogasRestantes=PRORROGAS_INICIALES,
         )
         
         messages.success(

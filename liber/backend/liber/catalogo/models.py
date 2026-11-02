@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 Usuario = get_user_model()  # Socio, Bibliotecario o Admin
 
@@ -36,6 +37,21 @@ class Obra(models.Model):
         if not autores:
             return "Autor desconocido"
         return ", ".join([f"{a.nombre} {a.apellidos}" for a in autores])
+    
+    def puede_prestarse(self):
+        """Devuelve True si la obra puede prestarse según su tipo y fecha."""
+        
+        if self.tipo == 'PERIODICO':
+            return False, 'Los periódicos no pueden prestarse.'
+        
+        if self.tipo == 'REVISTA':
+            if not self.fechaPublicacion:
+                return False, 'La revista no tiene fecha de publicación registrada.'
+            dias = (timezone.now().date() - self.fechaPublicacion).days
+            if dias < 30:
+                return False, f'La revista se publicó hace {dias} día(s) (mínimo 30).'
+        
+        return True, None
     
     
     def __str__(self):
