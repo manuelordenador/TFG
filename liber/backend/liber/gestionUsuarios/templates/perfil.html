@@ -139,6 +139,12 @@
             </div>
           </div>
         {% endif %}
+        
+
+        <!-- ================================================== -->
+        <!-- SECCIÓN:Información de préstamos (solo aparece si hay préstamos activos) -->
+        <!-- ================================================== -->
+        {% include 'tabla_prestamos.html' %}
 
         <!-- Sección: Datos de cuenta -->
         <div class="card border-0 shadow-sm rounded-4 mb-4">
@@ -155,15 +161,21 @@
                   <span class="badge 
                     {% if user.tipo == 'ADMIN' %}
                       
+                      
                       bg-danger
+
 
                     {% elif user.tipo == 'BIBLIOTECARIO' %}
                       
+                      
                       bg-warning text-dark
+
 
                     {% else %}
                       
+                      
                       bg-success
+
 
                     {% endif %} px-3 py-2">
                     {{ user.get_tipo_display }}
@@ -190,7 +202,7 @@
 
         <!-- Botones de acción -->
         <div class="d-flex flex-column flex-sm-row gap-2 justify-content-end">
-          <a href="{% url 'gestionUsuarios:configuracion_cuenta' %}" class="btn btn-primary btn-lg"><i class="fas fa-user-cog"></i> Configuración de cuenta</a>
+          <a href="{% url 'gestionUsuarios:configuracion_cuenta' %}" class="btn btn-primary btn-lg"><i class="fas fa-user-cog"></i> Configurar mi cuenta</a>
           <a href="{% url 'gestionUsuarios:logout' %}" class="btn btn-outline-danger btn-lg"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
         </div>
       </div>

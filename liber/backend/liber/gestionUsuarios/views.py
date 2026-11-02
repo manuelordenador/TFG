@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from .decorators import admin_required, bibliotecario_required, socio_required
 from .decorators import bibliotecario_required, solo_invitados
 from .models import Usuario
@@ -104,7 +105,21 @@ def logout_view(request):
 
 @login_required
 def perfil_view(request):
-    return render(request, 'perfil.html')
+    """Vista del perfil del usuario logueado."""
+    usuario = request.user
+    
+    prestamos_activos = []
+    if hasattr(usuario, 'socio_profile'):
+        from prestamos.models import Prestamo
+        prestamos_activos = Prestamo.objects.filter(
+            socio=usuario.socio_profile,
+            fechaDevolucion__isnull=True,
+        ).select_related('ejemplar__obra').order_by('fechaFin')
+    
+    context = {
+        'prestamos_activos': prestamos_activos,
+    }
+    return render(request, 'perfil.html', context)
 
 @login_required
 @bibliotecario_required
@@ -152,9 +167,20 @@ def detalle_usuario(request, pk):
     elif hasattr(usuario, 'bibliotecario_profile'):
         perfil = usuario.bibliotecario_profile
     
+    prestamos_activos = []
+    if perfil and usuario.tipo == 'SOCIO':
+        # evitar import circular
+        from prestamos.models import Prestamo
+        prestamos_activos = Prestamo.objects.filter(
+            socio=perfil,
+            fechaDevolucion__isnull=True,
+        ).select_related('ejemplar__obra').order_by('fechaFin')
+    
     context = {
         'usuario': usuario,
         'perfil': perfil,
+        'prestamos_activos': prestamos_activos,
+        'hoy': timezone.now().date(),
     }
     return render(request, 'detalle_usuario.html', context)
 

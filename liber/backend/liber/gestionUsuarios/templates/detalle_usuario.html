@@ -56,11 +56,23 @@
               <dt class="col-sm-4">Tipo</dt>
               <dd class="col-sm-8">
                 <span class="badge {% if usuario.tipo == 'SOCIO' %}
+                    
+                    
                     bg-success
+
+
                   {% elif usuario.tipo == 'BIBLIOTECARIO' %}
+                    
+                    
                     bg-warning
+
+
                   {% else %}
+                    
+                    
                     bg-danger
+
+
                   {% endif %}">
                   {{ usuario.get_tipo_display }}
                 </span>
@@ -81,7 +93,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-md-6">
         <!-- Datos del perfil específico -->
         <div class="card shadow-sm">
@@ -124,6 +135,10 @@
           </div>
         </div>
       </div>
+    </div>
+    <!--  Préstamos del usuario -->
+    <div class="mt-4">
+    {% include 'tabla_prestamos.html' %}
     </div>
   </div>
 {% endblock %}

@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from catalogo.models import Ejemplar, Obra
 from gestionUsuarios.models import Socio
-from .constants import _int_env
+from .utils import _int_env
 
 DIAS_PRESTAMO = _int_env('DIAS_PRESTAMO', 20)
 PRORROGAS_INICIALES = _int_env('PRORROGAS_INICIALES', 3)
