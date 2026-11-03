@@ -27,6 +27,7 @@ def roles_required(*tipos_permitidos):
 
 # Atajos 
 admin_required = roles_required('ADMIN')
+# por diseño, todas las funciones a las que puede acceder el bibliotecario, también podrá el admin
 bibliotecario_required = roles_required('BIBLIOTECARIO', 'ADMIN')
 socio_required = roles_required('SOCIO')
 

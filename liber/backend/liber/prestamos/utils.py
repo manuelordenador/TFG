@@ -1,6 +1,5 @@
 import os
 
-
 def _int_env(name, default):
     """
     Lee una variable de entorno como entero.

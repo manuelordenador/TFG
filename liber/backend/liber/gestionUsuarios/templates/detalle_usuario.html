@@ -112,12 +112,13 @@
                   <dt class="col-sm-5">Fecha Penalización</dt>
                   <dd class="col-sm-7">{{ perfil.fechaPenalizacion|default:'-' }}</dd>
 
-                  <dt class="col-sm-5">Fecha Alta</dt>
-                  <dd class="col-sm-7">{{ perfil.fechaAlta|date:'d/m/Y' }}</dd>
+                  <dt class="col-sm-5">Miembro desde</dt>
+                  <dd class="col-sm-7">{{ perfil.usuario.date_joined|date:'d/m/Y' }}</dd>
 
                   <dt class="col-sm-5">Fecha Baja</dt>
                   <dd class="col-sm-7">{{ perfil.fechaBaja|default:'-' }}</dd>
                 </dl>
+                
               {% elif usuario.tipo == 'BIBLIOTECARIO' %}
                 <dl class="row mb-0">
                   <dt class="col-sm-5">Número de Empleado</dt>

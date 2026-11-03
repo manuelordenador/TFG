@@ -229,3 +229,8 @@ class Ejemplar(models.Model):
             return "PRESTADO"
         return "DISPONIBLE"
     
+    @property
+    def prestamo_activo(self):
+        """Devuelve el préstamo activo del ejemplar, o None."""
+        return self.prestamos.filter(fechaDevolucion__isnull=True).first()
+    

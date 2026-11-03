@@ -7,10 +7,8 @@ from .forms import LibroForm, RevistaForm, PeriodicoForm, GrabacionForm
 from gestionUsuarios.decorators import bibliotecario_required
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-import json
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from django.forms.models import model_to_dict
 
 # mapeo de los tipos de formulario
 FORMULARIOS_POR_TIPO = {

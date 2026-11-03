@@ -2,7 +2,7 @@
 from django.core.management.base import BaseCommand
 from faker import Faker
 import random
-from catalogo.models import Editorial, Obra, Libro, Autor
+from catalogo.models import Editorial, Libro, Autor
 
 class Command(BaseCommand):
     help = 'Puebla la tabla de libros con datos de prueba'
@@ -41,7 +41,7 @@ class Command(BaseCommand):
             obra = Libro(
                 titulo=fake.sentence(nb_words=4).replace('.', ''),
                 fechaPublicacion=fake.date_between(start_date='-50y', end_date='today'),
-                signatura=f"SIG-{i+1:05d}",
+                signatura=f"LIB-{i+1:05d}",
                 tipo='LIBRO',
                 isbn=fake.isbn13().replace('-', ''),
                 editorial=editorial_seleccionada,

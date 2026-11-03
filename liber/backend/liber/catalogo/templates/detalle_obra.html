@@ -35,7 +35,6 @@
 
 
 
-
                 {% elif obra.tipo == 'REVISTA' %}
                   
                   
@@ -44,13 +43,11 @@
 
 
 
-
                 {% elif obra.tipo == 'PERIODICO' %}
                   
                   
                   
                   bg-warning
-
 
 
 
@@ -67,9 +64,7 @@
               </span>
               <small class="text-muted">Signatura: {{ obra.signatura }}</small>
             </div>
-
             <h1 class="h2 mb-3">{{ obra.titulo }}</h1>
-
             <!-- Autores -->
             <p class="mb-3">
               <i class="fas fa-user-pen text-primary"></i>
@@ -206,8 +201,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Ejemplares -->
       <!-- Ejemplares -->
       <div class="col-lg-4">
         <div class="card shadow-sm">
@@ -232,7 +225,9 @@
                       <span class="badge bg-danger">Prestado</span>
                     {% endif %}
                     {% if user.tipo == 'BIBLIOTECARIO' or user.tipo == 'ADMIN' %}
-                      {% if obra.tipo != 'PERIODICO' %}
+                      {% if ejemplar.estado == 'PRESTADO' and ejemplar.prestamo_activo %}
+                        <a href="{% url 'prestamos:devolver_ejemplar' ejemplar.prestamo_activo.pk %}" class="btn btn-sm btn-outline-success"><i class="fas fa-undo"></i> Devolver</a>
+                      {% elif obra.tipo != 'PERIODICO' %}
                         <a href="{% url 'prestamos:prestar_ejemplar' ejemplar.pk %}" class="btn btn-sm btn-outline-primary"><i class="fas fa-hand-holding"></i> Prestar</a>
                       {% endif %}
                     {% endif %}

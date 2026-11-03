@@ -5,11 +5,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import timedelta
-from .models import Obra, Ejemplar, Prestamo
 from gestionUsuarios.models import Socio
 from gestionUsuarios.decorators import bibliotecario_required
+from catalogo.models import Ejemplar
 from prestamos.models import Prestamo, DIAS_PRESTAMO, PRORROGAS_INICIALES
-from .utils import puede_prestar, prestamos_activos_por_tipo
+from .utils import puede_prestar
 
 
 @login_required
@@ -49,8 +49,6 @@ def prestar_ejemplar(request, pk):
                 f'El socio {socio.usuario.get_full_name()} está penalizado y no puede tomar préstamos.'
             )
             return render(request, 'prestar_ejemplar.html', {'ejemplar': ejemplar})
-        
-        
         
         puede, motivo = puede_prestar(socio, tipo_obra)
         if not puede:
@@ -108,3 +106,42 @@ def buscar_socios(request):
     ]
     
     return JsonResponse({'socios': data})
+
+@login_required
+@bibliotecario_required
+def devolver_ejemplar(request, pk):
+    """
+    Marca un préstamo como devuelto (fechaDevolucion = hoy).
+    Solo si el préstamo está activo (fechaDevolucion__isnull=True).
+    """
+    prestamo = get_object_or_404(Prestamo, pk=pk)
+    
+    # Verificar que el préstamo está activo
+    if prestamo.fechaDevolucion is not None:
+        messages.error(
+            request,
+            f'El préstamo #{prestamo.pk} ya fue devuelto el '
+            f'{prestamo.fechaDevolucion.strftime("%d/%m/%Y")}.'
+        )
+        return redirect('catalogo:detalle_obra', pk=prestamo.ejemplar.obra.pk)
+    
+    if request.method == 'POST':
+        hoy = timezone.now().date()
+        if hoy > prestamo.fechaFin:
+            prestamo.socio.penalizado = True
+            prestamo.socio.fechaPenalizacion = hoy
+            prestamo.socio.save()
+            messages.warning(request, f'Devolución tardía: {prestamo.socio.usuario.get_full_name()} penalizado.')
+        
+        prestamo.fechaDevolucion = hoy
+        prestamo.save()
+        
+        messages.success(
+            request,
+            f'Ejemplar #{prestamo.ejemplar.idEjemplar} '
+            f'de "{prestamo.ejemplar.obra.titulo}" devuelto correctamente.'
+        )
+        return redirect('catalogo:detalle_obra', pk=prestamo.ejemplar.obra.pk)
+    
+    # GET: mostrar confirmación
+    return render(request, 'devolver_ejemplar.html', {'prestamo': prestamo})
