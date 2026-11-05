@@ -128,13 +128,6 @@
                     <p class="fs-5 fw-semibold mb-0">{{ user.socio_profile.fechaPenalizacion|date:'d/m/Y'|default:'—' }}</p>
                   </div>
                 {% endif %}
-
-                {% if user.socio_profile.fechaBaja %}
-                  <div class="col-sm-6">
-                    <small class="text-muted d-block mb-1"><i class="fas fa-user-slash"></i> Fecha de baja</small>
-                    <p class="fs-5 fw-semibold mb-0">{{ user.socio_profile.fechaBaja|date:'d/m/Y' }}</p>
-                  </div>
-                {% endif %}
               </div>
             </div>
           </div>

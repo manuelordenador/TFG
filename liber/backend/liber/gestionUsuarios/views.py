@@ -318,7 +318,6 @@ def configuracion_cuenta(request):
             'Número de socio': perfil.numSocio,
             'Penalizado': 'Sí' if perfil.penalizado else 'No',
             'Fecha de penalización': perfil.fechaPenalizacion.strftime('%d/%m/%Y') if perfil.fechaPenalizacion else '—',
-            'Fecha de baja': perfil.fechaBaja.strftime('%d/%m/%Y') if perfil.fechaBaja else '—',
         }
     elif es_bibliotecario:
         perfil = usuario.bibliotecario_profile

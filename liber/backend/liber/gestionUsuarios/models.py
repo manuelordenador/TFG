@@ -1,5 +1,8 @@
+from datetime import timedelta
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 
 class Usuario(AbstractUser):
@@ -92,8 +95,51 @@ class Socio(models.Model):
     penalizado = models.BooleanField(default=False)
     fechaPenalizacion = models.DateField(null=True, blank=True)
     fechaBaja = models.DateField(null=True, blank=True)
-    librosPrestados = models.IntegerField(default=0)
-    grabacionesPrestadas = models.IntegerField(default=0)
+    
+    @property
+    def tiene_vencidos(self):
+        """True si tiene préstamos vencidos sin devolver."""
+        return self.prestamos.filter(
+            fechaDevolucion__isnull=True,
+            fechaFin__lt=timezone.now().date(),
+        ).exists()
+    
+    @property
+    def esta_penalizado(self):
+        """
+        True si el socio está penalizado AHORA.
+        Orden de prioridad:
+        1. Tiene vencidos sin devolver → penalizado indefinidamente.
+        2. `penalizado=True` con fecha → castigo temporal hasta fechaPenalizacion + TIEMPO_CASTIGO.
+        3. Resto → no penalizado.
+        """
+        # indefinido
+        if self.tiene_vencidos:
+            return True
+        
+        if not self.penalizado:
+            return False
+        
+        # indefinido sin vencidos, habiendo devuelto todos
+        if self.fechaPenalizacion is None:
+            return False
+        
+        # temporal; ha caducado?
+        from prestamos.models import DIAS_CASTIGO
+        fin_castigo = self.fechaPenalizacion + timedelta(days=DIAS_CASTIGO)
+        return timezone.now().date() < fin_castigo
+    
+    def penalizar_temporal(self, fecha=None):
+        """Castigo con fin (devolución tardía)."""
+        self.penalizado = True
+        self.fechaPenalizacion = fecha or timezone.now().date()
+        self.save(update_fields=['penalizado', 'fechaPenalizacion'])
+        
+    def despenalizar(self):
+        """Quitar castigo al socio"""
+        self.penalizado = False
+        self.fechaPenalizacion = None
+        self.save(update_fields=['penalizado', 'fechaPenalizacion'])
     
     def save(self, *args, **kwargs):
         if not self.numSocio:

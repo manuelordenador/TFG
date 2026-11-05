@@ -10,6 +10,7 @@ PRORROGAS_INICIALES = _int_env('PRORROGAS_INICIALES', 3)
 LIMITE_LIBROS = _int_env('LIMITE_LIBROS', 3)
 LIMITE_GRABACIONES = _int_env('LIMITE_GRABACIONES', 2)
 LIMITE_REVISTAS = _int_env('LIMITE_REVISTAS', 1)
+DIAS_CASTIGO = _int_env('DIAS_CASTIGO', 1)
 
 LIMITES_POR_TIPO = {
     'LIBRO': LIMITE_LIBROS,
@@ -25,7 +26,6 @@ class Prestamo(models.Model):
     fechaDevolucion = models.DateField(null=True, blank=True)
     fechaProrroga = models.DateField(null=True, blank=True)
     prorrogasRestantes = models.IntegerField(default=PRORROGAS_INICIALES)
-    
     
     def __str__(self):
         return f"Préstamo {self.id} - {self.socio} - {self.ejemplar}"

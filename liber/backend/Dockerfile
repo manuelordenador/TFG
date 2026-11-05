@@ -34,4 +34,4 @@ RUN chmod +x entrypoint.sh
 EXPOSE 8000
 
 # punto de entrada para el contenedor
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]

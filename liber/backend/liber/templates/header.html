@@ -15,9 +15,6 @@
     <!-- Links de navegación (a la derecha en desktop, abajo en mobile) -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'home' %}">Inicio</a>
-        </li>
         {% if user.tipo == 'ADMIN' %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin:index' %}">Panel de Administrador</a>
