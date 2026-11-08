@@ -47,9 +47,13 @@ class CustomUserAdmin(UserAdmin):
 # Registrar los modelos de perfil por separado para verlos en el admin
 @admin.register(Socio)
 class SocioAdmin(admin.ModelAdmin):
-    list_display = ['usuario', 'numSocio', 'penalizado']
+    list_display = ['usuario', 'numSocio', 'esta_penalizado']
     search_fields = ['usuario__username', 'numSocio']
     raw_id_fields = ['usuario']
+
+    @admin.display(description='Penalizado')
+    def esta_penalizado(self, obj):
+        return obj.esta_penalizado
 
 @admin.register(Bibliotecario)
 class BibliotecarioAdmin(admin.ModelAdmin):

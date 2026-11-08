@@ -1,7 +1,7 @@
 from datetime import timedelta
 from django.db import models
 from django.utils import timezone
-from catalogo.models import Ejemplar, Obra
+from catalogo.models import Ejemplar
 from gestionUsuarios.models import Socio
 from .utils import _int_env
 
@@ -30,6 +30,13 @@ class Prestamo(models.Model):
     def __str__(self):
         return f"Préstamo {self.id} - {self.socio} - {self.ejemplar}"
     
+    @property
+    def esta_vencido(self):
+        return (
+            self.fechaDevolucion is None
+            and self.fechaFin < timezone.now().date()
+        )
+
     def save(self, *args, **kwargs):
         # Lógica de fechas y prórrogas
         if not self.fechaFin:

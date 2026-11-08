@@ -45,8 +45,6 @@ class Command(BaseCommand):
             socio = Socio(
                 usuario=usuario,
                 numSocio=None,  # Se genera automáticamente
-                penalizado=random.choice([True, False]),
-                fechaPenalizacion=fake.date_between(start_date='-30d', end_date='today') if random.choice([True, False]) else None,
                 fechaBaja=None,
             )
             socio.save()

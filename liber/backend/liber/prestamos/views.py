@@ -8,72 +8,68 @@ from datetime import timedelta
 from gestionUsuarios.models import Socio
 from gestionUsuarios.decorators import bibliotecario_required
 from catalogo.models import Ejemplar
-from prestamos.models import Prestamo, DIAS_PRESTAMO, PRORROGAS_INICIALES, DIAS_CASTIGO
-from .utils import puede_prestar
-
+from prestamos.models import Prestamo, DIAS_PRESTAMO, PRORROGAS_INICIALES
+from .utils import comprobar_limite
 
 @login_required
 @bibliotecario_required
 def prestar_ejemplar(request, pk):
-    """Vista para que bibliotecarios presten ejemplar a socio"""
     ejemplar = get_object_or_404(Ejemplar, pk=pk)
     tipo_obra = ejemplar.obra.tipo
-    
+
+    # 1. ¿La obra puede prestarse?
     puede, motivo = ejemplar.obra.puede_prestarse()
     if not puede:
         messages.error(request, motivo)
         return redirect('catalogo:detalle_obra', pk=ejemplar.obra.pk)
-    
-    # Verificar disponibilidad
+
+    # 2. ¿El ejemplar está disponible?
     if ejemplar.estado == 'PRESTADO':
         messages.error(request, f'El ejemplar #{ejemplar.idEjemplar} ya está prestado.')
         return redirect('catalogo:detalle_obra', pk=ejemplar.obra.pk)
-    
+
     if request.method == 'POST':
         socio_id = request.POST.get('socio', '').strip()
-        
         if not socio_id.isdigit():
             messages.error(request, 'Debes seleccionar un socio.')
             return render(request, 'prestar_ejemplar.html', {'ejemplar': ejemplar})
-        
+
         try:
             socio = Socio.objects.get(pk=int(socio_id))
         except Socio.DoesNotExist:
             messages.error(request, 'El socio seleccionado no existe.')
             return render(request, 'prestar_ejemplar.html', {'ejemplar': ejemplar})
-        
-        # Verificar penalización
+
+        # 3. ¿Está penalizado?
         if socio.esta_penalizado:
             messages.error(
                 request,
-                f'El socio {socio.usuario.get_full_name()} está penalizado y no puede tomar préstamos.'
+                f'{socio.usuario.get_full_name()} está penalizado y no puede tomar préstamos.'
             )
             return render(request, 'prestar_ejemplar.html', {'ejemplar': ejemplar})
-        
-        puede, motivo = puede_prestar(socio, tipo_obra)
+
+        # 4. ¿Ha alcanzado el límite?
+        puede, _, _, motivo = comprobar_limite(socio, tipo_obra)
         if not puede:
             messages.error(request, motivo)
             return render(request, 'prestar_ejemplar.html', {'ejemplar': ejemplar})
-        
-        # Crear el préstamo
+
+        # 5. Crear el préstamo
         hoy = timezone.now().date()
-        fecha_fin = hoy + timedelta(days=DIAS_PRESTAMO)
-        
         Prestamo.objects.create(
             socio=socio,
             ejemplar=ejemplar,
             fechaInicio=hoy,
-            fechaFin=fecha_fin,
+            fechaFin=hoy + timedelta(days=DIAS_PRESTAMO),
             prorrogasRestantes=PRORROGAS_INICIALES,
         )
-        
         messages.success(
             request,
             f'Préstamo registrado: ejemplar #{ejemplar.idEjemplar} '
             f'de "{ejemplar.obra.titulo}" a {socio.usuario.get_full_name()}.'
         )
         return redirect('catalogo:detalle_obra', pk=ejemplar.obra.pk)
-    
+
     return render(request, 'prestar_ejemplar.html', {'ejemplar': ejemplar})
 
 
@@ -124,31 +120,20 @@ def devolver_ejemplar(request, pk):
 
     if request.method == 'POST':
         hoy = timezone.now().date()
-        tarde = hoy > prestamo.fechaFin
 
         prestamo.fechaDevolucion = hoy
         prestamo.save()
 
-        # ¿Le quedan vencidos después de esta devolución?
-        quedan_vencidos = socio.prestamos.filter(
-            fechaDevolucion__isnull=True,
-            fechaFin__lt=hoy,
-        ).exists()
-
-        if tarde and not quedan_vencidos:
-            # Último vencido devuelto → castigo temporal
-            socio.penalizar_temporal(fecha=hoy)
-            messages.warning(
-                request,
-                f'Devolución tardía: {socio.usuario.get_full_name()} '
-                f'penalizado durante {DIAS_CASTIGO} días.'
-            )
-        elif tarde and quedan_vencidos:
-            messages.warning(
-                request,
-                f'Devolución tardía. {socio.usuario.get_full_name()} '
-                f'sigue penalizado indefinidamente hasta que devuelva todos los vencidos.'
-            )
+        tarde = hoy > prestamo.fechaFin
+        # aplicar castigo según caso
+        if tarde and socio.numCaducados == 0:
+            socio.estado_penalizacion = Socio.EstadoPenalizacion.TEMPORAL
+            socio.fechaPenalizacion = hoy
+            socio.save(update_fields=['estado_penalizacion', 'fechaPenalizacion'])
+        elif tarde and socio.numCaducados > 0:
+            socio.estado_penalizacion = Socio.EstadoPenalizacion.INDEFINIDO
+            socio.fechaPenalizacion = None
+            socio.save(update_fields=['estado_penalizacion', 'fechaPenalizacion'])
 
         messages.success(request, f'Ejemplar #{prestamo.ejemplar.idEjemplar} devuelto correctamente.')
         return redirect('catalogo:detalle_obra', pk=prestamo.ejemplar.obra.pk)

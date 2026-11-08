@@ -106,11 +106,22 @@
                   <dt class="col-sm-5">Número de Socio</dt>
                   <dd class="col-sm-7">{{ perfil.numSocio|default:'-' }}</dd>
 
-                  <dt class="col-sm-5">Penalizado</dt>
-                  <dd class="col-sm-7">{{ perfil.penalizado|yesno:'Sí,No' }}</dd>
+                  <dt class="col-sm-5">Estado de penalización</dt>
+                  <dd class="col-sm-7">
+                    {% if socio_penalizado %}
+                      {{ perfil.get_estado_penalizacion_display }}
+                    {% else %}
+                      Sin castigo
+                    {% endif %}
+                  </dd>
 
-                  <dt class="col-sm-5">Fecha Penalización</dt>
-                  <dd class="col-sm-7">{{ perfil.fechaPenalizacion|default:'-' }}</dd>
+                  {% if socio_penalizado and perfil.estado_penalizacion == 'TEMP' %}
+                    <dt class="col-sm-5">Inicio de penalización</dt>
+                    <dd class="col-sm-7">{{ perfil.fechaPenalizacion|date:'d/m/Y'|default:'-' }}</dd>
+                  {% endif %}
+
+                  <dt class="col-sm-5">Préstamos vencidos pendientes</dt>
+                  <dd class="col-sm-7">{{ perfil.numCaducados }}</dd>
 
                   <dt class="col-sm-5">Miembro desde</dt>
                   <dd class="col-sm-7">{{ perfil.usuario.date_joined|date:'d/m/Y' }}</dd>

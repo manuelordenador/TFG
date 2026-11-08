@@ -4,7 +4,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
-
 class Usuario(AbstractUser):
     """
     Modelo concreto principal (AUTH_USER_MODEL).
@@ -84,62 +83,58 @@ class Bibliotecario(models.Model):
 
 
 class Socio(models.Model):
-    """Especialización para socios de la biblioteca"""        
+    """Especialización para socios de la biblioteca"""
+    class EstadoPenalizacion(models.TextChoices):
+            SIN_CASTIGO = 'SIN', 'Sin castigo'
+            TEMPORAL = 'TEMP', 'Temporal'
+            INDEFINIDO = 'IND', 'Indefinido'
     usuario = models.OneToOneField(
         Usuario, 
         on_delete=models.CASCADE, 
         primary_key=True, 
         related_name='socio_profile'
     )
+
     numSocio = models.IntegerField(unique=True, null=True, blank=True)
-    penalizado = models.BooleanField(default=False)
     fechaPenalizacion = models.DateField(null=True, blank=True)
     fechaBaja = models.DateField(null=True, blank=True)
-    
-    @property
-    def tiene_vencidos(self):
-        """True si tiene préstamos vencidos sin devolver."""
-        return self.prestamos.filter(
-            fechaDevolucion__isnull=True,
-            fechaFin__lt=timezone.now().date(),
-        ).exists()
+    estado_penalizacion = models.CharField(
+        max_length=4,
+        choices=EstadoPenalizacion.choices,
+        default=EstadoPenalizacion.SIN_CASTIGO,
+    )
     
     @property
     def esta_penalizado(self):
-        """
-        True si el socio está penalizado AHORA.
-        Orden de prioridad:
-        1. Tiene vencidos sin devolver → penalizado indefinidamente.
-        2. `penalizado=True` con fecha → castigo temporal hasta fechaPenalizacion + TIEMPO_CASTIGO.
-        3. Resto → no penalizado.
-        """
-        # indefinido
-        if self.tiene_vencidos:
+        """True si el socio está penalizado ahora."""
+        if self.numCaducados > 0:
+            if self.estado_penalizacion != self.EstadoPenalizacion.INDEFINIDO:
+                self.estado_penalizacion = self.EstadoPenalizacion.INDEFINIDO
+                self.fechaPenalizacion = None
+                self.save(update_fields=['estado_penalizacion', 'fechaPenalizacion'])
             return True
-        
-        if not self.penalizado:
-            return False
-        
-        # indefinido sin vencidos, habiendo devuelto todos
-        if self.fechaPenalizacion is None:
-            return False
-        
-        # temporal; ha caducado?
-        from prestamos.models import DIAS_CASTIGO
-        fin_castigo = self.fechaPenalizacion + timedelta(days=DIAS_CASTIGO)
-        return timezone.now().date() < fin_castigo
+        if self.estado_penalizacion == self.EstadoPenalizacion.TEMPORAL:
+            from prestamos.models import DIAS_CASTIGO
+            fin = self.fechaPenalizacion + timedelta(days=DIAS_CASTIGO)
+            if timezone.now().date() >= fin:
+                self.estado_penalizacion = self.EstadoPenalizacion.SIN_CASTIGO
+                self.fechaPenalizacion = None
+                self.save(update_fields=['estado_penalizacion', 'fechaPenalizacion'])
+                return False
+            return True
+        return self.estado_penalizacion == self.EstadoPenalizacion.INDEFINIDO
     
-    def penalizar_temporal(self, fecha=None):
-        """Castigo con fin (devolución tardía)."""
-        self.penalizado = True
-        self.fechaPenalizacion = fecha or timezone.now().date()
-        self.save(update_fields=['penalizado', 'fechaPenalizacion'])
+    @property
+    def numCaducados(self):
+        """
+        Devuelve el número de ejemplares penalizados (préstamos vencidos sin devolver).
+        Un préstamo está vencido si `fechaDevolucion IS NULL` y `fechaFin < hoy`.
+        """
+        return self.prestamos.filter(
+            fechaDevolucion__isnull=True,
+            fechaFin__lt=timezone.now().date(),
+        ).count()
         
-    def despenalizar(self):
-        """Quitar castigo al socio"""
-        self.penalizado = False
-        self.fechaPenalizacion = None
-        self.save(update_fields=['penalizado', 'fechaPenalizacion'])
     
     def save(self, *args, **kwargs):
         if not self.numSocio:

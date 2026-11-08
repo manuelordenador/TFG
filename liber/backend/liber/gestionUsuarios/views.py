@@ -118,6 +118,11 @@ def perfil_view(request):
     
     context = {
         'prestamos_activos': prestamos_activos,
+        'socio_penalizado': (
+            usuario.socio_profile.esta_penalizado
+            if hasattr(usuario, 'socio_profile')
+            else False
+        ),
     }
     return render(request, 'perfil.html', context)
 
@@ -181,6 +186,11 @@ def detalle_usuario(request, pk):
         'perfil': perfil,
         'prestamos_activos': prestamos_activos,
         'hoy': timezone.now().date(),
+        'socio_penalizado': (
+            perfil.esta_penalizado
+            if perfil and usuario.tipo == 'SOCIO'
+            else False
+        ),
     }
     return render(request, 'detalle_usuario.html', context)
 
@@ -316,7 +326,7 @@ def configuracion_cuenta(request):
         perfil = usuario.socio_profile
         datos_solo_lectura = {
             'Número de socio': perfil.numSocio,
-            'Penalizado': 'Sí' if perfil.penalizado else 'No',
+            'Penalizado': 'Sí' if perfil.esta_penalizado else 'No',
             'Fecha de penalización': perfil.fechaPenalizacion.strftime('%d/%m/%Y') if perfil.fechaPenalizacion else '—',
         }
     elif es_bibliotecario:
