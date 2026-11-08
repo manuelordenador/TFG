@@ -17,6 +17,9 @@
               <th>Fecha fin</th>
               <th>Prórrogas</th>
               <th>Estado</th>
+              {% if user.tipo == 'BIBLIOTECARIO' or user.tipo == 'ADMIN' %}
+                <th>Acciones</th>
+              {% endif %}
             </tr>
           </thead>
           <tbody>
@@ -55,6 +58,19 @@
                     <span class="badge bg-success">Activo</span>
                   {% endif %}
                 </td>
+                {% if user.tipo == 'BIBLIOTECARIO' or user.tipo == 'ADMIN' %}
+                  <td>
+                    <form method="post" action="{% url 'prestamos:devolver_ejemplar' prestamo.pk %}"
+                          class="d-inline"
+                          onsubmit="return confirm('¿Devolver el ejemplar #{{ prestamo.ejemplar.idEjemplar }}?');">
+                      {% csrf_token %}
+                      <input type="hidden" name="next" value="{{ request.path }}">
+                      <button type="submit" class="btn btn-sm btn-outline-success">
+                        <i class="fas fa-undo"></i> Devolver
+                      </button>
+                    </form>
+                  </td>
+                {% endif %}
               </tr>
             {% endfor %}
           </tbody>

@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from django.contrib.postgres.search import SearchVector
 
 # mapeo de los tipos de formulario
 FORMULARIOS_POR_TIPO = {
@@ -254,9 +255,9 @@ def buscar_autores(request):
         return JsonResponse({'autores': []})
     
     autores = Autor.objects.filter(
-        Q(nombre__icontains=query) |
-        Q(apellidos__icontains=query)
-    ).order_by('apellidos', 'nombre')[:10]  # Máximo 10 resultados
+        Q(nombre__unaccent__icontains=query) |
+        Q(apellidos__unaccent__icontains=query)
+    ).order_by('apellidos', 'nombre')[:10]  
     
     data = [
         {
@@ -280,7 +281,7 @@ def buscar_editoriales(request):
         return JsonResponse({'editoriales': []})
     
     editoriales = Editorial.objects.filter(
-        nombre__icontains=query
+        nombre__unaccent__icontains=query
     ).order_by('nombre')[:10]
     
     data = [
@@ -305,7 +306,7 @@ def buscar_productoras(request):
         return JsonResponse({'productoras': []})
     
     productoras = Productora.objects.filter(
-        nombre__icontains=query
+        nombre__unaccent__icontains=query
     ).order_by('nombre')[:10]
     
     data = [

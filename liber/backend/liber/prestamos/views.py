@@ -83,9 +83,9 @@ def buscar_socios(request):
         return JsonResponse({'socios': []})
     
     socios = Socio.objects.filter(
-        Q(usuario__first_name__icontains=query) |
-        Q(usuario__last_name__icontains=query) |
-        Q(usuario__email__icontains=query) |
+        Q(usuario__first_name__unaccent__icontains=query) |
+        Q(usuario__last_name__unaccent__icontains=query) |
+        Q(usuario__email__unaccent__icontains=query) |
         Q(numSocio__icontains=query)
     ).select_related('usuario').order_by('usuario__last_name', 'usuario__first_name')[:10]
     
@@ -112,11 +112,18 @@ def devolver_ejemplar(request, pk):
     """
     prestamo = get_object_or_404(Prestamo, pk=pk)
     socio = prestamo.socio
+    # url a la que volver tras la devolución
+    next_url = request.POST.get('next') or request.GET.get('next')
+    
+    def _redirect_back():
+        if next_url and next_url.startswith('/'):
+            return redirect(next_url)
+        return redirect('catalogo:detalle_obra', pk=prestamo.ejemplar.obra.pk)
     
     # Verificar que el préstamo está activo
     if prestamo.fechaDevolucion is not None:
         messages.error(request, f'El préstamo #{prestamo.pk} ya fue devuelto.')
-        return redirect('catalogo:detalle_obra', pk=prestamo.ejemplar.obra.pk)
+        return _redirect_back('catalogo:detalle_obra', pk=prestamo.ejemplar.obra.pk)
 
     if request.method == 'POST':
         hoy = timezone.now().date()
@@ -136,6 +143,6 @@ def devolver_ejemplar(request, pk):
             socio.save(update_fields=['estado_penalizacion', 'fechaPenalizacion'])
 
         messages.success(request, f'Ejemplar #{prestamo.ejemplar.idEjemplar} devuelto correctamente.')
-        return redirect('catalogo:detalle_obra', pk=prestamo.ejemplar.obra.pk)
+        return _redirect_back()
 
     return render(request, 'devolver_ejemplar.html', {'prestamo': prestamo})
