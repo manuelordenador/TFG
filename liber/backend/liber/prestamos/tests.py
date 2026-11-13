@@ -103,6 +103,44 @@ class PenalizacionesSocioTests(TestCase):
         )
         self.assertIsNone(self.socio.fechaPenalizacion)
 
+    @patch("prestamos.models.DIAS_CASTIGO", 2)
+    def test_perfil_limpia_castigo_expirado_y_muestra_prorroga_en_primera_carga(self):
+        self.socio.estado_penalizacion = Socio.EstadoPenalizacion.TEMPORAL
+        self.socio.fechaPenalizacion = timezone.localdate() - timedelta(days=2)
+        self.socio.save()
+        self.crear_prestamo(
+            self.socio,
+            timezone.localdate() + timedelta(days=1),
+        )
+        self.client.force_login(self.socio.usuario)
+
+        respuesta = self.client.get(reverse("gestionUsuarios:perfil"))
+
+        self.assertEqual(respuesta.status_code, 200)
+        self.assertTrue(respuesta.context["hay_acciones"])
+        self.assertContains(respuesta, "Prorrogar")
+        self.socio.refresh_from_db()
+        self.assertEqual(
+            self.socio.estado_penalizacion,
+            Socio.EstadoPenalizacion.SIN_CASTIGO,
+        )
+        self.assertIsNone(self.socio.fechaPenalizacion)
+
+    @patch("prestamos.views.DIAS_PRORROGA", 7)  
+    def test_confirmacion_muestra_dias_de_prorroga_configurados(self):
+        prestamo = self.crear_prestamo(
+            self.socio,
+            timezone.localdate() + timedelta(days=1),
+        )
+        self.client.force_login(self.socio.usuario)
+
+        respuesta = self.client.get(
+            reverse("prestamos:prorrogar_prestamo", args=[prestamo.pk])
+        )
+
+        self.assertEqual(respuesta.status_code, 200)
+        self.assertContains(respuesta, "+ 7 días")
+
     def test_devolver_el_ultimo_vencido_inicia_un_nuevo_castigo_temporal(self):
         bibliotecario = self.crear_bibliotecario()
         self.client.force_login(bibliotecario)

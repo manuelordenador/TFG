@@ -8,7 +8,12 @@ from datetime import timedelta
 from gestionUsuarios.models import Socio
 from gestionUsuarios.decorators import bibliotecario_required
 from catalogo.models import Ejemplar
-from prestamos.models import Prestamo, DIAS_PRESTAMO, PRORROGAS_INICIALES
+from prestamos.models import (
+    DIAS_PRESTAMO,
+    DIAS_PRORROGA,
+    PRORROGAS_INICIALES,
+    Prestamo,
+)
 from .utils import comprobar_limite
 
 @login_required
@@ -146,3 +151,83 @@ def devolver_ejemplar(request, pk):
         return _redirect_back()
 
     return render(request, 'devolver_ejemplar.html', {'prestamo': prestamo})
+
+@login_required
+def prorrogar_prestamo(request, pk):
+    """
+    Prorroga un préstamo activo (no vencido).
+    Accesible para socios (dueños del préstamo) y bibliotecarios/admin.
+    """
+    prestamo = get_object_or_404(Prestamo, pk=pk)
+    socio = prestamo.socio
+    hoy = timezone.now().date()
+
+    # 1. Permisos: el socio dueño, un bibliotecario o un admin
+    es_dueno = (request.user.tipo == 'SOCIO'
+                and hasattr(request.user, 'socio_profile')
+                and request.user.socio_profile.pk == socio.pk)
+    es_empleado = request.user.tipo in ('BIBLIOTECARIO', 'ADMIN')
+
+    if not (es_dueno or es_empleado):
+        messages.error(request, 'No tienes permiso para prorrogar este préstamo.')
+        return redirect('home')
+
+    # 2. El préstamo debe estar activo (no devuelto)
+    if prestamo.fechaDevolucion is not None:
+        messages.error(request, 'Este préstamo ya fue devuelto.')
+        return redirect('catalogo:detalle_obra', pk=prestamo.ejemplar.obra.pk)
+
+    # 3. El préstamo no puede estar vencido
+    if prestamo.fechaFin < hoy:
+        messages.error(
+            request,
+            'No puedes prorrogar un préstamo vencido. Devuélvelo primero.'
+        )
+        return redirect('catalogo:detalle_obra', pk=prestamo.ejemplar.obra.pk)
+
+    if request.method == 'POST':
+        # 4. ¿Socio penalizado?
+        if socio.esta_penalizado:
+            messages.error(
+                request,
+                'No puedes pedir prórrogas porque estás penalizado.'
+            )
+            return redirect('catalogo:detalle_obra', pk=prestamo.ejemplar.obra.pk)
+
+        # 5. ¿Le quedan prórrogas?
+        if prestamo.prorrogasRestantes <= 0:
+            messages.error(
+                request,
+                'No puedes pedir más prórrogas para este ejemplar.'
+            )
+            return redirect('catalogo:detalle_obra', pk=prestamo.ejemplar.obra.pk)
+
+        # 6. Aplicar prórroga
+        prestamo.aplicar_prorroga()
+        
+        # 7. Mensajes
+        if prestamo.prorrogasRestantes == 0:
+            messages.warning(
+                request,
+                f'Prórroga aplicada. Esta era la última prórroga disponible. '
+                f'Nueva fecha de devolución: {prestamo.fechaFin.strftime("%d/%m/%Y")}.'
+            )
+        else:
+            messages.success(
+                request,
+                f'Prórroga aplicada. Nueva fecha de devolución: '
+                f'{prestamo.fechaFin.strftime("%d/%m/%Y")}. '
+                f'Te quedan {prestamo.prorrogasRestantes} prórroga(s).'
+            )
+
+        next_url = request.POST.get('next') or request.GET.get('next')
+        if next_url and next_url.startswith('/'):
+            return redirect(next_url)
+        return redirect('catalogo:detalle_obra', pk=prestamo.ejemplar.obra.pk)
+
+    # GET: mostrar confirmación
+    return render(
+        request,
+        'prorrogar_prestamo.html',
+        {'prestamo': prestamo, 'dias_prorroga': DIAS_PRORROGA},
+    )

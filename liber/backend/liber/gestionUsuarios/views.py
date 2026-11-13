@@ -115,14 +115,20 @@ def perfil_view(request):
             socio=usuario.socio_profile,
             fechaDevolucion__isnull=True,
         ).select_related('ejemplar__obra').order_by('fechaFin')
-    
+
+    socio_penalizado = (
+        usuario.socio_profile.esta_penalizado
+        if hasattr(usuario, 'socio_profile')
+        else False
+    )
+    hay_acciones = any(
+        not socio_penalizado and not p.esta_vencido and p.prorrogasRestantes > 0
+        for p in prestamos_activos
+    )
     context = {
         'prestamos_activos': prestamos_activos,
-        'socio_penalizado': (
-            usuario.socio_profile.esta_penalizado
-            if hasattr(usuario, 'socio_profile')
-            else False
-        ),
+        'socio_penalizado': socio_penalizado,
+        'hay_acciones': hay_acciones,
     }
     return render(request, 'perfil.html', context)
 

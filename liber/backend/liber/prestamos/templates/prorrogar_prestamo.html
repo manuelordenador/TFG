@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Prorrogar préstamo{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-calendar-plus"></i> Prorrogar préstamo</h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info mb-4">
+                        <strong>Ejemplar:</strong> #{{ prestamo.ejemplar.idEjemplar }}<br>
+                        <strong>Obra:</strong> {{ prestamo.ejemplar.obra.titulo }}<br>
+                        <strong>Socio:</strong> {{ prestamo.socio.usuario.get_full_name }}<br>
+                        <strong>Fecha actual de devolución:</strong> {{ prestamo.fechaFin|date:"d/m/Y" }}<br>
+                        <strong>Prórrogas restantes:</strong> {{ prestamo.prorrogasRestantes }}
+                    </div>
+
+                    <p>¿Confirmas la prórroga? La nueva fecha de devolución será
+                        <strong>{{ prestamo.fechaFin|date:"d/m/Y" }}</strong> + {{ dias_prorroga }} días.
+                    </p>
+
+                    <form method="post" class="d-flex justify-content-between mt-4">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                        <a href="{% url 'catalogo:detalle_obra' prestamo.ejemplar.obra.pk %}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i> Confirmar prórroga
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

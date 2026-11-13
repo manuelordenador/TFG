@@ -17,7 +17,7 @@
               <th>Fecha fin</th>
               <th>Prórrogas</th>
               <th>Estado</th>
-              {% if user.tipo == 'BIBLIOTECARIO' or user.tipo == 'ADMIN' %}
+              {% if user.tipo == 'BIBLIOTECARIO' or user.tipo == 'ADMIN' or user.tipo == 'SOCIO' and hay_acciones %}
                 <th>Acciones</th>
               {% endif %}
             </tr>
@@ -30,24 +30,45 @@
                   #{{ prestamo.ejemplar.idEjemplar }}
                 </td>
                 <td>
-                  <a href="{% url 'catalogo:detalle_obra' prestamo.ejemplar.obra.pk %}"
-                    class="text-decoration-none">
-                    {{ prestamo.ejemplar.obra.titulo }}
-                  </a>
+                  <a href="{% url 'catalogo:detalle_obra' prestamo.ejemplar.obra.pk %}" class="text-decoration-none">{{ prestamo.ejemplar.obra.titulo }}</a>
                 </td>
                 <td>
                   <span class="badge
-                    {% if prestamo.ejemplar.obra.tipo == 'LIBRO' %}bg-primary
-                    {% elif prestamo.ejemplar.obra.tipo == 'REVISTA' %}bg-success
-                    {% elif prestamo.ejemplar.obra.tipo == 'PERIODICO' %}bg-warning text-dark
-                    {% else %}bg-danger{% endif %}">
+                    {% if prestamo.ejemplar.obra.tipo == 'LIBRO' %}
+                      
+                      bg-primary
+
+
+                    {% elif prestamo.ejemplar.obra.tipo == 'REVISTA' %}
+                      
+                      bg-success
+
+
+                    {% elif prestamo.ejemplar.obra.tipo == 'PERIODICO' %}
+                      
+                      bg-warning text-dark
+
+
+                    {% else %}
+                      
+                      bg-danger
+
+                    {% endif %}">
                     {{ prestamo.ejemplar.obra.get_tipo_display }}
                   </span>
                 </td>
                 <td>{{ prestamo.fechaInicio|date:'d/m/Y' }}</td>
                 <td>{{ prestamo.fechaFin|date:'d/m/Y' }}</td>
                 <td>
-                  <span class="badge {% if prestamo.prorrogasRestantes > 0 %}bg-success{% else %}bg-secondary{% endif %}">
+                  <span class="badge {% if prestamo.prorrogasRestantes > 0 %}
+                      
+                      bg-success
+
+                    {% else %}
+                      
+                      bg-secondary
+
+                    {% endif %}">
                     {{ prestamo.prorrogasRestantes }}
                   </span>
                 </td>
@@ -58,17 +79,21 @@
                     <span class="badge bg-success">Activo</span>
                   {% endif %}
                 </td>
-                {% if user.tipo == 'BIBLIOTECARIO' or user.tipo == 'ADMIN' %}
+                {% if user.tipo == 'BIBLIOTECARIO' or user.tipo == 'ADMIN' or user.tipo == 'SOCIO' %}
                   <td>
-                    <form method="post" action="{% url 'prestamos:devolver_ejemplar' prestamo.pk %}"
-                          class="d-inline"
-                          onsubmit="return confirm('¿Devolver el ejemplar #{{ prestamo.ejemplar.idEjemplar }}?');">
-                      {% csrf_token %}
-                      <input type="hidden" name="next" value="{{ request.path }}">
-                      <button type="submit" class="btn btn-sm btn-outline-success">
-                        <i class="fas fa-undo"></i> Devolver
-                      </button>
-                    </form>
+                    {# Botón Devolver: solo bibliotecarios y admins #}
+                    {% if user.tipo == 'BIBLIOTECARIO' or user.tipo == 'ADMIN' %}
+                      <form method="post" action="{% url 'prestamos:devolver_ejemplar' prestamo.pk %}" class="d-inline" onsubmit="return confirm('¿Devolver el ejemplar #{{ prestamo.ejemplar.idEjemplar }}?');">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}" />
+                        <button type="submit" class="btn btn-sm btn-outline-success"><i class="fas fa-undo"></i> Devolver</button>
+                      </form>
+                    {% endif %}
+
+                    {# Botón Prorrogar: empleados y socio dueño, si el socio no está penalizado, no está vencido y quedan prórrogas #}
+                    {% if prestamo.socio.estado_penalizacion == 'SIN' and not prestamo.esta_vencido and prestamo.prorrogasRestantes > 0 %}
+                      <a href="{% url 'prestamos:prorrogar_prestamo' prestamo.pk %}?next={{ request.path }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-calendar-plus"></i> Prorrogar</a>
+                    {% endif %}
                   </td>
                 {% endif %}
               </tr>
