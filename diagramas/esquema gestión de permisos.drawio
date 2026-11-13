@@ -1,0 +1,37 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.5 Chrome/138.0.7204.251 Electron/37.6.1 Safari/537.36" version="28.2.5">
+  <diagram name="Página-1" id="8tgxIo0edMNhWW2t-lcw">
+    <mxGraphModel dx="1489" dy="906" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2336" pageHeight="1654" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="UOmFfVX41iTrhMVb6Iw1-2" value="ADMIN" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="350" y="140" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="UOmFfVX41iTrhMVb6Iw1-4" value="SOCIOS" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="350" y="340" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="UOmFfVX41iTrhMVb6Iw1-5" value="BIBLIOTECARIO" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="350" y="240" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="UOmFfVX41iTrhMVb6Iw1-6" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="316" y="190" as="sourcePoint" />
+            <mxPoint x="316" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UOmFfVX41iTrhMVb6Iw1-7" value="GESTIONAN" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;rotation=-90;" vertex="1" parent="1">
+          <mxGeometry x="236" y="270" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="UOmFfVX41iTrhMVb6Iw1-8" value="Los administradores pueden hacer CRUD sobre toda la BDD&lt;div&gt;los biblitoecarios tienen un grupo de funcionalidades que es&amp;nbsp;&lt;/div&gt;&lt;div&gt;un subconjunto de las que tienen los ADMIN, pero tienen control total&lt;br&gt;(CRUD) sobre los socios, y los socios solamente tienen permisos de&amp;nbsp;&lt;/div&gt;&lt;div&gt;lectura en el catálogo&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="700" y="200" width="390" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="UOmFfVX41iTrhMVb6Iw1-9" value="CATALOGO" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="350" y="440" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="UOmFfVX41iTrhMVb6Iw1-10" value="los socios no gestionan el catálogo, pero son los datos con menos permisos&amp;nbsp;&lt;br&gt;dado que van a ser puestos de cara al público" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="670" y="470" width="430" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
