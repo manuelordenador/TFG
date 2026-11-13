@@ -1,0 +1,116 @@
+\documentclass[12pt]{report} 
+\usepackage[
+a4paper,
+top=2.54cm,
+bottom=2.54cm,
+left=2.54cm,
+right=2.5cm
+]{geometry}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,activeacute]{babel}
+\usepackage{url}
+
+\usepackage{amsmath, graphicx}
+\usepackage{indentfirst}
+\usepackage{tabularx}
+\usepackage{booktabs}  
+\usepackage{makecell}  
+\usepackage{multirow}  
+\usepackage{array}   
+\usepackage{tikz}
+\usetikzlibrary{calc}               
+\usepackage{helvet}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage[style=authoryear, backend=biber]{biblatex}
+\usepackage[colorlinks=true, citecolor=black, linkcolor=black]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amssymb}
+\pagestyle{fancy}
+\fancyhf{}
+% Define el encabezado: izquierda el documento, derecha el autor
+\lhead{\footnotesize Liber: sistema software de gestión bibliotecaria}
+\rhead{\footnotesize Manuel Martín Castelao}
+\renewcommand{\headrulewidth}{0pt}
+%pie de página con el número de página centrado
+\cfoot{\thepage}
+\addbibresource{referencias.bib}
+\includeonly{capitulo4}
+
+\begin{document}
+	
+	\begin{titlepage}
+		\begin{tikzpicture}[remember picture, overlay]
+			\draw[line width = 2pt] ($(current page.north west) + (1in,-1in)$) rectangle ($(current page.south east) + (-1in,1in)$);
+		\end{tikzpicture}
+		
+		\begin{figure}[htb]
+			\centering
+			%\hspace{1.cm}
+			\includegraphics[width=4.5cm]{imagenes/UVA.png}
+		\end{figure}
+		
+		\centering
+		%\hspace{1.cm}
+		{\fontfamily{phv}\selectfont{\large \textbf{Universidad de Valladolid}}}
+		
+		\vspace*{3cm}
+		\centering
+		%\hspace{1.cm}
+		{\fontfamily{phv}\selectfont{\Large \textbf{ESCUELA DE INGENIER\'{I}A INFORM\'{A}TICA \\ 
+					\vspace{.2cm}
+					%\hspace{1.cm}
+					DE SEGOVIA}}}
+		
+		\vspace*{0.5cm}
+		%\hspace{1.cm}
+		{\fontfamily{phv}\selectfont{\Large \textbf{Grado en Ingenier\'{\i}a Inform\'{a}tica \\ 
+					%\hspace{1.cm}
+					de Servicios y Aplicaciones}}}
+		
+		\vspace*{2cm}
+		~\hspace{.5cm}\rule{140mm}{0.1mm}\\
+		\vspace*{1cm}
+		%\hspace{1.cm}
+		{\fontfamily{phv}\selectfont{\Large \textbf{Liber: sistema software de gestión bibliotecaria}}}
+		
+		\vspace*{1.5cm}
+		~\hspace{.5cm}\rule{140mm}{0.1mm}\\
+		
+		\vspace{.5cm}
+		\raggedleft
+		\vfill
+		{\fontfamily{phv}\selectfont{\large \textbf{Alumno: Manuel Martín Castelao~\hspace{.5cm}}}}
+		
+		\vspace*{.5cm}
+		{\fontfamily{phv}\selectfont{\large \textbf{Tutor: Fernando Díaz Gómez~\hspace{.5cm}}}}
+		
+	\end{titlepage}
+	
+	%% PAGINA EN BLANCO %% 
+	\newpage 
+	\thispagestyle{empty}
+	$\,$
+	
+	
+	\newpage
+	{\LARGE APUNTE TEMPORAL SOBRE EL ÍNDICE} \\
+	El índice se va a componer de tantos capítulos como apartados sean necesarios para tanto satisfacer las necesidades de información del proyecto y planificación como del producto en sí.
+	La primera mitad de este documento contendrá información relativa al proyecto desde un punto de vista más integrador, como la planificación, contexto, etcétera, mientras que la segunda parte consistirá en temas más técnicos como la documentación técnica, que tendrá información sobre CÓMO se ha hecho el software. La primera mitad es técnica y la segunda tecnología. Más tarde, se verá si poner conclusiones por apartado teórico o solamente un capítulo más al final. Como anexo, se adjuntará el manual de usuario, o puede que sea otro capítulo, está por ver.
+	
+	% índice
+	\tableofcontents
+	
+	\listoffigures
+	\listoftables
+	\include{capitulo1}
+	\include{capitulo2}
+	\include{capitulo3}
+	\include{capitulo4}
+	
+	
+	\printbibliography[heading=bibintoc, title={Bibliografía}]
+\end{document}

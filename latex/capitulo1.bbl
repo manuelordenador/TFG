@@ -1,0 +1,673 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{americanlibraries2026}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=23a131c4944b65c5ed8f5e1c5ac4873e}{%
+           family={{American Libraries Magazine}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{23a131c4944b65c5ed8f5e1c5ac4873e}
+      \strng{fullhash}{23a131c4944b65c5ed8f5e1c5ac4873e}
+      \strng{fullhashraw}{23a131c4944b65c5ed8f5e1c5ac4873e}
+      \strng{bibnamehash}{23a131c4944b65c5ed8f5e1c5ac4873e}
+      \strng{authorbibnamehash}{23a131c4944b65c5ed8f5e1c5ac4873e}
+      \strng{authornamehash}{23a131c4944b65c5ed8f5e1c5ac4873e}
+      \strng{authorfullhash}{23a131c4944b65c5ed8f5e1c5ac4873e}
+      \strng{authorfullhashraw}{23a131c4944b65c5ed8f5e1c5ac4873e}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{1}
+      \field{month}{6}
+      \field{title}{2026 Library Systems Briefing: Tech companies stay competitive with emerging platforms}
+      \field{urlday}{14}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://americanlibrariesmagazine.org/2026/06/01/2026-library-systems-briefing/
+      \endverb
+      \verb{url}
+      \verb https://americanlibrariesmagazine.org/2026/06/01/2026-library-systems-briefing/
+      \endverb
+    \endentry
+    \entry{breeding_history}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=03523884332e0d684d4d969d5c1692fe}{%
+           family={Breeding},
+           familyi={B\bibinitperiod},
+           given={Marshall},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{03523884332e0d684d4d969d5c1692fe}
+      \strng{fullhash}{03523884332e0d684d4d969d5c1692fe}
+      \strng{fullhashraw}{03523884332e0d684d4d969d5c1692fe}
+      \strng{bibnamehash}{03523884332e0d684d4d969d5c1692fe}
+      \strng{authorbibnamehash}{03523884332e0d684d4d969d5c1692fe}
+      \strng{authornamehash}{03523884332e0d684d4d969d5c1692fe}
+      \strng{authorfullhash}{03523884332e0d684d4d969d5c1692fe}
+      \strng{authorfullhashraw}{03523884332e0d684d4d969d5c1692fe}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Consultado a través de Internet Archive}
+      \field{title}{History of Library Automation}
+      \field{urlday}{12}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2014}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://web.archive.org/web/20140628181055/http://www.librarytechnology.org/automationhistory.pl
+      \endverb
+      \verb{url}
+      \verb https://web.archive.org/web/20140628181055/http://www.librarytechnology.org/automationhistory.pl
+      \endverb
+    \endentry
+    \entry{bwalya2017openbiblio}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=834d728f3c73e3b7b4e46705afdbe6a5}{%
+           family={Bwalya},
+           familyi={B\bibinitperiod},
+           given={Tuesday},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{834d728f3c73e3b7b4e46705afdbe6a5}
+      \strng{fullhash}{834d728f3c73e3b7b4e46705afdbe6a5}
+      \strng{fullhashraw}{834d728f3c73e3b7b4e46705afdbe6a5}
+      \strng{bibnamehash}{834d728f3c73e3b7b4e46705afdbe6a5}
+      \strng{authorbibnamehash}{834d728f3c73e3b7b4e46705afdbe6a5}
+      \strng{authornamehash}{834d728f3c73e3b7b4e46705afdbe6a5}
+      \strng{authorfullhash}{834d728f3c73e3b7b4e46705afdbe6a5}
+      \strng{authorfullhashraw}{834d728f3c73e3b7b4e46705afdbe6a5}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Balkan Libraries Union}
+      \field{number}{1}
+      \field{title}{OpenBiblio: a free and open source integrated library management system that answers small libraries' automation needs}
+      \field{urlday}{17}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{volume}{5}
+      \field{year}{2017}
+      \field{urldateera}{ce}
+      \field{pages}{35\bibrangedash 42}
+      \range{pages}{8}
+      \verb{urlraw}
+      \verb http://eprints.rclis.org/39362/
+      \endverb
+      \verb{url}
+      \verb http://eprints.rclis.org/39362/
+      \endverb
+    \endentry
+    \entry{cano2021psb}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=67213be8b9e0132b91deeca072bdd735}{%
+           family={Cano\bibnamedelima López},
+           familyi={C\bibinitperiod\bibinitdelim L\bibinitperiod},
+           given={Sandra},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Universidad de Granada}%
+      }
+      \list{location}{1}{%
+        {Granada}%
+      }
+      \strng{namehash}{67213be8b9e0132b91deeca072bdd735}
+      \strng{fullhash}{67213be8b9e0132b91deeca072bdd735}
+      \strng{fullhashraw}{67213be8b9e0132b91deeca072bdd735}
+      \strng{bibnamehash}{67213be8b9e0132b91deeca072bdd735}
+      \strng{authorbibnamehash}{67213be8b9e0132b91deeca072bdd735}
+      \strng{authornamehash}{67213be8b9e0132b91deeca072bdd735}
+      \strng{authorfullhash}{67213be8b9e0132b91deeca072bdd735}
+      \strng{authorfullhashraw}{67213be8b9e0132b91deeca072bdd735}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Las plataformas de servicios bibliotecarios ({PSB}) frente a los {Sistemas Integrados de Gestión de Bibliotecas} ({SIGB}): propuesta de un modelo de evaluación}
+      \field{type}{Trabajo Fin de Grado}
+      \field{urlday}{21}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2021}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://fcd.ugr.es/sites/centros/fcd/public/2021-07/TFG-Sandra%20Cano%20L%C3%B3pez%20%282%29.pdf
+      \endverb
+      \verb{url}
+      \verb https://fcd.ugr.es/sites/centros/fcd/public/2021-07/TFG-Sandra%20Cano%20L%C3%B3pez%20%282%29.pdf
+      \endverb
+    \endentry
+    \entry{koha_zenodo2025}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=322c0dd7a18c2969a9b7d4765dc56540}{%
+           family={Community},
+           familyi={C\bibinitperiod},
+           given={Koha},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{322c0dd7a18c2969a9b7d4765dc56540}
+      \strng{fullhash}{322c0dd7a18c2969a9b7d4765dc56540}
+      \strng{fullhashraw}{322c0dd7a18c2969a9b7d4765dc56540}
+      \strng{bibnamehash}{322c0dd7a18c2969a9b7d4765dc56540}
+      \strng{authorbibnamehash}{322c0dd7a18c2969a9b7d4765dc56540}
+      \strng{authornamehash}{322c0dd7a18c2969a9b7d4765dc56540}
+      \strng{authorfullhash}{322c0dd7a18c2969a9b7d4765dc56540}
+      \strng{authorfullhashraw}{322c0dd7a18c2969a9b7d4765dc56540}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{30}
+      \field{month}{4}
+      \field{title}{Koha: An Open Source Library Management Software}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://zenodo.org/records/15544380
+      \endverb
+      \verb{url}
+      \verb https://zenodo.org/records/15544380
+      \endverb
+    \endentry
+    \entry{exlibris_alma_platform}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=5c2b26ae494c207e55638cfeaec53727}{%
+           family={{Ex Libris}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Clarivate}%
+      }
+      \strng{namehash}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{fullhash}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{fullhashraw}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{bibnamehash}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{authorbibnamehash}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{authornamehash}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{authorfullhash}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{authorfullhashraw}{5c2b26ae494c207e55638cfeaec53727}
+      \field{extraname}{1}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{8}
+      \field{month}{5}
+      \field{title}{Alma Library Management System}
+      \field{urlday}{15}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://exlibrisgroup.com/products/alma-library-services-platform/
+      \endverb
+      \verb{url}
+      \verb https://exlibrisgroup.com/products/alma-library-services-platform/
+      \endverb
+    \endentry
+    \entry{exlibris_alma_roadmap2026}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=5c2b26ae494c207e55638cfeaec53727}{%
+           family={{Ex Libris}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Clarivate}%
+      }
+      \strng{namehash}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{fullhash}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{fullhashraw}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{bibnamehash}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{authorbibnamehash}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{authornamehash}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{authorfullhash}{5c2b26ae494c207e55638cfeaec53727}
+      \strng{authorfullhashraw}{5c2b26ae494c207e55638cfeaec53727}
+      \field{extraname}{2}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{25}
+      \field{month}{2}
+      \field{title}{Ex Libris Updates the Alma Roadmap for 2026}
+      \field{urlday}{15}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://exlibrisgroup.com/announcement/alma-2026-roadmap-sets-a-strategic-direction-for-the-future/
+      \endverb
+      \verb{url}
+      \verb https://exlibrisgroup.com/announcement/alma-2026-roadmap-sets-a-strategic-direction-for-the-future/
+      \endverb
+    \endentry
+    \entry{helibtech}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=9be080c7e6eff0bfa1450ea8903da9a6}{%
+           family={{HELibTech}},
+           familyi={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{9be080c7e6eff0bfa1450ea8903da9a6}
+      \strng{fullhash}{9be080c7e6eff0bfa1450ea8903da9a6}
+      \strng{fullhashraw}{9be080c7e6eff0bfa1450ea8903da9a6}
+      \strng{bibnamehash}{9be080c7e6eff0bfa1450ea8903da9a6}
+      \strng{authorbibnamehash}{9be080c7e6eff0bfa1450ea8903da9a6}
+      \strng{authornamehash}{9be080c7e6eff0bfa1450ea8903da9a6}
+      \strng{authorfullhash}{9be080c7e6eff0bfa1450ea8903da9a6}
+      \strng{authorfullhashraw}{9be080c7e6eff0bfa1450ea8903da9a6}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Recurso comunitario de acceso abierto}
+      \field{title}{Higher Education Library Technology}
+      \field{urlday}{14}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb http://helibtech.com
+      \endverb
+      \verb{url}
+      \verb http://helibtech.com
+      \endverb
+    \endentry
+    \entry{jisc2008}{report}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=3b6c64109767844e12f16f1ff4956689}{%
+           family={{JISC}},
+           familyi={J\bibinitperiod}}}%
+        {{un=0,uniquepart=base,hash=aba170b572a7c5d5e6a58662645031d5}{%
+           family={{SCONUL}},
+           familyi={S\bibinitperiod}}}%
+      }
+      \list{institution}{2}{%
+        {JISC}%
+        {SCONUL}%
+      }
+      \strng{namehash}{e2abc8d9758757162c8e3a0e2fd3e785}
+      \strng{fullhash}{e2abc8d9758757162c8e3a0e2fd3e785}
+      \strng{fullhashraw}{e2abc8d9758757162c8e3a0e2fd3e785}
+      \strng{bibnamehash}{e2abc8d9758757162c8e3a0e2fd3e785}
+      \strng{authorbibnamehash}{e2abc8d9758757162c8e3a0e2fd3e785}
+      \strng{authornamehash}{e2abc8d9758757162c8e3a0e2fd3e785}
+      \strng{authorfullhash}{e2abc8d9758757162c8e3a0e2fd3e785}
+      \strng{authorfullhashraw}{e2abc8d9758757162c8e3a0e2fd3e785}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Consultado a través de Internet Archive}
+      \field{title}{Library Management Systems Study: An evaluation and horizon scan of the current library management systems and related systems landscape for {UK} Higher Education}
+      \field{type}{techreport}
+      \field{urlday}{12}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2008}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://web.archive.org/web/20120703000000/http://www.jisc.ac.uk/media/documents/programmes/resourcediscovery/lmsstudy.pdf
+      \endverb
+      \verb{url}
+      \verb https://web.archive.org/web/20120703000000/http://www.jisc.ac.uk/media/documents/programmes/resourcediscovery/lmsstudy.pdf
+      \endverb
+    \endentry
+    \entry{koha_sourceforge2026}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=9228751afc0cf546ebee352e47a87332}{%
+           family={{Koha Library Management System Wiki}},
+           familyi={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{9228751afc0cf546ebee352e47a87332}
+      \strng{fullhash}{9228751afc0cf546ebee352e47a87332}
+      \strng{fullhashraw}{9228751afc0cf546ebee352e47a87332}
+      \strng{bibnamehash}{9228751afc0cf546ebee352e47a87332}
+      \strng{authorbibnamehash}{9228751afc0cf546ebee352e47a87332}
+      \strng{authornamehash}{9228751afc0cf546ebee352e47a87332}
+      \strng{authorfullhash}{9228751afc0cf546ebee352e47a87332}
+      \strng{authorfullhashraw}{9228751afc0cf546ebee352e47a87332}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{System Requirements}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://sourceforge.net/p/koha-library-management-system/wiki/Home/
+      \endverb
+      \verb{url}
+      \verb https://sourceforge.net/p/koha-library-management-system/wiki/Home/
+      \endverb
+    \endentry
+    \entry{koha_kohasupport2025}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=735a5d9a2f1f08e6ce9f99d82ddb19a2}{%
+           family={{KohaSupport}},
+           familyi={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{735a5d9a2f1f08e6ce9f99d82ddb19a2}
+      \strng{fullhash}{735a5d9a2f1f08e6ce9f99d82ddb19a2}
+      \strng{fullhashraw}{735a5d9a2f1f08e6ce9f99d82ddb19a2}
+      \strng{bibnamehash}{735a5d9a2f1f08e6ce9f99d82ddb19a2}
+      \strng{authorbibnamehash}{735a5d9a2f1f08e6ce9f99d82ddb19a2}
+      \strng{authornamehash}{735a5d9a2f1f08e6ce9f99d82ddb19a2}
+      \strng{authorfullhash}{735a5d9a2f1f08e6ce9f99d82ddb19a2}
+      \strng{authorfullhashraw}{735a5d9a2f1f08e6ce9f99d82ddb19a2}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{7}
+      \field{month}{5}
+      \field{title}{Koha vs Evergreen: Which Open-Source ILS Is Right for Your Library?}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://kohasupport.com/knowledge-base/koha-vs-evergreen/
+      \endverb
+      \verb{url}
+      \verb https://kohasupport.com/knowledge-base/koha-vs-evergreen/
+      \endverb
+    \endentry
+    \entry{koha_librarytechnology_ruskin2026}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=cc6c00cf7944b8928fa510eec2f38d17}{%
+           family={{Library Technology Guides}},
+           familyi={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{cc6c00cf7944b8928fa510eec2f38d17}
+      \strng{fullhash}{cc6c00cf7944b8928fa510eec2f38d17}
+      \strng{fullhashraw}{cc6c00cf7944b8928fa510eec2f38d17}
+      \strng{bibnamehash}{cc6c00cf7944b8928fa510eec2f38d17}
+      \strng{authorbibnamehash}{cc6c00cf7944b8928fa510eec2f38d17}
+      \strng{authornamehash}{cc6c00cf7944b8928fa510eec2f38d17}
+      \strng{authorfullhash}{cc6c00cf7944b8928fa510eec2f38d17}
+      \strng{authorfullhashraw}{cc6c00cf7944b8928fa510eec2f38d17}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{9}
+      \field{month}{9}
+      \field{title}{Ruskin Mill Trust chooses Koha open source library management system, hosted and supported by Open Fifth}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://librarytechnology.org/pr/32912/
+      \endverb
+      \verb{url}
+      \verb https://librarytechnology.org/pr/32912/
+      \endverb
+    \endentry
+    \entry{oclc_wms_platform}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=c9d6271152fbb91d48df5d1f65fcff26}{%
+           family={{OCLC}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {OCLC}%
+      }
+      \strng{namehash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{fullhash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{fullhashraw}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{bibnamehash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{authorbibnamehash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{authornamehash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{authorfullhash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{authorfullhashraw}{c9d6271152fbb91d48df5d1f65fcff26}
+      \field{extraname}{1}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{12}
+      \field{month}{12}
+      \field{title}{WorldShare Management Services (WMS): A fully integrated library services platform designed to meet the changing needs of modern libraries}
+      \field{urlday}{15}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.oclc.org/en/worldshare-management-services.html
+      \endverb
+      \verb{url}
+      \verb https://www.oclc.org/en/worldshare-management-services.html
+      \endverb
+    \endentry
+    \entry{oclc_48nuevas2026}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=c9d6271152fbb91d48df5d1f65fcff26}{%
+           family={{OCLC}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {OCLC}%
+      }
+      \strng{namehash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{fullhash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{fullhashraw}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{bibnamehash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{authorbibnamehash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{authornamehash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{authorfullhash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{authorfullhashraw}{c9d6271152fbb91d48df5d1f65fcff26}
+      \field{extraname}{2}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{24}
+      \field{month}{6}
+      \field{title}{48 nuevas bibliotecas se unen a la comunidad de Servicios de Administración WorldShare de OCLC}
+      \field{urlday}{15}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.oclc.org/es/news/releases/2026/20260624-48-new-wms-libraries.html
+      \endverb
+      \verb{url}
+      \verb https://www.oclc.org/es/news/releases/2026/20260624-48-new-wms-libraries.html
+      \endverb
+    \endentry
+    \entry{oclc_odu2026}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=c9d6271152fbb91d48df5d1f65fcff26}{%
+           family={{OCLC}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {OCLC}%
+      }
+      \strng{namehash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{fullhash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{fullhashraw}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{bibnamehash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{authorbibnamehash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{authornamehash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{authorfullhash}{c9d6271152fbb91d48df5d1f65fcff26}
+      \strng{authorfullhashraw}{c9d6271152fbb91d48df5d1f65fcff26}
+      \field{extraname}{3}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{18}
+      \field{month}{5}
+      \field{title}{La Old Dominion University elige los Servicios de Administración WorldShare de OCLC como su plataforma de servicios bibliotecarios}
+      \field{urlday}{15}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.oclc.org/es/news/releases/2026/20260518-old-dominion-university-selects-wms.html
+      \endverb
+      \verb{url}
+      \verb https://www.oclc.org/es/news/releases/2026/20260518-old-dominion-university-selects-wms.html
+      \endverb
+    \endentry
+    \entry{openbiblio_docs}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a54df165a8bf0aef29814e82f8c00c59}{%
+           family={{OpenBiblio Community}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{a54df165a8bf0aef29814e82f8c00c59}
+      \strng{fullhash}{a54df165a8bf0aef29814e82f8c00c59}
+      \strng{fullhashraw}{a54df165a8bf0aef29814e82f8c00c59}
+      \strng{bibnamehash}{a54df165a8bf0aef29814e82f8c00c59}
+      \strng{authorbibnamehash}{a54df165a8bf0aef29814e82f8c00c59}
+      \strng{authornamehash}{a54df165a8bf0aef29814e82f8c00c59}
+      \strng{authorfullhash}{a54df165a8bf0aef29814e82f8c00c59}
+      \strng{authorfullhashraw}{a54df165a8bf0aef29814e82f8c00c59}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{OpenBiblio Documentation}
+      \field{urlday}{17}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2017}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb http://openbiblio.github.io/openbiblio_docs/root.pdf
+      \endverb
+      \verb{url}
+      \verb http://openbiblio.github.io/openbiblio_docs/root.pdf
+      \endverb
+    \endentry
+    \entry{vimalkumar2005}{presentation}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=f3f0f4b779a93863ea51154667d201a6}{%
+           family={Vimal\bibnamedelima Kumar},
+           familyi={V\bibinitperiod\bibinitdelim K\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{f3f0f4b779a93863ea51154667d201a6}
+      \strng{fullhash}{f3f0f4b779a93863ea51154667d201a6}
+      \strng{fullhashraw}{f3f0f4b779a93863ea51154667d201a6}
+      \strng{bibnamehash}{f3f0f4b779a93863ea51154667d201a6}
+      \strng{authorbibnamehash}{f3f0f4b779a93863ea51154667d201a6}
+      \strng{authornamehash}{f3f0f4b779a93863ea51154667d201a6}
+      \strng{authorfullhash}{f3f0f4b779a93863ea51154667d201a6}
+      \strng{authorfullhashraw}{f3f0f4b779a93863ea51154667d201a6}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Free/Open source integrated library management systems: comparative analysis of Koha, PHPMyLibrary and OpenBiblio}
+      \field{urlday}{17}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2005}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://searchworks.stanford.edu/articles/edseli__edseli.8578
+      \endverb
+      \verb{url}
+      \verb https://searchworks.stanford.edu/articles/edseli__edseli.8578
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

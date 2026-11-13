@@ -1,0 +1,74 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[a4paper,portrait,margin=2cm]{geometry}
+\usepackage{longtable}
+\usepackage{array}
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt}
+\renewcommand{\arraystretch}{1.2}
+
+\begin{document}
+\small
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}p{12.2cm}|}
+\hline
+\textbf{ID del requisito} & \textbf{Descripción} \\
+\hline
+\endfirsthead
+\hline
+\textbf{ID del requisito} & \textbf{Descripción} \\
+\hline
+\endhead
+RU-01 & El visitante debe poder consultar el catálogo público de obras de la biblioteca. \\
+\hline
+RU-02 & El usuario debe poder buscar obras por título, nombre o apellidos del autor y signatura, filtrar los resultados por tipo de obra y recorrerlos de forma paginada. \\
+\hline
+RU-03 & El usuario debe poder consultar la ficha de una obra, con sus datos bibliográficos, autores, ejemplares registrados y disponibilidad de cada ejemplar. \\
+\hline
+RU-04 & El usuario debe poder consultar el listado de autores, buscar autores por nombre o apellidos y ver la ficha de un autor con sus obras. \\
+\hline
+RU-05 & El visitante debe poder crear una cuenta de socio indicando sus datos personales y credenciales, y acceder a su cuenta al completar el registro. \\
+\hline
+RU-06 & El usuario debe poder iniciar y cerrar sesión en la aplicación. \\
+\hline
+RU-07 & El usuario debe poder solicitar la recuperación de su contraseña y cambiar la contraseña de su cuenta. \\
+\hline
+RU-08 & El usuario autenticado debe poder consultar su perfil y sus datos de cuenta; el socio también debe poder consultar sus préstamos activos, vencimientos y estado de penalización. \\
+\hline
+RU-09 & El usuario autenticado debe poder modificar sus datos personales. El bibliotecario debe poder modificar también su turno de trabajo. \\
+\hline
+RU-10 & El socio debe poder solicitar la baja y eliminación de su propia cuenta. \\
+\hline
+RU-11 & El bibliotecario o administrador debe poder dar de alta socios; solo el administrador debe poder crear cuentas de bibliotecario. \\
+\hline
+RU-12 & El bibliotecario o administrador debe poder consultar, buscar y ver el detalle de los usuarios registrados. \\
+\hline
+RU-13 & El bibliotecario debe poder editar únicamente cuentas de socios; el administrador debe poder editar cualquier cuenta. \\
+\hline
+RU-14 & El bibliotecario debe poder eliminar cuentas de socios y el administrador cualquier cuenta, excepto la cuenta con la que ha iniciado sesión el propio operador. \\
+\hline
+RU-15 & El bibliotecario o administrador debe poder registrar obras de tipo libro, revista, periódico o grabación, indicando sus datos específicos y asociando uno o varios autores. \\
+\hline
+RU-16 & Durante el registro de obras, el bibliotecario o administrador debe poder buscar y crear autores y, cuando corresponda, editoriales y productoras. \\
+\hline
+RU-17 & El bibliotecario o administrador debe poder añadir ejemplares a una obra existente. \\
+\hline
+RU-18 & El sistema debe mostrar para cada ejemplar si está disponible o prestado y permitir al personal bibliotecario gestionar las acciones que correspondan a su estado. \\
+\hline
+RU-19 & El bibliotecario o administrador debe poder registrar el préstamo de un ejemplar disponible a un socio que no esté penalizado y cumpla los límites de préstamo. \\
+\hline
+RU-20 & El sistema debe asignar al préstamo un plazo inicial de 20 días y limitar los préstamos activos por socio a 3 libros, 2 grabaciones y 1 revista. Estos valores deben poder ajustarse mediante configuración. \\
+\hline
+RU-21 & El sistema no debe permitir el préstamo de periódicos ni el de revistas publicadas hace menos de 30 días. \\
+\hline
+RU-22 & El bibliotecario o administrador debe poder registrar la devolución de un préstamo activo. Si se devuelve fuera de plazo, el sistema debe aplicar la penalización correspondiente y reflejar si quedan otros préstamos vencidos sin devolver. \\
+\hline
+RU-23 & El sistema debe impedir que un socio penalizado solicite préstamos. La penalización debe ser temporal tras devolver tarde el último préstamo vencido pendiente, e indefinida mientras quede alguno vencido sin devolver; la duración del castigo temporal debe ser configurable. \\
+\hline
+RU-24 & El socio debe poder solicitar una prórroga de sus propios préstamos activos, y el bibliotecario o administrador debe poder hacerlo en nombre de un socio. No se debe permitir prorrogar préstamos devueltos, vencidos o pertenecientes a socios penalizados. \\
+\hline
+RU-25 & Cada préstamo debe permitir hasta 3 prórrogas, que amplían el vencimiento en 5 días cada una; el número de prórrogas y su duración deben poder ajustarse mediante configuración. \\
+\hline
+\end{longtable}
+\end{document}

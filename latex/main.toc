@@ -1,0 +1,51 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {chapter}{\numberline {1}Introducción}{7}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Estructura del documento (COMPLETAR CUANDO ESTÉ LA DOCUMENTACIÓN)}{7}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Prólogo}{7}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Motivación}{8}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Objetivos generales del trabajo}{8}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Alcance de la aplicación}{9}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Alcance del producto: funcionalidades incluidas}{10}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Fuera del alcance: funcionalidades excluidas}{11}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.5.3}Alcance del proyecto: condicionantes}{11}{subsection.1.5.3}%
+\contentsline {subsection}{\numberline {1.5.4}Definición de siglas y abreviaturas}{12}{subsection.1.5.4}%
+\contentsline {chapter}{\numberline {2}Contexto del proyecto}{14}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Antecedentes: evolución histórica de los sistemas de gestión bibliotecaria}{14}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Estado del arte}{16}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Alma}{17}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}WorldShare Management Services}{18}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Koha}{18}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}OpenBiblio}{19}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Tabla comparativa}{20}{subsection.2.2.5}%
+\contentsline {section}{\numberline {2.3}Tecnologías utilizadas}{22}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Backend}{22}{subsection.2.3.1}%
+\contentsline {subsubsection}{Django}{22}{section*.4}%
+\contentsline {subsection}{\numberline {2.3.2}Base de datos}{22}{subsection.2.3.2}%
+\contentsline {subsubsection}{PostgreSQL}{22}{section*.5}%
+\contentsline {subsection}{\numberline {2.3.3}Herramientas de desarrollo}{23}{subsection.2.3.3}%
+\contentsline {subsubsection}{Visual Studio Code}{23}{section*.6}%
+\contentsline {subsubsection}{Docker}{23}{section*.7}%
+\contentsline {subsubsection}{Git y GitHub}{24}{section*.8}%
+\contentsline {subsubsection}{pgAdmin}{25}{section*.9}%
+\contentsline {subsection}{\numberline {2.3.4}Documentación}{25}{subsection.2.3.4}%
+\contentsline {subsubsection}{LaTeX}{25}{section*.10}%
+\contentsline {subsubsection}{TeXstudio}{26}{section*.11}%
+\contentsline {subsubsection}{draw.io}{26}{section*.12}%
+\contentsline {chapter}{\numberline {3}Planificación}{28}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Metodología de trabajo}{28}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Estimación del esfuerzo}{29}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Planificación temporal}{30}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Planificación temporal inicial}{30}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Seguimiento del proyecto}{30}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Presupuesto económico}{30}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Comparativa entre modelos de estimación}{30}{subsection.3.4.1}%
+\contentsline {section}{\numberline {3.5}Balance final}{30}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Análisis}{31}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Actores del sistema}{31}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Requisitos de usuario}{32}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Casos de uso}{32}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Dominio de aplicación}{39}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Objetivos del trabajo}{39}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Condiciones técnicas}{44}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Alcance y limitaciones}{44}{section.4.7}%
+\contentsline {chapter}{Bibliografía}{45}{chapter*.4}%
