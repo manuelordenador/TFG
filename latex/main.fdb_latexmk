@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber main"] 1793758048.7422 "main.bcf" "main.bbl" "main" 1794587841.78653 0
-  "main.bcf" 1794587841 108679 9d55c839806b4a194b22acdd903ec8a2 "pdflatex"
+["biber main"] 1794662537.91311 "main.bcf" "main.bbl" "main" 1794663161.20776 0
+  "main.bcf" 1794663160 108679 9d55c839806b4a194b22acdd903ec8a2 "pdflatex"
   "referencias.bib" 1793758018 7223 e850f7154e165b6491eae48b889f3b09 ""
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1794587838.85765 "main.tex" "main.pdf" "main" 1794587841.78742 0
+["pdflatex"] 1794663157.4968 "main.tex" "main.pdf" "main" 1794663161.21041 0
   "C:/Users/marti/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1792496329 83609 ebbc432e6cbbb238d39535255db2c8bd ""
   "C:/Users/marti/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx1095.pk" 1789607755 28976 50d92ac89511c0b777a11f31e8069991 ""
   "C:/Users/marti/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx1200.pk" 1779619823 31952 2ef71988565e11be484ba99765363b1e ""
@@ -207,24 +207,25 @@
   "C:/Users/marti/AppData/Local/Programs/MiKTeX/tex/latex/tools/tabularx.sty" 1780057721 7243 98a9e0737a56460d15d6b41be1ecc3b8 ""
   "C:/Users/marti/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/marti/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "capitulo1.aux" 1792678444 6196 bce448c8c693cce6efb3fb90899cfa38 ""
+  "capitulo1.aux" 0 -1 0 ""
   "capitulo1.tex" 1792406362 17193 e6254d5478d6e24a3cf0523a36e81bec ""
-  "capitulo2.aux" 1792678303 9657 4da0339c637be48b95e45f65bf678748 ""
+  "capitulo2.aux" 0 -1 0 ""
   "capitulo2.tex" 1791966234 34176 5d494fb1390910f8170ec44fb5256924 ""
-  "capitulo3.aux" 1792678764 5280 6b5f0f77417313ec754b0daa0cc76219 ""
+  "capitulo3.aux" 0 -1 0 ""
   "capitulo3.tex" 1792492599 8844 7a7dd2e88c9bcff8855fc3232ed0ad23 ""
-  "capitulo4.aux" 1794587841 7182 19ff80c08c745119d328917d550da804 "pdflatex"
-  "capitulo4.tex" 1794587836 31581 8a27d495f8f636c25688a74a9d9401cb ""
+  "capitulo4.aux" 1794663160 7437 fc21d80644d0b2c8fcda045378355667 "pdflatex"
+  "capitulo4.tex" 1794663156 31781 7dd1a475a413f5fae04eba37548ed029 ""
   "imagenes/UVA.png" 1434386486 212049 1ec1d9157cee07a34fc59e7ffa92d1da ""
   "imagenes/actores.png" 1793756599 80524 51028d7039cf336e4e0c14615c3cea93 ""
-  "main.aux" 1794587841 942 36db63428028c22866183e96adecca20 "pdflatex"
-  "main.bbl" 1793758069 2203 b92687c01cb2f103496ba2d7f41107ab "biber main"
-  "main.lof" 1794587841 1612 3ea814583065666a3144c750c534c023 "pdflatex"
-  "main.lot" 1794587841 1390 e918dad272cdd4fa92ebf4cc6d43f51d "pdflatex"
-  "main.out" 1794587841 1305 bb50b112d41a3865145abf51b8d3ca16 "pdflatex"
-  "main.run.xml" 1794587841 2312 2b4bb592e2635d6e5d324f407234fce9 "pdflatex"
+  "imagenes/casos_uso.png" 1794661852 228647 28fcea757696c65025f20bf0686c08f5 ""
+  "main.aux" 1794663160 939 6cb50ef7920261d419e8de89acbe85a8 "pdflatex"
+  "main.bbl" 1794662559 2203 b92687c01cb2f103496ba2d7f41107ab "biber main"
+  "main.lof" 1794663160 261 680a8115db08baf656a5121e365f5ca5 "pdflatex"
+  "main.lot" 1794663160 944 2fe48a52f94d663b2cc023a6e34f2399 "pdflatex"
+  "main.out" 1794663160 1296 9d171254a9df925acd71988224da44f8 "pdflatex"
+  "main.run.xml" 1794663160 2312 2b4bb592e2635d6e5d324f407234fce9 "pdflatex"
   "main.tex" 1794576674 3668 8b4e39b5f91d24342dd1a9dd855ead94 ""
-  "main.toc" 1794587841 4128 50126c1eb1687ffd5ad77c95f5edc566 "pdflatex"
+  "main.toc" 1794663160 713 84a347d16ddd610dfcb30ea4a9e22c59 "pdflatex"
   (generated)
   "capitulo4.aux"
   "main.aux"
