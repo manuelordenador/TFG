@@ -1,5 +1,171 @@
 \chapter{Análisis}
-En este capítulo se analizan los requisitos del sistema que se va a desarrollar, es decir, las condiciones y capacidades que Liber debe satisfacer para cubrir las necesidades de las bibliotecas a las que se orienta. Se abordan tanto los requisitos funcionales (las operaciones que el sistema debe ser capaz de realizar) como los requisitos no funcionales, entre los que se incluyen los relativos a la interfaz de usuario, información gestionada, seguridad y restricciones de despliegue. Al haberse desarrollado iterativamente, se incluyen tanto los requisitos del prototipo inicial como los añadidos posteriormente. Asimismo, se especifican las condiciones de contorno del proyecto: la aplicación se concibe como un sistema multiplataforma accesible desde cualquier navegador \textit{web}, concebido en español y sin restricciones de uso, dado que se libera bajo licencia GPL y se orienta a una gran diversidad de instituciones. Para una descripción ordenada y comprensible de los requisitos, se emplean los denominados casos de uso, que permiten estructurar el análisis en torno a la identificación de los actores que interactúan con el sistema y las tareas que cada uno de ellos desempeña. Así se facilita la trazabilidad entre las necesidades detectadas, los objetivos definidos en el capítulo anterior y los criterios de aceptación que se emplearán en la fase de pruebas.
+En este capítulo se detalla el análisis del sistema que supone Liber; el conjunto de 
+condiciones y capacidades que la aplicación debe satisfacer para cubrir las necesidades de las bibliotecas a las que se orienta. Este análisis conforma el puente entre las necesidades detectadas en las fases iniciales del proyecto y el diseño técnico que se abordará en capítulos posteriores. Al haberse empleado una metodología iterativa e incremental, el análisis no se ha limitado a un prototipo inicial, sino que ha ido evolucionando y enriqueciéndose con los requisitos añadidos y refinados a lo largo de las distintas iteraciones.
+
+El capítulo se estructura en varias secciones complementarias. En primer lugar, se presentan los objetivos del trabajo y sus criterios de aceptación, que sirven como marco de referencia para verificar el éxito del proyecto. A continuación, se definen los actores que interactúan con el sistema, identificando sus roles y responsabilidades. Ya establecido el contexto, se especifican las funcionalidades a través de dos herramientas ampliamente extendidas en la ingeniería del software: los casos de uso, que ofrecen una visión estructurada de las interacciones entre actores y sistema, y las historias de usuario, que complementan esa visión aportando la perspectiva del usuario final y el valor que espera obtener. Esta doble aproximación facilita, por un lado, la descomposición del alcance funcional en unidades manejables y, por otro, la trazabilidad entre las necesidades detectadas, los objetivos definidos y los criterios de aceptación que se emplearán en la fase de pruebas.
+
+Finalmente, el capítulo concluye con la especificación de los requisitos del sistema, clasificados en funcionales, no funcionales y de información. Los requisitos no funcionales recogen las restricciones de calidad, seguridad y despliegue que condicionan la arquitectura del sistema, mientras que los requisitos de información definen los datos que la aplicación debe almacenar y gestionar, sirviendo de base para el modelo de datos que se desarrollará en el capítulo de diseño. Asimismo, se especifican las condiciones de contorno del proyecto: la aplicación se concibe como un sistema multiplataforma accesible desde cualquier navegador \textit{web}, concebido inicialmente en español y sin restricciones de uso, dado que se libera bajo licencia GPL y se orienta a una gran diversidad de instituciones.
+
+\section{Objetivos del trabajo}
+
+Al estar tratando con proyecto de estas dimensiones, se hace necesaria una planificación estructurada a seguir para marcar tanto los plazos a cumplir como las restricciones y casos de uso específicos a tener en cuenta.	
+
+\begin{table}[H]
+	\centering
+	\caption{Criterios de aceptación para el objetivo general OBJ-01.}
+	\label{tab:criterios_aceptacion_normal01}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\textbf{ID C.A.} & 
+		\begin{minipage}[t]{\linewidth}
+			\textbf{ID Objetivo asociado: OBJ-01} \\[2pt]
+			\rule{\linewidth}{0.4pt} \\[2pt]
+			\textbf{Descripción Criterio de Aceptación}
+		\end{minipage} \\
+		\midrule
+		\textbf{CA-01} & El sistema debe permitir el alta, modificación, consulta y baja (CRUD) de Obras intelectuales, almacenando de forma obligatoria su título y signatura. \\
+		\addlinespace
+		\textbf{CA-02} & El sistema debe permitir la creación de Ejemplares físicos asociados obligatoriamente a una Obra preexistente, permitiendo marcar su estado de disponibilidad. \\
+		\addlinespace
+		\textbf{CA-03} & La aplicación debe gestionar correctamente la especialización de los ejemplares (Libros, Revistas, Periódicos y Grabaciones) cargando dinámicamente sus atributos específicos en la base de datos. \\
+		\addlinespace
+		\textbf{CA-04} & El catálogo debe soportar la relación de coautoría (relación N:M), permitiendo que una misma Obra sea vinculada a uno o varios Autores simultáneamente. \\
+		\addlinespace
+		\textbf{CA-05} & La interfaz del catálogo debe permitir a los usuarios realizar búsquedas funcionales y filtrados de los ejemplares empleando la interactividad en el frontal propia de Django. \\
+		\addlinespace
+		\textbf{CA-06} & El sistema debe validar a nivel de formulario y de base de datos que los identificadores estándar del catálogo (como el ISBN o el EAN) mantengan su propiedad de unicidad para garantizar la integridad de la información. \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\caption{Criterios de aceptación para el objetivo general OBJ-02.}
+	\label{tab:criterios_aceptacion_normal02}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\textbf{ID C.A.} & 
+		\begin{minipage}[t]{\linewidth}
+			\textbf{ID Objetivo asociado: OBJ-02} \\[2pt]
+			\rule{\linewidth}{0.4pt} \\[2pt]
+			\textbf{Descripción Criterio de Aceptación}
+		\end{minipage} \\
+		\midrule
+		\textbf{CA-01} & El sistema debe implementar un único modelo de base de datos centralizado para la entidad usuario que almacene obligatoriamente el nombre, los apellidos, una contraseña cifrada y un correo electrónico único que actúe como credencial de inicio de sesión. \\
+		\addlinespace
+		\textbf{CA-02} & El sistema debe permitir el acceso específico de los socios, validando que posean un número identificativo único y bloqueando automáticamente sus privilegios de reserva o préstamo en caso de que consten como penalizados en la base de datos. \\
+		\addlinespace
+		\textbf{CA-03} & La interfaz y los formularios para los bibliotecarios deben permitir, de manera exclusiva, la gestión ordinaria del catálogo y el registro de las transacciones de préstamo, validando su identidad mediante unas credenciales de acceso. \\
+		\addlinespace
+		\textbf{CA-04} & El rol de ADMINISTRADOR debe disponer de acceso total e irrestricto a través del panel de control de Django para realizar operaciones CRUD completas sobre cualquier tabla o registro de la infraestructura. \\
+		\addlinespace
+		\textbf{CA-05} & El backend debe denegar el acceso a rutas protegidas mediante un sistema de control de permisos (middleware), redirigiendo al usuario a la pantalla de inicio de sesión si intenta forzar manualmente URLs no autorizadas para su rol. \\
+		\addlinespace
+		\textbf{CA-06} & El sistema debe garantizar que las contraseñas de los usuarios nunca se almacenen en texto plano dentro de la base de datos PostgreSQL, delegando en el framework el cifrado automático mediante algoritmos de hash seguros. \\
+		\bottomrule
+	\end{tabularx}	
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\caption{Criterios de aceptación para el objetivo general OBJ-3.}
+	\label{tab:criterios_aceptacion_normal03}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\textbf{ID C.A.} & 
+		\begin{minipage}[t]{\linewidth}
+			\textbf{ID Objetivo asociado: OBJ-3} \\[2pt]
+			\rule{\linewidth}{0.4pt} \\[2pt]
+			\textbf{Descripción Criterio de Aceptación}
+		\end{minipage} \\
+		\midrule
+		\textbf{CA-01} & El sistema debe registrar automáticamente la transacción en la tabla de préstamos en el momento en que un bibliotecario la gestione, asignando la fecha actual a la fecha de inicio del préstamo. \\
+		\addlinespace
+		\textbf{CA-02} & La aplicación debe calcular de forma automática la fecha límite de devolución sumando el número de días estipulado por la política de la biblioteca a partir de la fecha de inicio de la transacción. \\
+		\addlinespace
+		\textbf{CA-03} & El sistema debe permitir la gestión de prórrogas antes de que termine el plazo del préstamo, verificando que el registro cuente con un número de prórrogas restantes mayor que cero, actualizando la fecha de la prórroga con la marca de tiempo actual y extendiendo la fecha de fin de manera proporcional. \\
+		\addlinespace
+		\textbf{CA-04} & Al solicitarse una prórroga válida, el backend debe descontar automáticamente en una unidad el contador de prórrogas disponibles para ese préstamo específico en la base de datos. \\
+		\addlinespace
+		\textbf{CA-05} & En el momento de la entrega física del recurso, el sistema debe registrar la fecha del día exacto en el campo de devolución. Si esta fecha es anterior o igual a la fecha límite, la transacción se considerará cerrada con éxito y el ejemplar volverá a estar disponible. \\
+		\addlinespace
+		\textbf{CA-06} & Si el sistema detecta que la devolución se realiza tarde (fecha de devolución posterior a la fecha límite), o que el plazo ha vencido sin haber devuelto el recurso, el backend debe activar de inmediato el estado de penalización del socio y registrar la fecha del bloqueo. \\
+		\bottomrule
+	\end{tabularx}	
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\caption{Criterios de aceptación para el objetivo general OBJ-4.}
+	\label{tab:criterios_aceptacion_normal04}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\textbf{ID C.A.} & 
+		\begin{minipage}[t]{\linewidth}
+			\textbf{ID Objetivo asociado: OBJ-4} \\[2pt]
+			\rule{\linewidth}{0.4pt} \\[2pt]
+			\textbf{Descripción Criterio de Aceptación}
+		\end{minipage} \\
+		\midrule
+		\textbf{CA-01} & El sistema debe disponer de un archivo Dockerfile en la parte backend que configure un entorno limpio basado en una imagen ligera de Python, instalando de forma automática todas las dependencias recolectadas en el archivo requirements.txt. \\
+		\addlinespace
+		\textbf{CA-02} & El entorno de la base de datos debe levantarse de forma aislada a través de un servicio independiente en el archivo docker-compose.yml, utilizando una imagen oficial y reciente de PostgreSQL. \\
+		\addlinespace
+		\textbf{CA-03} & El archivo docker-compose.yml debe orquestar la comunicación interna entre ambos contenedores (Django y PostgreSQL), garantizando que el contenedor web no intente arrancar hasta que el servicio de la base de datos esté completamente listo y operativo. \\
+		\addlinespace
+		\textbf{CA-04} & El contenedor de la base de datos debe implementar un volumen de Docker mapeado a la ruta de almacenamiento de PostgreSQL para asegurar la persistencia de los datos, impidiendo que el catálogo, los socios o los préstamos se borren al apagar o reiniciar los contenedores. \\
+		\addlinespace
+		\textbf{CA-05} & El sistema debe ser capaz de replicar exactamente el mismo comportamiento, rendimiento y configuración tanto al ser ejecutado en local (entorno de desarrollo) como al ser desplegado en plataformas en la nube sin necesidad de modificar el código fuente de la aplicación web. \\
+		\bottomrule
+	\end{tabularx}	
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\caption{Criterios de aceptación para el objetivo general OBJ-5.}
+	\label{tab:criterios_aceptacion_normal05}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\textbf{ID C.A.} & 
+		\begin{minipage}[t]{\linewidth}
+			\textbf{ID Objetivo asociado: OBJ-5} \\[2pt]
+			\rule{\linewidth}{0.4pt} \\[2pt]
+			\textbf{Descripción Criterio de Aceptación}
+		\end{minipage} \\
+		\midrule
+		\textbf{CA-01} & El proyecto debe incluir en su directorio raíz el archivo estandarizado LICENSE conteniendo el texto íntegro y oficial de la Licencia Pública General de GNU (GNU GPL v3), declarando formalmente el software como libre y abierto. \\
+		\addlinespace
+		\textbf{CA-02} & El código fuente de la aplicación Django debe subirse y estar disponible públicamente en una plataforma de control de versiones accesible (como GitHub o GitLab), permitiendo que cualquier usuario pueda clonar, bifurcar (fork) o descargar el repositorio sin restricciones. \\
+		\addlinespace
+		\textbf{CA-03} & Las vistas de Django, los modelos y las configuraciones de Docker deben contar con comentarios claros y documentación interna en las secciones complejas, simplificando la curva de aprendizaje para futuros miembros de la comunidad que deseen auditar o colaborar en el proyecto. \\
+		\addlinespace
+		\textbf{CA-04} & La configuración del sistema (como las claves secretas de Django o las credenciales de PostgreSQL) debe estar parametrizada mediante variables de entorno en un archivo .env.example, asegurando que cualquier usuario pueda desplegar su propia instancia de la biblioteca de forma local de manera inmediata y sin comprometer la seguridad. \\
+		\bottomrule
+	\end{tabularx}	
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\caption{Criterios de aceptación para el objetivo general OBJ-6.}
+	\label{tab:criterios_aceptacion_normal06}
+	\begin{tabularx}{\textwidth}{l X}
+		\toprule
+		\textbf{ID C.A.} & 
+		\begin{minipage}[t]{\linewidth}
+			\textbf{ID Objetivo asociado: OBJ-6} \\[2pt]
+			\rule{\linewidth}{0.4pt} \\[2pt]
+			\textbf{Descripción Criterio de Aceptación}
+		\end{minipage} \\
+		\midrule
+		\textbf{CA-01} & Demostrar la correcta aplicación de los fundamentos de ingeniería mediante el diseño e implementación del esquema lógico relacional en PostgreSQL, reflejando fielmente las restricciones de integridad y las relaciones de herencia. \\
+		\addlinespace
+		\textbf{CA-02} &  El desarrollo de la aplicación web debe evidenciar un desacoplamiento claro de responsabilidades siguiendo el patrón arquitectónico MVT (Modelo-Vista-Template) de Django, separando la lógica de acceso a datos de la lógica de presentación y de negocio. \\
+		\textbf{CA-03} & La memoria del Trabajo de Fin de Grado debe documentar con rigor de ingeniería todas las fases del ciclo de vida del desarrollo de software, incluyendo el análisis de requisitos, el modelado formal (diagramas de casos de uso y de entidad-relación) y las pruebas de validación.  \\
+		\addlinespace
+		\bottomrule
+	\end{tabularx}	
+\end{table}
+
 \section{Actores del sistema}
 Los casos de uso que se describirán en este capítulo están íntegramente determinados por los usuarios, quienes los desempeñan. Los casos de uso describen las interacciones entre los usuarios y el sistema, por lo que es primordial describir qué usuarios intervienen así como sus características.
 Se debe tener en cuenta que hay ciertos usuarios que cuyos casos de usuario son un subconjunto de los asignados a otros usuarios con más permisos de acción dentro del sistema diseñado.
@@ -17,11 +183,9 @@ Al estar ante un conjunto de casos de uso similares que en ciertos momentos son 
 	\caption{Actores del sistema}
 \end{figure}
 En el diagrama se evidencia que el actor socio tendrá acceso a los mismos casos de uso que el socio invitado, pero sumando otros casos de uso propios.
-\section{Requisitos de usuario}
-Los requisitos de usuario reflejan las expectativas que tiene cada tipo de usuario a la hora de usar la aplicación; cómo espera que la misma se comporte cuando interactúa con ella, qué quiere encontrar... Estas necesidades de interacción y comportamiento del usuario a la aplicación se puede traducir en casos de uso.
 \section{Casos de uso}
 Ya definidos los actores que van a interactuar con el sistema, se procede a introducir los casos de uso.
-Como introduce Francisco González \parencite{gonzalez2024casosuso} en los apuntes de su asignatura, un caso de uso representa una tarea o unidad coherente de funcionalidad que debe proporcionar el sistema a los actores, pudiendo participar varios actores diferentes en el mismo caso de uso. En este contexto, constituye una forma sencilla e intuitiva de documentar las funcionalidades que constituyen este sistema.
+Para dar contexto, un caso de uso representa una tarea o unidad coherente de funcionalidad que debe proporcionar el sistema a los actores, pudiendo participar varios de estos actores diferentes en el mismo caso de uso. En este contexto, constituye una forma sencilla e intuitiva de documentar las funcionalidades que constituyen este sistema.
 Se enumeran aquí los casos de uso desarrollados:
 \begin{itemize}
 	\item \textbf{CU01 -- Registrarse}
@@ -202,11 +366,11 @@ Se enumeran aquí los casos de uso desarrollados:
 \end{itemize}
 
 Para dar una representación sencilla y visual de qué usuario desempeña cada caso de uso, se ha elaborado la tabla \ref{tab:relacion_cu_actores}, que lo muestra expresamente.
-Adicionalmente, más adelante se puede encontrar un diagrama que ilustra la relación entre actores y casos de uso de una forma más visual. El lenguaje visual utilizado es \textit{UML (Unified Modeling Language)}, un estándar en la industria para modelar sistemas \textit{software} de todo tipo. Específicamente, se trata de un diagrama \textit{UML} de casos de uso, por lo que tiene sus propias reglas y elementos.
+Adicionalmente, más adelante se puede encontrar el diagrama \ref{fig:diagrama_casos_uso} que ilustra la relación entre actores y casos de uso de una forma más visual. El lenguaje visual utilizado es \textit{UML (Unified Modeling Language)}, un estándar en la industria para modelar sistemas \textit{software} de todo tipo. Específicamente, se trata de un diagrama \textit{UML} de casos de uso, por lo que tiene sus propias reglas y elementos.
 Este tipo de diagrama tiene como objetivo mostrar una vista genérica del funcionamiento del sistema elaborado a través de cómo se relacionan los actores con el mismo. Se pueden distinguir los siguientes elementos en el diagrama:
 
 \begin{itemize}
-	\item \textbf{Actores:} Representan los roles que adoptan las entidades externas (ya sean personas, sistemas hardware o software) que interactúan con la aplicación. Se representan gráficamente mediante monigotes y se sitúan fuera del límite del sistema. En el contexto de Liber, los actores principales son el Socio, el Bibliotecario y el Administrador (además del Socio invitado).
+	\item \textbf{Actores:} Representan los roles que adoptan las entidades externas (ya sean personas, sistemas hardware o software) que interactúan con la aplicación. Se representan gráficamente mediante monigotes y se sitúan fuera del límite del sistema. En el contexto de Liber, los actores son el Socio, el Socio Invitado, el Bibliotecario y el Administrador.
 	
 	\item \textbf{Sistema (o Límite del sistema):} Se representa mediante un rectángulo que engloba todos los casos de uso. Define las fronteras de la aplicación, es decir, qué funcionalidades pertenecen al sistema que se está modelando y cuáles son responsabilidad del entorno externo.
 	
@@ -298,166 +462,500 @@ Este tipo de diagrama tiene como objetivo mostrar una vista genérica del funcio
 
 \section{Historias de usuario}
 
-\section{Objetivos del trabajo}
+Una vez identificados los actores y definidos los casos de uso que estructuran las funcionalidades del sistema, lo siguiente consistirá en describir como estas funcionalidades se materializan en necesidades concretas de los usuarios. Para ello, se hará uso de las historias de usuario; un recurso utilizado en metodologías ágiles que describe una funcionalidad desde la perspectiva del usuario que la solicita, indicando qué necesita y para qué, además del valor le aporta dentro del sistema.
+La metodología iterativa e incremental adoptada para el desarrollo de Liber \parencite{agilealliance_iterative} concibe cada funcionalidad como un incremento de valor que debe ser validado y refinado a lo largo del proyecto. Las historias de usuario encajan de forma natural en este enfoque, ya que permiten descomponer el alcance funcional en unidades pequeñas y comprensibles, priorizarlas según su aportación al producto y utilizarlas como referencia para planificar las distintas iteraciones. Asimismo, su redacción centrada en el usuario (y no en el sistema) facilita la comunicación con el tutor en su rol de cliente, que puede validar cada historia y aportar retroalimentación sobre su utilidad y su prioridad.
+Así, las historias de usuario sirven tanto como herramienta para la documentación como para la planificación: cada historia constituye un objetivo concreto que debe satisfacerse en algún momento del desarrollo, permitiendo así organizar los incrementos del producto en función del valor que aportan y del esfuerzo que requieren. La redacción de cada historia sigue el formato habitual \textit{«Como [tipo de usuario], quiero [funcionalidad] para [beneficio]»}, 
+acompañado de los criterios de aceptación que permiten verificar su correcta implementación.
 
-Al estar tratando con proyecto de estas dimensiones, se hace necesaria una planificación estructurada a seguir para marcar tanto los plazos a cumplir como las restricciones y casos de uso específicos a tener en cuenta.	
+
+\subsection{Catálogo público}
+\begin{itemize}
+	\item \textbf{HU01 -- Consultar catálogo}
+	\begin{itemize}
+		\item \textbf{Actor:} Visitante.
+		\item \textbf{Descripción:} Como visitante, quiero consultar el catálogo público de obras para conocer los fondos de la biblioteca.
+	\end{itemize}
+	
+	\item \textbf{HU02 -- Buscar y filtrar obras}
+	\begin{itemize}
+		\item \textbf{Actor:} Usuario del catálogo.
+		\item \textbf{Descripción:} Como usuario del catálogo, quiero buscar obras por título, autor o signatura, filtrar por tipo y recorrer los resultados paginados para encontrar con facilidad las obras que me interesan.
+	\end{itemize}
+	
+	\item \textbf{HU03 -- Consultar ficha de obra y disponibilidad}
+	\begin{itemize}
+		\item \textbf{Actor:} Usuario del catálogo.
+		\item \textbf{Descripción:} Como usuario del catálogo, quiero consultar la ficha de una obra, sus autores, ejemplares y disponibilidad para saber qué ofrece la biblioteca y si hay ejemplares disponibles.
+	\end{itemize}
+	
+	\item \textbf{HU04 -- Consultar autores}
+	\begin{itemize}
+		\item \textbf{Actor:} Usuario del catálogo.
+		\item \textbf{Descripción:} Como usuario del catálogo, quiero consultar y buscar autores, y ver sus fichas y obras para descubrir las obras asociadas a cada autor.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Acceso y cuenta personal}
+\begin{itemize}
+	\item \textbf{HU05 -- Registrarse}
+	\begin{itemize}
+		\item \textbf{Actor:} Socio.
+		\item \textbf{Descripción:} Como socio, quiero crear una cuenta y acceder a ella al completar el registro para empezar a utilizar los servicios de la biblioteca.
+	\end{itemize}
+	
+	\item \textbf{HU06 -- Iniciar y cerrar sesión}
+	\begin{itemize}
+		\item \textbf{Actor:} Usuario.
+		\item \textbf{Descripción:} Como usuario, quiero iniciar y cerrar sesión para acceder a mi cuenta de forma controlada.
+	\end{itemize}
+	
+	\item \textbf{HU07 -- Recuperar contraseña}
+	\begin{itemize}
+		\item \textbf{Actor:} Usuario.
+		\item \textbf{Descripción:} Como usuario, quiero solicitar la recuperación de mi contraseña y cambiarla para recuperar o proteger el acceso a mi cuenta.
+	\end{itemize}
+	
+	\item \textbf{HU08 -- Consultar perfil}
+	\begin{itemize}
+		\item \textbf{Actor:} Usuario autenticado.
+		\item \textbf{Descripción:} Como usuario autenticado, quiero consultar mi perfil y los datos de mi cuenta para revisar mi información personal.
+	\end{itemize}
+	
+	\item \textbf{HU09 -- Consultar préstamos y penalizaciones}
+	\begin{itemize}
+		\item \textbf{Actor:} Socio.
+		\item \textbf{Descripción:} Como socio, quiero consultar mis préstamos activos, sus vencimientos y mi estado de penalización para conocer mis obligaciones y mi situación como usuario.
+	\end{itemize}
+	
+	\item \textbf{HU10 -- Modificar datos personales}
+	\begin{itemize}
+		\item \textbf{Actor:} Usuario autenticado.
+		\item \textbf{Descripción:} Como usuario autenticado, quiero modificar mis datos personales para mantener actualizada mi cuenta.
+	\end{itemize}
+	
+	\item \textbf{HU11 -- Modificar turno de trabajo}
+	\begin{itemize}
+		\item \textbf{Actor:} Bibliotecario.
+		\item \textbf{Descripción:} Como bibliotecario, quiero modificar mi turno de trabajo para mantener actualizada mi información laboral.
+	\end{itemize}
+	
+	\item \textbf{HU12 -- Solicitar baja}
+	\begin{itemize}
+		\item \textbf{Actor:} Socio.
+		\item \textbf{Descripción:} Como socio, quiero solicitar la baja y eliminación de mi cuenta para dejar de pertenecer a la biblioteca.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Gestión de usuarios}
+\begin{itemize}
+	\item \textbf{HU13 -- Dar de alta socio}
+	\begin{itemize}
+		\item \textbf{Actor:} Bibliotecario o Administrador.
+		\item \textbf{Descripción:} Como bibliotecario o administrador, quiero dar de alta una cuenta de socio para incorporar nuevos socios a la biblioteca.
+	\end{itemize}
+	
+	\item \textbf{HU14 -- Crear cuenta de bibliotecario}
+	\begin{itemize}
+		\item \textbf{Actor:} Administrador.
+		\item \textbf{Descripción:} Como administrador, quiero crear cuentas de bibliotecario para dar acceso al personal autorizado.
+	\end{itemize}
+	
+	\item \textbf{HU15 -- Consultar y ver usuarios}
+	\begin{itemize}
+		\item \textbf{Actor:} Bibliotecario o Administrador.
+		\item \textbf{Descripción:} Como bibliotecario o administrador, quiero consultar, buscar y ver el detalle de los usuarios registrados para gestionar la información de los usuarios.
+	\end{itemize}
+	
+	\item \textbf{HU16 -- Editar cuentas de socios}
+	\begin{itemize}
+		\item \textbf{Actor:} Bibliotecario.
+		\item \textbf{Descripción:} Como bibliotecario, quiero editar cuentas de socios para mantener actualizados sus datos.
+	\end{itemize}
+	
+	\item \textbf{HU17 -- Editar cualquier cuenta}
+	\begin{itemize}
+		\item \textbf{Actor:} Administrador.
+		\item \textbf{Descripción:} Como administrador, quiero editar cualquier cuenta de usuario para administrar todos los perfiles.
+	\end{itemize}
+	
+	\item \textbf{HU18 -- Eliminar cuentas de socios}
+	\begin{itemize}
+		\item \textbf{Actor:} Bibliotecario.
+		\item \textbf{Descripción:} Como bibliotecario, quiero eliminar cuentas de socios para gestionar las bajas de usuarios.
+	\end{itemize}
+	
+	\item \textbf{HU19 -- Eliminar cualquier cuenta}
+	\begin{itemize}
+		\item \textbf{Actor:} Administrador.
+		\item \textbf{Descripción:} Como administrador, quiero eliminar cualquier cuenta, excepto la propia, para administrar los usuarios sin borrar mi cuenta por error.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Gestión del catálogo y los ejemplares}
+\begin{itemize}
+	\item \textbf{HU20 -- Registrar obras}
+	\begin{itemize}
+		\item \textbf{Actor:} Bibliotecario o Administrador.
+		\item \textbf{Descripción:} Como bibliotecario o administrador, quiero registrar libros, revistas, periódicos y grabaciones, asociándoles uno o varios autores, para mantener actualizado el catálogo.
+	\end{itemize}
+	
+	\item \textbf{HU21 -- Gestionar autores y editoriales}
+	\begin{itemize}
+		\item \textbf{Actor:} Bibliotecario o Administrador.
+		\item \textbf{Descripción:} Como bibliotecario o administrador, quiero buscar y crear autores y, cuando corresponda, editoriales y productoras durante el registro de obras, para completar los datos relacionados con cada obra.
+	\end{itemize}
+	
+	\item \textbf{HU22 -- Añadir ejemplares}
+	\begin{itemize}
+		\item \textbf{Actor:} Bibliotecario o Administrador.
+		\item \textbf{Descripción:} Como bibliotecario o administrador, quiero añadir ejemplares a una obra existente para reflejar los nuevos fondos disponibles.
+	\end{itemize}
+	
+	\item \textbf{HU23 -- Consultar disponibilidad de ejemplares}
+	\begin{itemize}
+		\item \textbf{Actor:} Usuario del catálogo.
+		\item \textbf{Descripción:} Como usuario del catálogo, quiero consultar el estado y la disponibilidad de cada ejemplar para saber si está disponible o prestado.
+	\end{itemize}
+	
+	\item \textbf{HU24 -- Gestionar inventario}
+	\begin{itemize}
+		\item \textbf{Actor:} Bibliotecario o Administrador.
+		\item \textbf{Descripción:} Como bibliotecario o administrador, quiero gestionar los préstamos y devoluciones de acuerdo con el estado del ejemplar para mantener actualizado el inventario.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Préstamos y prórrogas}
+\begin{itemize}
+	\item \textbf{HU25 -- Registrar préstamo}
+	\begin{itemize}
+		\item \textbf{Actor:} Bibliotecario o Administrador.
+		\item \textbf{Descripción:} Como bibliotecario o administrador, quiero registrar el préstamo de un ejemplar disponible a un socio para controlar la circulación de los fondos.
+	\end{itemize}
+	
+	\item \textbf{HU26 -- Registrar devolución}
+	\begin{itemize}
+		\item \textbf{Actor:} Bibliotecario o Administrador.
+		\item \textbf{Descripción:} Como bibliotecario o administrador, quiero registrar la devolución de un préstamo activo para actualizar la disponibilidad del ejemplar y la situación del socio.
+	\end{itemize}
+	
+	\item \textbf{HU27 -- Solicitar prórroga}
+	\begin{itemize}
+		\item \textbf{Actor:} Socio.
+		\item \textbf{Descripción:} Como socio, quiero solicitar una prórroga de uno de mis préstamos activos para disponer de más tiempo para devolver el ejemplar.
+	\end{itemize}
+	
+	\item \textbf{HU28 -- Tramitar prórroga en nombre del socio}
+	\begin{itemize}
+		\item \textbf{Actor:} Bibliotecario o Administrador.
+		\item \textbf{Descripción:} Como bibliotecario o administrador, quiero tramitar una prórroga en nombre de un socio para ayudar a gestionar sus préstamos.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Reglas de negocio}
+\begin{itemize}
+	\item El plazo inicial de un préstamo es de 20 días.
+	\item Un socio puede tener como máximo 3 libros, 2 grabaciones y 1 revista prestados simultáneamente.
+	\item Los periódicos no se prestan. Las revistas publicadas hace menos de 30 días tampoco pueden prestarse.
+	\item No se pueden registrar préstamos para socios penalizados.
+	\item Una devolución tardía genera una penalización. Esta es indefinida mientras haya préstamos vencidos sin devolver y temporal cuando se devuelve el último préstamo vencido pendiente.
+	\item No se puede prorrogar un préstamo devuelto, vencido o perteneciente a un socio penalizado.
+	\item Cada préstamo admite hasta 3 prórrogas; cada una amplía el vencimiento en 5 días.
+	\item Los plazos, límites, duración de las prórrogas y duración de las penalizaciones deben poder ajustarse mediante configuración.
+\end{itemize}
+
+\section{Requisitos del sistema}
+
+Ya se ha definido qué necesidades van a tener los usuarios dentro del sistema, además de qué rango de acción tienen dentro del mismo mediante los casos de usuario. Ahora se hablará de las necesidades del propio sistema, especificar qué debe hacer bajó qué condiciones. A esta especificación se le denomina requisitos, y constituye el puente entre las necesidades detectadas en las fases iniciales y el diseño técnico que se abordará en capítulos posteriores.
+
+Los requisitos de un sistema software se pueden clasificar en distintas categorías atendiendo a su naturaleza. Los requisitos funcionales describen las funcionalidades que el sistema debe proporcionar, es decir, qué operaciones debe ser capaz de realizar y qué comportamiento debe exhibir ante las distintas entradas. Los requisitos no funcionales, por su parte, establecen las restricciones y cualidades que el sistema debe cumplir: rendimiento, seguridad, usabilidad, portabilidad, mantenibilidad, etc. Junto a ellos, resulta habitual considerar también los requisitos de información, que definen qué datos debe almacenar y gestionar el sistema.
+
+En esta sección se recogen todos estos tipos de requisitos para Liber. Se comienza detallando los requisitos funcionales, empleando para ello los casos de uso y las historias de usuario como herramientas de especificación. A continuación, se abordan los requisitos de información, que darán lugar al modelo de datos que se desarrollará en el capítulo de diseño. Posteriormente, se exponen los requisitos no funcionales, que recogen las restricciones de calidad, seguridad y despliegue que condicionan la arquitectura del sistema.
+
+\subsection{Requisitos funcionales}
+\subsubsection{Actores}
+\begin{description}
+	\item[RF-01 -- Consultar catálogo]
+	El sistema permitirá a visitantes, socios, bibliotecarios y
+	administradores consultar las obras del catálogo.
+	
+	\item[RF-02 -- Buscar y filtrar obras]
+	El sistema permitirá buscar obras por título, autor o signatura, y
+	filtrar los resultados por tipo de obra.
+	
+	\item[RF-03 -- Consultar ficha de obra]
+	El sistema mostrará la información de una obra, incluidos sus autores,
+	sus datos específicos y los ejemplares asociados.
+	
+	\item[RF-04 -- Consultar autores]
+	El sistema permitirá consultar y buscar autores, así como visualizar
+	sus fichas y las obras asociadas.
+	
+	\item[RF-05 -- Consultar disponibilidad]
+	El sistema mostrará el estado de los ejemplares asociados a una obra,
+	indicando si están disponibles o prestados.
+\end{description}
+
+\subsubsection{Acceso y gestión de la cuenta}
+
+\begin{description}
+	\item[RF-06 -- Registrar socio]
+	El sistema permitirá que un visitante cree una cuenta de socio mediante un formulario. Tras completar el registro correctamente, iniciará sesión en la aplicación.
+	
+	\item[RF-07 -- Iniciar y cerrar sesión]
+	El sistema permitirá a los usuarios autenticarse con sus credenciales y	cerrar la sesión activa.
+	
+	\item[RF-08 -- Recuperar contraseña]
+	El sistema permitirá solicitar la recuperación de la contraseña mediante el correo electrónico asociado a la cuenta.
+	
+	\item[RF-09 -- Consultar perfil]
+	El sistema permitirá a cada usuario autenticado consultar la información de su perfil.
+	
+	\item[RF-10 -- Modificar datos personales]
+	El sistema permitirá a los usuarios autenticados actualizar los datos personales habilitados para su perfil. Los bibliotecarios podrán modificar también su turno de trabajo.
+	
+	\item[RF-11 -- Consultar préstamos y penalizaciones]
+	El sistema permitirá al socio consultar sus préstamos activos, sus fechas de vencimiento y su estado de penalización.
+	
+	\item[RF-12 -- Solicitar baja]
+	El sistema permitirá al socio solicitar la eliminación de su cuenta.
+\end{description}
+
+\subsubsection{Gestión de usuarios}
+
+\begin{description}
+	\item[RF-13 -- Consultar usuarios]
+	El sistema permitirá a bibliotecarios y administradores consultar y	buscar usuarios registrados, así como acceder al detalle de sus cuentas.
+	
+	\item[RF-14 -- Dar de alta socios]
+	El sistema permitirá a bibliotecarios y administradores registrar manualmente nuevos socios.
+	
+	\item[RF-15 -- Crear bibliotecarios]
+	El sistema permitirá al administrador crear cuentas para nuevos	bibliotecarios.
+	
+	\item[RF-16 -- Modificar cuentas]
+	El sistema permitirá a los bibliotecarios modificar cuentas de socios. El administrador podrá modificar cuentas de cualquier tipo de usuario.
+	
+	\item[RF-17 -- Eliminar cuentas]
+	El sistema permitirá a los bibliotecarios eliminar cuentas de socios y al administrador eliminar cuentas de cualquier tipo, excepto la suya
+	propia.
+\end{description}
+
+\subsubsection{Gestión del catálogo y los ejemplares}
+
+\begin{description}
+	\item[RF-18 -- Registrar obras]
+	El sistema permitirá a bibliotecarios y administradores registrar obras	de tipo libro, revista, periódico o grabación, junto con sus datos bibliográficos y uno o varios autores.
+	
+	\item[RF-19 -- Gestionar entidades relacionadas]
+	Durante el registro de obras, el sistema permitirá buscar autores, editoriales y productoras, así como crear las entidades que no existan.
+		
+	\item[RF-20 -- Añadir ejemplares]
+	El sistema permitirá a bibliotecarios y administradores añadir nuevos ejemplares a una obra ya registrada.
+	
+	\item[RF-21 -- Gestionar el inventario]
+	El sistema mantendrá actualizado el estado de los ejemplares en función	de los préstamos activos y las devoluciones registradas.
+\end{description}
+
+\subsubsection{Préstamos, devoluciones y prórrogas}
+
+\begin{description}
+	\item[RF-22 -- Registrar préstamo]
+	El sistema permitirá a bibliotecarios y administradores prestar un ejemplar disponible a un socio. Antes de registrar el préstamo, comprobará que el ejemplar y el socio cumplen las condiciones establecidas.
+	
+	\item[RF-23 -- Aplicar reglas de préstamo]
+	El sistema impedirá prestar ejemplares no prestables, ejemplares ya	prestados o ejemplares a socios penalizados. También comprobará los	límites de préstamos activos por tipo de obra.
+	
+	\item[RF-24 -- Registrar devolución]
+	El sistema permitirá a bibliotecarios y administradores registrar la devolución de un préstamo activo y actualizar la situación del socio cuando la devolución se produzca fuera de plazo.
+	
+	\item[RF-25 -- Consultar préstamos de un socio]
+	El sistema permitirá a bibliotecarios y administradores consultar la información de los préstamos de un socio.
+	
+	\item[RF-26 -- Solicitar o tramitar prórroga]
+	El sistema permitirá al socio solicitar una prórroga de uno de sus préstamos y a bibliotecarios o administradores tramitarla en su nombre. Solo se aplicará si el préstamo está activo, no ha vencido, el socio no está penalizado y quedan prórrogas disponibles.
+	
+	\item[RF-27 -- Actualizar plazo del préstamo]
+	Al aplicar una prórroga, el sistema ampliará la fecha de vencimiento y reducirá el número de prórrogas disponibles para ese préstamo.
+\end{description}
+
+\subsubsection{Administración}
+
+\begin{description}
+	\item[RF-28 -- Administrar registros]
+	El sistema permitirá al administrador realizar operaciones de consulta,	creación, modificación y eliminación sobre los registros disponibles	desde el panel de administración.
+\end{description}
+
+Con el fin de garantizar la relación entre los requisitos funcionales y casos de uso, se ha elaborado la matriz de trazabilidad que se presenta a continuación. En esta matriz, las filas representan los requisitos funcionales (RF) identificados en el sistema, mientras que las columnas corresponden a los casos de uso (CU) definidos previamente. La intersección de una fila y una columna marcada con un tick (\checkmark) indica que el caso de uso correspondiente satisface el requisito funcional en cuestión. Esta representación verifica de visualmente que cada requisito funcional queda cubierto por al menos un caso de uso, identificando las funcionalidades del sistema involucradas en la satisfacción de cada necesidad. Debido a la extensión de la matriz, esta se presenta dividida en dos tablas complementarias (\ref{tab:trazabilidad_rf_cu_1} y \ref{tab:trazabilidad_rf_cu_2}) para facilitar al lector el visionado de los datos.
 
 \begin{table}[H]
 	\centering
-	\caption{Criterios de aceptación para el objetivo general OBJ-01.}
-	\label{tab:criterios_aceptacion_normal01}
-	\begin{tabularx}{\textwidth}{l X}
+	\caption{Matriz de trazabilidad entre requisitos funcionales y casos de uso (Parte 1).}
+	\label{tab:trazabilidad_rf_cu_1}
+	\scriptsize
+	\setlength{\tabcolsep}{3pt}
+	\begin{tabularx}{\textwidth}{l *{14}{c}}
 		\toprule
-		\textbf{ID C.A.} & 
-		\begin{minipage}[t]{\linewidth}
-			\textbf{ID Objetivo asociado: OBJ-01} \\[2pt]
-			\rule{\linewidth}{0.4pt} \\[2pt]
-			\textbf{Descripción Criterio de Aceptación}
-		\end{minipage} \\
+		\textbf{RF} & \textbf{CU01} & \textbf{CU02} & \textbf{CU03} & \textbf{CU04} & \textbf{CU05} & \textbf{CU06} & \textbf{CU07} & \textbf{CU08} & \textbf{CU09} & \textbf{CU10} & \textbf{CU11} & \textbf{CU12} & \textbf{CU13} & \textbf{CU14} \\
 		\midrule
-		\textbf{CA-01} & El sistema debe permitir el alta, modificación, consulta y baja (CRUD) de Obras intelectuales, almacenando de forma obligatoria su título y signatura. \\
+		RF-01 & \checkmark & & & \checkmark & & & & & & & & & & \\
 		\addlinespace
-		\textbf{CA-02} & El sistema debe permitir la creación de Ejemplares físicos asociados obligatoriamente a una Obra preexistente, permitiendo marcar su estado de disponibilidad. \\
+		RF-02 & & & & \checkmark & & & & & & & & & & \\
 		\addlinespace
-		\textbf{CA-03} & La aplicación debe gestionar correctamente la especialización de los ejemplares (Libros, Revistas, Periódicos y Grabaciones) cargando dinámicamente sus atributos específicos en la base de datos. \\
+		RF-03 & & & & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & & & & & & \\
 		\addlinespace
-		\textbf{CA-04} & El catálogo debe soportar la relación de coautoría (relación N:M), permitiendo que una misma Obra sea vinculada a uno o varios Autores simultáneamente. \\
+		RF-04 & & & & \checkmark & \checkmark & \checkmark & & & & & & & & \\
 		\addlinespace
-		\textbf{CA-05} & La interfaz del catálogo debe permitir a los usuarios realizar búsquedas funcionales y filtrados de los ejemplares empleando la interactividad en el frontal propia de Django. \\
+		RF-05 & & & & \checkmark & & & \checkmark & \checkmark & & & & & & \\
 		\addlinespace
-		\textbf{CA-06} & El sistema debe validar a nivel de formulario y de base de datos que los identificadores estándar del catálogo (como el ISBN o el EAN) mantengan su propiedad de unicidad para garantizar la integridad de la información. \\
+		RF-06 & \checkmark & & & & & & & & & & & & & \\
+		\addlinespace
+		RF-07 & & \checkmark & & & & & & & & & & & & \\
+		\addlinespace
+		RF-08 & & & \checkmark & & & & & & & & & & & \\
+		\addlinespace
+		RF-09 & & \checkmark & & & & & & & \checkmark & & & & & \\
+		\addlinespace
+		RF-10 & & & & & & & & & & \checkmark & & & & \\
+		\addlinespace
+		RF-11 & & & & & & & & & \checkmark & & & & & \\
+		\addlinespace
+		RF-12 & & & & & & & & & & & \checkmark & & & \\
+		\addlinespace
+		RF-13 & & & & & & & & & & & & \checkmark & \checkmark & \checkmark \\
+		\addlinespace
+		RF-14 & & & & & & & & & & & & & & \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
 
 \begin{table}[H]
 	\centering
-	\caption{Criterios de aceptación para el objetivo general OBJ-02.}
-	\label{tab:criterios_aceptacion_normal02}
-	\begin{tabularx}{\textwidth}{l X}
+	\caption{Matriz de trazabilidad entre requisitos funcionales y casos de uso (Parte 2).}
+	\label{tab:trazabilidad_rf_cu_2}
+	\scriptsize
+	\setlength{\tabcolsep}{3pt}
+	\begin{tabularx}{\textwidth}{l *{14}{c}}
 		\toprule
-		\textbf{ID C.A.} & 
-		\begin{minipage}[t]{\linewidth}
-			\textbf{ID Objetivo asociado: OBJ-02} \\[2pt]
-			\rule{\linewidth}{0.4pt} \\[2pt]
-			\textbf{Descripción Criterio de Aceptación}
-		\end{minipage} \\
+		\textbf{RF} & \textbf{CU15} & \textbf{CU16} & \textbf{CU17} & \textbf{CU18} & \textbf{CU19} & \textbf{CU20} & \textbf{CU21} & \textbf{CU22} & \textbf{CU23} & \textbf{CU24} & \textbf{CU25} & \textbf{CU26} & \textbf{CU27} & \textbf{CU28} \\
 		\midrule
-		\textbf{CA-01} & El sistema debe implementar un único modelo de base de datos centralizado para la entidad usuario que almacene obligatoriamente el nombre, los apellidos, una contraseña cifrada y un correo electrónico único que actúe como credencial de inicio de sesión. \\
+		RF-15 & & & & & & & \checkmark & & & & & & & \\
 		\addlinespace
-		\textbf{CA-02} & El sistema debe permitir el acceso específico de los socios, validando que posean un número identificativo único y bloqueando automáticamente sus privilegios de reserva o préstamo en caso de que consten como penalizados en la base de datos. \\
+		RF-16 & \checkmark & \checkmark & \checkmark & & & & & & & & & & & \\
 		\addlinespace
-		\textbf{CA-03} & La interfaz y los formularios para los bibliotecarios deben permitir, de manera exclusiva, la gestión ordinaria del catálogo y el registro de las transacciones de préstamo, validando su identidad mediante unas credenciales de acceso. \\
+		RF-17 & \checkmark & \checkmark & \checkmark & & & & & & & & & & & \\
 		\addlinespace
-		\textbf{CA-04} & El rol de ADMINISTRADOR debe disponer de acceso total e irrestricto a través del panel de control de Django para realizar operaciones CRUD completas sobre cualquier tabla o registro de la infraestructura. \\
+		RF-18 & & & & \checkmark & & & & & & & & & & \\
 		\addlinespace
-		\textbf{CA-05} & El backend debe denegar el acceso a rutas protegidas mediante un sistema de control de permisos (middleware), redirigiendo al usuario a la pantalla de inicio de sesión si intenta forzar manualmente URLs no autorizadas para su rol. \\
+		RF-19 & & & & \checkmark & \checkmark & & & & & & & & & \\
 		\addlinespace
-		\textbf{CA-06} & El sistema debe garantizar que las contraseñas de los usuarios nunca se almacenen en texto plano dentro de la base de datos PostgreSQL, delegando en el framework el cifrado automático mediante algoritmos de hash seguros. \\
+		RF-20 & & & & \checkmark & & \checkmark & & & & & & & & \\
+		\addlinespace
+		RF-21 & & & & & & & & & & \checkmark & \checkmark & & & \\
+		\addlinespace
+		RF-22 & & & & & & & & & & \checkmark & & & & \\
+		\addlinespace
+		RF-23 & & & & & & & & & & \checkmark & & & & \checkmark \\
+		\addlinespace
+		RF-24 & & & & & & & & & & & \checkmark & & & \\
+		\addlinespace
+		RF-25 & & & & & & & & & & & & & \checkmark & \checkmark \\
+		\addlinespace
+		RF-26 & & & & & & & & & & & & \checkmark & & \checkmark \\
+		\addlinespace
+		RF-27 & & & & & & & & & & & & & & \checkmark \\
+		\addlinespace
+		RF-28 & & & & & & & & \checkmark & \checkmark & & & & & \\
 		\bottomrule
-	\end{tabularx}	
+	\end{tabularx}
 \end{table}
 
-\begin{table}[H]
-	\centering
-	\caption{Criterios de aceptación para el objetivo general OBJ-3.}
-	\label{tab:criterios_aceptacion_normal03}
-	\begin{tabularx}{\textwidth}{l X}
-		\toprule
-		\textbf{ID C.A.} & 
-		\begin{minipage}[t]{\linewidth}
-			\textbf{ID Objetivo asociado: OBJ-3} \\[2pt]
-			\rule{\linewidth}{0.4pt} \\[2pt]
-			\textbf{Descripción Criterio de Aceptación}
-		\end{minipage} \\
-		\midrule
-		\textbf{CA-01} & El sistema debe registrar automáticamente la transacción en la tabla de préstamos en el momento en que un bibliotecario la gestione, asignando la fecha actual a la fecha de inicio del préstamo. \\
-		\addlinespace
-		\textbf{CA-02} & La aplicación debe calcular de forma automática la fecha límite de devolución sumando el número de días estipulado por la política de la biblioteca a partir de la fecha de inicio de la transacción. \\
-		\addlinespace
-		\textbf{CA-03} & El sistema debe permitir la gestión de prórrogas antes de que termine el plazo del préstamo, verificando que el registro cuente con un número de prórrogas restantes mayor que cero, actualizando la fecha de la prórroga con la marca de tiempo actual y extendiendo la fecha de fin de manera proporcional. \\
-		\addlinespace
-		\textbf{CA-04} & Al solicitarse una prórroga válida, el backend debe descontar automáticamente en una unidad el contador de prórrogas disponibles para ese préstamo específico en la base de datos. \\
-		\addlinespace
-		\textbf{CA-05} & En el momento de la entrega física del recurso, el sistema debe registrar la fecha del día exacto en el campo de devolución. Si esta fecha es anterior o igual a la fecha límite, la transacción se considerará cerrada con éxito y el ejemplar volverá a estar disponible. \\
-		\addlinespace
-		\textbf{CA-06} & Si el sistema detecta que la devolución se realiza tarde (fecha de devolución posterior a la fecha límite), o que el plazo ha vencido sin haber devuelto el recurso, el backend debe activar de inmediato el estado de penalización del socio y registrar la fecha del bloqueo. \\
-		\bottomrule
-	\end{tabularx}	
-\end{table}
+\subsection{Reglas funcionales asociadas a los préstamos}
 
-\begin{table}[H]
-	\centering
-	\caption{Criterios de aceptación para el objetivo general OBJ-4.}
-	\label{tab:criterios_aceptacion_normal04}
-	\begin{tabularx}{\textwidth}{l X}
-		\toprule
-		\textbf{ID C.A.} & 
-		\begin{minipage}[t]{\linewidth}
-			\textbf{ID Objetivo asociado: OBJ-4} \\[2pt]
-			\rule{\linewidth}{0.4pt} \\[2pt]
-			\textbf{Descripción Criterio de Aceptación}
-		\end{minipage} \\
-		\midrule
-		\textbf{CA-01} & El sistema debe disponer de un archivo Dockerfile en la parte backend que configure un entorno limpio basado en una imagen ligera de Python, instalando de forma automática todas las dependencias recolectadas en el archivo requirements.txt. \\
-		\addlinespace
-		\textbf{CA-02} & El entorno de la base de datos debe levantarse de forma aislada a través de un servicio independiente en el archivo docker-compose.yml, utilizando una imagen oficial y reciente de PostgreSQL. \\
-		\addlinespace
-		\textbf{CA-03} & El archivo docker-compose.yml debe orquestar la comunicación interna entre ambos contenedores (Django y PostgreSQL), garantizando que el contenedor web no intente arrancar hasta que el servicio de la base de datos esté completamente listo y operativo. \\
-		\addlinespace
-		\textbf{CA-04} & El contenedor de la base de datos debe implementar un volumen de Docker mapeado a la ruta de almacenamiento de PostgreSQL para asegurar la persistencia de los datos, impidiendo que el catálogo, los socios o los préstamos se borren al apagar o reiniciar los contenedores. \\
-		\addlinespace
-		\textbf{CA-05} & El sistema debe ser capaz de replicar exactamente el mismo comportamiento, rendimiento y configuración tanto al ser ejecutado en local (entorno de desarrollo) como al ser desplegado en plataformas en la nube sin necesidad de modificar el código fuente de la aplicación web. \\
-		\bottomrule
-	\end{tabularx}	
-\end{table}
+La aplicación contempla las siguientes reglas para la gestión de préstamos:
 
-\begin{table}[H]
-	\centering
-	\caption{Criterios de aceptación para el objetivo general OBJ-5.}
-	\label{tab:criterios_aceptacion_normal05}
-	\begin{tabularx}{\textwidth}{l X}
-		\toprule
-		\textbf{ID C.A.} & 
-		\begin{minipage}[t]{\linewidth}
-			\textbf{ID Objetivo asociado: OBJ-5} \\[2pt]
-			\rule{\linewidth}{0.4pt} \\[2pt]
-			\textbf{Descripción Criterio de Aceptación}
-		\end{minipage} \\
-		\midrule
-		\textbf{CA-01} & El proyecto debe incluir en su directorio raíz el archivo estandarizado LICENSE conteniendo el texto íntegro y oficial de la Licencia Pública General de GNU (GNU GPL v3), declarando formalmente el software como libre y abierto. \\
-		\addlinespace
-		\textbf{CA-02} & El código fuente de la aplicación Django debe subirse y estar disponible públicamente en una plataforma de control de versiones accesible (como GitHub o GitLab), permitiendo que cualquier usuario pueda clonar, bifurcar (fork) o descargar el repositorio sin restricciones. \\
-		\addlinespace
-		\textbf{CA-03} & Las vistas de Django, los modelos y las configuraciones de Docker deben contar con comentarios claros y documentación interna en las secciones complejas, simplificando la curva de aprendizaje para futuros miembros de la comunidad que deseen auditar o colaborar en el proyecto. \\
-		\addlinespace
-		\textbf{CA-04} & La configuración del sistema (como las claves secretas de Django o las credenciales de PostgreSQL) debe estar parametrizada mediante variables de entorno en un archivo .env.example, asegurando que cualquier usuario pueda desplegar su propia instancia de la biblioteca de forma local de manera inmediata y sin comprometer la seguridad. \\
-		\bottomrule
-	\end{tabularx}	
-\end{table}
+\begin{itemize}
+	\item El plazo inicial de un préstamo será de 20 días.
+	\item Cada socio podrá tener simultáneamente hasta 3 libros, 2 grabaciones y 1 revista prestados.
+	\item Los periódicos no podrán prestarse. Las revistas publicadas hace menos de 30 días tampoco podrán prestarse.
+	\item Cada préstamo admitirá hasta 3 prórrogas, de 5 días cada una.
+	\item No se podrán prorrogar préstamos devueltos o vencidos, ni préstamos de socios penalizados.
+	\item Los valores de plazos, límites y penalizaciones podrán ajustarse mediante la configuración de la aplicación.
+\end{itemize}
 
-\begin{table}[H]
-	\centering
-	\caption{Criterios de aceptación para el objetivo general OBJ-6.}
-	\label{tab:criterios_aceptacion_normal06}
-	\begin{tabularx}{\textwidth}{l X}
-		\toprule
-		\textbf{ID C.A.} & 
-		\begin{minipage}[t]{\linewidth}
-			\textbf{ID Objetivo asociado: OBJ-6} \\[2pt]
-			\rule{\linewidth}{0.4pt} \\[2pt]
-			\textbf{Descripción Criterio de Aceptación}
-		\end{minipage} \\
-		\midrule
-		\textbf{CA-01} & Demostrar la correcta aplicación de los fundamentos de ingeniería mediante el diseño e implementación del esquema lógico relacional en PostgreSQL, reflejando fielmente las restricciones de integridad y las relaciones de herencia. \\
-		\addlinespace
-		\textbf{CA-02} &  El desarrollo de la aplicación web debe evidenciar un desacoplamiento claro de responsabilidades siguiendo el patrón arquitectónico MVT (Modelo-Vista-Template) de Django, separando la lógica de acceso a datos de la lógica de presentación y de negocio. \\
-		\textbf{CA-03} & La memoria del Trabajo de Fin de Grado debe documentar con rigor de ingeniería todas las fases del ciclo de vida del desarrollo de software, incluyendo el análisis de requisitos, el modelado formal (diagramas de casos de uso y de entidad-relación) y las pruebas de validación.  \\
-		\addlinespace
-		\bottomrule
-	\end{tabularx}	
-\end{table}
+\subsection{Requisitos no funcionales}
 
-\section{Condiciones técnicas}
+\begin{description}
+	\item[RNF-01 -- Aplicación web]
+	El sistema estará disponible mediante una interfaz web, sin requerir la instalación de una aplicación nativa en los dispositivos de sus usuarios.
+	
+	\item[RNF-02 -- Idioma]
+	La interfaz de usuario se ofrecerá inicialmente en español.
+	
+	\item[RNF-03 -- Control de acceso]
+	El acceso a las operaciones estará condicionado por la autenticación del usuario y por su rol: socio, bibliotecario o administrador.
+	
+	\item[RNF-04 -- Protección de credenciales]
+	Las contraseñas no se almacenarán en texto plano; se utilizarán los	mecanismos de protección proporcionados por el sistema de autenticación de Django.
+	
+	\item[RNF-05 -- Integridad de los datos]
+	La aplicación mantendrá la coherencia de las relaciones entre usuarios,	obras, ejemplares y préstamos, y validará los datos introducidos en los formularios.
+	
+	\item[RNF-06 -- Portabilidad del despliegue]
+	El sistema se desplegará mediante contenedores Docker para facilitar su ejecución en distintos entornos, tanto locales como en la nube.
+	
+	\item[RNF-07 -- Mantenibilidad]
+	La implementación se organizará en módulos funcionales y utilizará tecnologías y estructuras que faciliten la comprensión y el mantenimiento del código.
+	
+	\item[RNF-08 -- Configurabilidad]
+	Los parámetros operativos de los préstamos, como plazos, límites y	penalizaciones, podrán ajustarse mediante la configuración del sistema.
+	
+	\item[RNF-09 -- Software libre]
+	El código fuente del sistema se distribuirá bajo la licencia GPL v3, permitiendo su uso, estudio, modificación y redistribución conforme a dicha licencia.
+	
+	\item[RNF-10 -- Adecuación al público objetivo]
+	La interfaz destinada a los socios priorizará la sencillez de uso, mientras que las funciones de gestión estarán disponibles para el	personal autorizado.
+\end{description}
 
-\section{Alcance y limitaciones}
+\subsection{Requisitos de información}
+
+\begin{description}
+	\item[RI-01 -- Información de usuario]
+	El sistema almacenará para cada usuario su nombre de usuario, nombre, apellidos, correo electrónico contraseña protegida, teléfono, género y tipo de usuario.
+	
+	\item[RI-02 -- Información del socio]
+	Para cada socio, el sistema conservará su número de socio, fecha de alta o baja y estado  penalización, junto con la fecha de penalización cuando corresponda.
+	
+	\item[RI-03 -- Información del bibliotecario]
+	Para cada bibliotecario, el sistema conservará su número de empleado y turno de trabajo.
+	
+	\item[RI-04 -- Información del autor]
+	El sistema almacenará el nombre y los apellidos de cada autor.
+	
+	\item[RI-05 -- Información común de las obras]
+	Para cada obra, el sistema almacenará su título, signatura, fecha de publicación y tipo, además de la relación con uno o varios autores.
+	
+	\item[RI-06 -- Información de libros]
+	Para cada libro, el sistema almacenará su ISBN, editorial, materia, submateria y colección, cuando estos datos estén disponibles.
+	
+	\item[RI-07 -- Información de revistas]
+	Para cada revista, el sistema almacenará su ISSN, número, volumen, temporada, periodicidad y materia.
+	
+	\item[RI-08 -- Información de periódicos]
+	Para cada periódico, el sistema almacenará su ISSN, número, edición, periodicidad y director.
+	
+	\item[RI-09 -- Información de grabaciones]
+	Para cada grabación, el sistema almacenará su EAN, soporte, duración, productora, género y subgénero, cuando estos datos estén disponibles.
+	
+	\item[RI-10 -- Editoriales y productoras]
+	El sistema almacenará el nombre de las editoriales y productoras relacionadas con las obras correspondientes.
+	
+	\item[RI-11 -- Información de ejemplares]
+	Cada ejemplar estará asociado a una obra. El sistema conservará su indicador de reserva y determinará si está disponible o prestado a partir de la existencia de un préstamo activo.
+	
+	\item[RI-12 -- Información de préstamos]
+	Para cada préstamo, el sistema almacenará el socio y el ejemplar asociados, la fecha de inicio, la fecha prevista de devolución, la fecha efectiva de devolución, la fecha de la última prórroga y el
+	número de prórrogas restantes.
+	
+	\item[RI-13 -- Relaciones entre la información]
+	El sistema permitirá asociar varios autores a una obra y varios ejemplares a una misma obra. Cada préstamo relacionará un socio con un ejemplar concreto.
+\end{description}

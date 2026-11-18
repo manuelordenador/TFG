@@ -51,6 +51,23 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  cron:
+    build: ./backend
+    container_name: liber_cron
+    environment:
+      - TZ=Europe/Madrid
+    volumes:
+      - ./backend:/app
+    networks:
+        - net
+    env_file:
+      - .env
+    entrypoint: ["supercronic", "-passthrough-logs", "/app/crontab"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    
 networks:
   net:
     driver: bridge

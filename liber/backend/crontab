@@ -1,0 +1,1 @@
+0 7 * * 1 cd /app/liber && /usr/local/bin/python manage.py limpiar_prestamos
