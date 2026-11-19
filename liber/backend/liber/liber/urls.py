@@ -8,4 +8,5 @@ urlpatterns = [
     path('usuarios/', include('gestionUsuarios.urls')),
     path('catalogo/', include('catalogo.urls')),
     path('prestamos/', include('prestamos.urls')),
+    path('health/', views.health, name='health'),
 ]

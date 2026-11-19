@@ -1,13 +1,20 @@
-FROM python:latest
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# ── Stage 1: build ──────────────────────────────────────────────────────────
+FROM python:3.12-slim AS builder
 
-WORKDIR /app
+WORKDIR /build
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Dependencias del sistema
-RUN apt-get update && apt-get install -y \
-    libpq-dev gcc curl netcat-openbsd \
+COPY requirements.txt .
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+# ── Stage 2: runtime ────────────────────────────────────────────────────────
+FROM python:3.12-slim AS runtime
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 curl netcat-openbsd\
     && rm -rf /var/lib/apt/lists/*
 
 # Descargar supercronic para borrado de préstamos antiguos
@@ -21,20 +28,29 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
     && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
     && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
 
-COPY requirements.txt .
+# Non-root user
+RUN useradd --no-create-home --shell /bin/false appuser
 
-RUN pip install --no-cache-dir -r requirements.txt
-# Instala gunicorn si no está en requirements
-RUN pip install --no-cache-dir gunicorn
-
+WORKDIR /app
+COPY --from=builder /install /usr/local
 COPY . .
+COPY crontab /app/crontab
+WORKDIR /app/liber
+RUN mkdir -p /vol/web/static /vol/web/media && \
+    chown -R appuser:appuser /app /vol/web
 
-# Recoge estáticos
-RUN mkdir -p /vol/web/static /vol/web/media
+COPY entrypoint.prod.sh /entrypoint.prod.sh
+RUN chmod +x /entrypoint.prod.sh
 
-# Script de entrada para producción
-COPY entrypoint.prod.sh .
-RUN chmod +x entrypoint.prod.sh
-
+USER appuser
 EXPOSE 8000
-ENTRYPOINT ["./entrypoint.prod.sh"]
+
+ENTRYPOINT ["/entrypoint.prod.sh"]
+
+
+CMD ["gunicorn", "liber.wsgi:application", \
+    "--bind", "0.0.0.0:8000", \
+    "--workers", "3", \
+    "--timeout", "30", \
+    "--max-requests", "1000", \
+    "--max-requests-jitter", "100"]

@@ -16,5 +16,44 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{agilealliance_iterative}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=848fab37c071b402458fb871d0b9c12e}{%
+           family={{Agile Alliance}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{848fab37c071b402458fb871d0b9c12e}
+      \strng{fullhash}{848fab37c071b402458fb871d0b9c12e}
+      \strng{fullhashraw}{848fab37c071b402458fb871d0b9c12e}
+      \strng{bibnamehash}{848fab37c071b402458fb871d0b9c12e}
+      \strng{authorbibnamehash}{848fab37c071b402458fb871d0b9c12e}
+      \strng{authornamehash}{848fab37c071b402458fb871d0b9c12e}
+      \strng{authorfullhash}{848fab37c071b402458fb871d0b9c12e}
+      \strng{authorfullhashraw}{848fab37c071b402458fb871d0b9c12e}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Agile Glossary}
+      \field{title}{Iterative Development}
+      \field{urlday}{14}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2015}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://agilealliance.org/glossary/iterative-development/
+      \endverb
+      \verb{url}
+      \verb https://agilealliance.org/glossary/iterative-development/
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 

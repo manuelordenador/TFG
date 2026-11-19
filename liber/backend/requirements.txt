@@ -2,3 +2,4 @@ psycopg2-binary
 Django>=6.0
 django-environ  # Para variables de entorno
 django-seed
+gunicorn
