@@ -53,4 +53,5 @@ CMD ["gunicorn", "liber.wsgi:application", \
     "--workers", "3", \
     "--timeout", "30", \
     "--max-requests", "1000", \
-    "--max-requests-jitter", "100"]
+    "--max-requests-jitter", "100", \
+    "--no-control-socket"]

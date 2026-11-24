@@ -4,11 +4,11 @@ condiciones y capacidades que la aplicación debe satisfacer para cubrir las nec
 
 El capítulo se estructura en varias secciones complementarias. En primer lugar, se presentan los objetivos del trabajo y sus criterios de aceptación, que sirven como marco de referencia para verificar el éxito del proyecto. A continuación, se definen los actores que interactúan con el sistema, identificando sus roles y responsabilidades. Ya establecido el contexto, se especifican las funcionalidades a través de dos herramientas ampliamente extendidas en la ingeniería del software: los casos de uso, que ofrecen una visión estructurada de las interacciones entre actores y sistema, y las historias de usuario, que complementan esa visión aportando la perspectiva del usuario final y el valor que espera obtener. Esta doble aproximación facilita, por un lado, la descomposición del alcance funcional en unidades manejables y, por otro, la trazabilidad entre las necesidades detectadas, los objetivos definidos y los criterios de aceptación que se emplearán en la fase de pruebas.
 
-Finalmente, el capítulo concluye con la especificación de los requisitos del sistema, clasificados en funcionales, no funcionales y de información. Los requisitos no funcionales recogen las restricciones de calidad, seguridad y despliegue que condicionan la arquitectura del sistema, mientras que los requisitos de información definen los datos que la aplicación debe almacenar y gestionar, sirviendo de base para el modelo de datos que se desarrollará en el capítulo de diseño. Asimismo, se especifican las condiciones de contorno del proyecto: la aplicación se concibe como un sistema multiplataforma accesible desde cualquier navegador \textit{web}, concebido inicialmente en español y sin restricciones de uso, dado que se libera bajo licencia GPL y se orienta a una gran diversidad de instituciones.
+Finalmente, el capítulo concluye con la especificación de los requisitos del sistema, clasificados en funcionales, no funcionales y de información. Los requisitos no funcionales recogen las restricciones de calidad, seguridad y despliegue que condicionarán la arquitectura del sistema, mientras que los requisitos de información definirán los datos que la aplicación debe almacenar y gestionar, sirviendo de base para el modelo de datos que se desarrollará en el capítulo de diseño. Asimismo, se especifican las condiciones de contorno del proyecto: la aplicación se concibe como un sistema multiplataforma accesible desde cualquier navegador \textit{web}, concebido inicialmente en español y sin restricciones de uso, dado que se libera bajo licencia GPL y se orienta a una gran diversidad de instituciones.
 
 \section{Objetivos del trabajo}
 
-Al estar tratando con proyecto de estas dimensiones, se hace necesaria una planificación estructurada a seguir para marcar tanto los plazos a cumplir como las restricciones y casos de uso específicos a tener en cuenta.	
+Al estar tratando con un proyecto de estas dimensiones, se hace necesaria una planificación estructurada a seguir para marcar tanto los plazos a cumplir como las restricciones y casos de uso específicos a tener en cuenta.	
 
 \begin{table}[H]
 	\centering
@@ -18,7 +18,7 @@ Al estar tratando con proyecto de estas dimensiones, se hace necesaria una plani
 		\toprule
 		\textbf{ID C.A.} & 
 		\begin{minipage}[t]{\linewidth}
-			\textbf{ID Objetivo asociado: OBJ-01} \\[2pt]
+			\textbf{ID Objetivo asociado: OBJ-01 <Diseñar una web de catalogación y gestión de fondos medianos-pequeños>} \\[2pt]
 			\rule{\linewidth}{0.4pt} \\[2pt]
 			\textbf{Descripción Criterio de Aceptación}
 		\end{minipage} \\
@@ -31,7 +31,7 @@ Al estar tratando con proyecto de estas dimensiones, se hace necesaria una plani
 		\addlinespace
 		\textbf{CA-04} & El catálogo debe soportar la relación de coautoría (relación N:M), permitiendo que una misma Obra sea vinculada a uno o varios Autores simultáneamente. \\
 		\addlinespace
-		\textbf{CA-05} & La interfaz del catálogo debe permitir a los usuarios realizar búsquedas funcionales y filtrados de los ejemplares empleando la interactividad en el frontal propia de Django. \\
+		\textbf{CA-05} & La interfaz del catálogo debe permitir a los usuarios realizar búsquedas funcionales y filtrados de los ejemplares. \\
 		\addlinespace
 		\textbf{CA-06} & El sistema debe validar a nivel de formulario y de base de datos que los identificadores estándar del catálogo (como el ISBN o el EAN) mantengan su propiedad de unicidad para garantizar la integridad de la información. \\
 		\bottomrule
@@ -46,7 +46,7 @@ Al estar tratando con proyecto de estas dimensiones, se hace necesaria una plani
 		\toprule
 		\textbf{ID C.A.} & 
 		\begin{minipage}[t]{\linewidth}
-			\textbf{ID Objetivo asociado: OBJ-02} \\[2pt]
+			\textbf{ID Objetivo asociado: OBJ-02 <Implementación del sistema de usuario con roles diferenciados>} \\[2pt]
 			\rule{\linewidth}{0.4pt} \\[2pt]
 			\textbf{Descripción Criterio de Aceptación}
 		\end{minipage} \\
@@ -57,11 +57,11 @@ Al estar tratando con proyecto de estas dimensiones, se hace necesaria una plani
 		\addlinespace
 		\textbf{CA-03} & La interfaz y los formularios para los bibliotecarios deben permitir, de manera exclusiva, la gestión ordinaria del catálogo y el registro de las transacciones de préstamo, validando su identidad mediante unas credenciales de acceso. \\
 		\addlinespace
-		\textbf{CA-04} & El rol de ADMINISTRADOR debe disponer de acceso total e irrestricto a través del panel de control de Django para realizar operaciones CRUD completas sobre cualquier tabla o registro de la infraestructura. \\
+		\textbf{CA-04} & El rol de ADMINISTRADOR debe disponer de acceso total e irrestricto a la base de datos para realizar operaciones CRUD completas sobre cualquier tabla o registro de la infraestructura. \\
 		\addlinespace
-		\textbf{CA-05} & El backend debe denegar el acceso a rutas protegidas mediante un sistema de control de permisos (middleware), redirigiendo al usuario a la pantalla de inicio de sesión si intenta forzar manualmente URLs no autorizadas para su rol. \\
+		\textbf{CA-05} & El sistema debe denegar el acceso a rutas protegidas mediante un sistema de control de permisos (\textit{middleware}), redirigiendo al usuario a la pantalla de inicio de sesión si intenta forzar manualmente URLs no autorizadas para su rol. \\
 		\addlinespace
-		\textbf{CA-06} & El sistema debe garantizar que las contraseñas de los usuarios nunca se almacenen en texto plano dentro de la base de datos PostgreSQL, delegando en el framework el cifrado automático mediante algoritmos de hash seguros. \\
+		\textbf{CA-06} & El sistema debe garantizar que las contraseñas de los usuarios nunca se almacenen en texto plano dentro de la base de datos, delegando en el \textit{framework} el cifrado automático mediante algoritmos de \textit{hash} seguros. \\
 		\bottomrule
 	\end{tabularx}	
 \end{table}
@@ -74,7 +74,7 @@ Al estar tratando con proyecto de estas dimensiones, se hace necesaria una plani
 		\toprule
 		\textbf{ID C.A.} & 
 		\begin{minipage}[t]{\linewidth}
-			\textbf{ID Objetivo asociado: OBJ-3} \\[2pt]
+			\textbf{ID Objetivo asociado: OBJ-3 <Automatización del ciclo de vida de los préstamos>} \\[2pt]
 			\rule{\linewidth}{0.4pt} \\[2pt]
 			\textbf{Descripción Criterio de Aceptación}
 		\end{minipage} \\
@@ -89,7 +89,7 @@ Al estar tratando con proyecto de estas dimensiones, se hace necesaria una plani
 		\addlinespace
 		\textbf{CA-05} & En el momento de la entrega física del recurso, el sistema debe registrar la fecha del día exacto en el campo de devolución. Si esta fecha es anterior o igual a la fecha límite, la transacción se considerará cerrada con éxito y el ejemplar volverá a estar disponible. \\
 		\addlinespace
-		\textbf{CA-06} & Si el sistema detecta que la devolución se realiza tarde (fecha de devolución posterior a la fecha límite), o que el plazo ha vencido sin haber devuelto el recurso, el backend debe activar de inmediato el estado de penalización del socio y registrar la fecha del bloqueo. \\
+		\textbf{CA-06} & Si el sistema detecta que la devolución se realiza tarde (fecha de devolución posterior a la fecha límite), o que el plazo ha vencido sin haber devuelto el recurso, el sistema debe activar de inmediato el estado de penalización del socio y registrar la fecha del bloqueo. \\
 		\bottomrule
 	\end{tabularx}	
 \end{table}
@@ -102,7 +102,7 @@ Al estar tratando con proyecto de estas dimensiones, se hace necesaria una plani
 		\toprule
 		\textbf{ID C.A.} & 
 		\begin{minipage}[t]{\linewidth}
-			\textbf{ID Objetivo asociado: OBJ-4} \\[2pt]
+			\textbf{ID Objetivo asociado: OBJ-4 <Garantizar la portabilidad del sistema>} \\[2pt]
 			\rule{\linewidth}{0.4pt} \\[2pt]
 			\textbf{Descripción Criterio de Aceptación}
 		\end{minipage} \\
@@ -115,7 +115,7 @@ Al estar tratando con proyecto de estas dimensiones, se hace necesaria una plani
 		\addlinespace
 		\textbf{CA-04} & El contenedor de la base de datos debe implementar un volumen de Docker mapeado a la ruta de almacenamiento de PostgreSQL para asegurar la persistencia de los datos, impidiendo que el catálogo, los socios o los préstamos se borren al apagar o reiniciar los contenedores. \\
 		\addlinespace
-		\textbf{CA-05} & El sistema debe ser capaz de replicar exactamente el mismo comportamiento, rendimiento y configuración tanto al ser ejecutado en local (entorno de desarrollo) como al ser desplegado en plataformas en la nube sin necesidad de modificar el código fuente de la aplicación web. \\
+		\textbf{CA-05} & El sistema debe ser capaz de replicar exactamente el mismo comportamiento, rendimiento y configuración tanto al ser ejecutado en local como al ser desplegado en la nube. \\
 		\bottomrule
 	\end{tabularx}	
 \end{table}
@@ -128,18 +128,18 @@ Al estar tratando con proyecto de estas dimensiones, se hace necesaria una plani
 		\toprule
 		\textbf{ID C.A.} & 
 		\begin{minipage}[t]{\linewidth}
-			\textbf{ID Objetivo asociado: OBJ-5} \\[2pt]
+			\textbf{ID Objetivo asociado: OBJ-5 <Fomentar el \textit{software} libre>} \\[2pt]
 			\rule{\linewidth}{0.4pt} \\[2pt]
 			\textbf{Descripción Criterio de Aceptación}
 		\end{minipage} \\
 		\midrule
 		\textbf{CA-01} & El proyecto debe incluir en su directorio raíz el archivo estandarizado LICENSE conteniendo el texto íntegro y oficial de la Licencia Pública General de GNU (GNU GPL v3), declarando formalmente el software como libre y abierto. \\
 		\addlinespace
-		\textbf{CA-02} & El código fuente de la aplicación Django debe subirse y estar disponible públicamente en una plataforma de control de versiones accesible (como GitHub o GitLab), permitiendo que cualquier usuario pueda clonar, bifurcar (fork) o descargar el repositorio sin restricciones. \\
+		\textbf{CA-02} & El código fuente de la aplicación debe subirse y estar disponible públicamente en una plataforma de control de versiones accesible (como GitHub o GitLab), permitiendo que cualquier usuario pueda clonar, bifurcar (fork) o descargar el repositorio sin restricciones. \\
 		\addlinespace
-		\textbf{CA-03} & Las vistas de Django, los modelos y las configuraciones de Docker deben contar con comentarios claros y documentación interna en las secciones complejas, simplificando la curva de aprendizaje para futuros miembros de la comunidad que deseen auditar o colaborar en el proyecto. \\
+		\textbf{CA-03} & El código y la configuración desarrollada deben contar con comentarios claros y documentación interna en las secciones complejas, simplificando la curva de aprendizaje para futuros miembros de la comunidad que deseen auditar o colaborar en el proyecto. \\
 		\addlinespace
-		\textbf{CA-04} & La configuración del sistema (como las claves secretas de Django o las credenciales de PostgreSQL) debe estar parametrizada mediante variables de entorno en un archivo .env.example, asegurando que cualquier usuario pueda desplegar su propia instancia de la biblioteca de forma local de manera inmediata y sin comprometer la seguridad. \\
+		\textbf{CA-04} & La configuración del sistema debe estar parametrizada mediante variables de entorno en un archivo .env.example, asegurando que cualquier usuario pueda desplegar su propia instancia de la biblioteca de forma local de manera inmediata y sin comprometer la seguridad. \\
 		\bottomrule
 	\end{tabularx}	
 \end{table}
@@ -152,14 +152,14 @@ Al estar tratando con proyecto de estas dimensiones, se hace necesaria una plani
 		\toprule
 		\textbf{ID C.A.} & 
 		\begin{minipage}[t]{\linewidth}
-			\textbf{ID Objetivo asociado: OBJ-6} \\[2pt]
+			\textbf{ID Objetivo asociado: OBJ-6 <Consolidación de competencias adquiridas>} \\[2pt]
 			\rule{\linewidth}{0.4pt} \\[2pt]
 			\textbf{Descripción Criterio de Aceptación}
 		\end{minipage} \\
 		\midrule
 		\textbf{CA-01} & Demostrar la correcta aplicación de los fundamentos de ingeniería mediante el diseño e implementación del esquema lógico relacional en PostgreSQL, reflejando fielmente las restricciones de integridad y las relaciones de herencia. \\
 		\addlinespace
-		\textbf{CA-02} &  El desarrollo de la aplicación web debe evidenciar un desacoplamiento claro de responsabilidades siguiendo el patrón arquitectónico MVT (Modelo-Vista-Template) de Django, separando la lógica de acceso a datos de la lógica de presentación y de negocio. \\
+		\textbf{CA-02} &  El desarrollo de la aplicación web debe evidenciar un desacoplamiento claro de responsabilidades siguiendo un patrón arquitectónico, separando la lógica de acceso a datos de la lógica de presentación y de negocio. \\
 		\textbf{CA-03} & La memoria del Trabajo de Fin de Grado debe documentar con rigor de ingeniería todas las fases del ciclo de vida del desarrollo de software, incluyendo el análisis de requisitos, el modelado formal (diagramas de casos de uso y de entidad-relación) y las pruebas de validación.  \\
 		\addlinespace
 		\bottomrule
@@ -202,8 +202,8 @@ Se enumeran aquí los casos de uso desarrollados:
 		
 	\item \textbf{CU03 -- Recuperar contraseña}
 	\begin{itemize}
-		\item \textbf{Actor: Bibliotecario, Administrador, Socio.} 
-		\item \textbf{Descripción: Mecanismo mediante el cual el usuario puede solicitar un enlace de recuperación de contraseña en caso de pérdida de la misma. Se envía un correo con este enlace, por lo que el usuario debe escribir el correo asociado a su cuenta para recibirlo.} 
+		\item \textbf{Actor:} Bibliotecario, Administrador, Socio.
+		\item \textbf{Descripción:} Mecanismo mediante el cual el usuario puede solicitar un enlace de recuperación de contraseña en caso de pérdida de la misma. Se envía un correo con este enlace, por lo que el usuario debe escribir el correo asociado a su cuenta para recibirlo.
 	\end{itemize}
 		
 	\item \textbf{CU04 -- Consultar catálogo}
@@ -463,7 +463,7 @@ Este tipo de diagrama tiene como objetivo mostrar una vista genérica del funcio
 \section{Historias de usuario}
 
 Una vez identificados los actores y definidos los casos de uso que estructuran las funcionalidades del sistema, lo siguiente consistirá en describir como estas funcionalidades se materializan en necesidades concretas de los usuarios. Para ello, se hará uso de las historias de usuario; un recurso utilizado en metodologías ágiles que describe una funcionalidad desde la perspectiva del usuario que la solicita, indicando qué necesita y para qué, además del valor le aporta dentro del sistema.
-La metodología iterativa e incremental adoptada para el desarrollo de Liber \parencite{agilealliance_iterative} concibe cada funcionalidad como un incremento de valor que debe ser validado y refinado a lo largo del proyecto. Las historias de usuario encajan de forma natural en este enfoque, ya que permiten descomponer el alcance funcional en unidades pequeñas y comprensibles, priorizarlas según su aportación al producto y utilizarlas como referencia para planificar las distintas iteraciones. Asimismo, su redacción centrada en el usuario (y no en el sistema) facilita la comunicación con el tutor en su rol de cliente, que puede validar cada historia y aportar retroalimentación sobre su utilidad y su prioridad.
+La metodología iterativa e incremental adoptada para el desarrollo de Liber \parencite{agilealliance_iterative} concibe cada funcionalidad como un incremento de valor que debe ser validado y refinado a lo largo del proyecto. Las historias de usuario encajan de forma natural en este enfoque, ya que permiten descomponer el alcance funcional en unidades pequeñas y comprensibles, priorizarlas según su aportación al producto y utilizarlas como referencia para planificar los diferentes incrementos. Asimismo, su redacción centrada en el usuario (y no en el sistema) facilita la comunicación con el tutor en su rol de cliente, que puede validar cada historia y aportar retroalimentación sobre su utilidad y su prioridad.
 Así, las historias de usuario sirven tanto como herramienta para la documentación como para la planificación: cada historia constituye un objetivo concreto que debe satisfacerse en algún momento del desarrollo, permitiendo así organizar los incrementos del producto en función del valor que aportan y del esfuerzo que requieren. La redacción de cada historia sigue el formato habitual \textit{«Como [tipo de usuario], quiero [funcionalidad] para [beneficio]»}, 
 acompañado de los criterios de aceptación que permiten verificar su correcta implementación.
 
@@ -669,7 +669,7 @@ Ya se ha definido qué necesidades van a tener los usuarios dentro del sistema, 
 
 Los requisitos de un sistema software se pueden clasificar en distintas categorías atendiendo a su naturaleza. Los requisitos funcionales describen las funcionalidades que el sistema debe proporcionar, es decir, qué operaciones debe ser capaz de realizar y qué comportamiento debe exhibir ante las distintas entradas. Los requisitos no funcionales, por su parte, establecen las restricciones y cualidades que el sistema debe cumplir: rendimiento, seguridad, usabilidad, portabilidad, mantenibilidad, etc. Junto a ellos, resulta habitual considerar también los requisitos de información, que definen qué datos debe almacenar y gestionar el sistema.
 
-En esta sección se recogen todos estos tipos de requisitos para Liber. Se comienza detallando los requisitos funcionales, empleando para ello los casos de uso y las historias de usuario como herramientas de especificación. A continuación, se abordan los requisitos de información, que darán lugar al modelo de datos que se desarrollará en el capítulo de diseño. Posteriormente, se exponen los requisitos no funcionales, que recogen las restricciones de calidad, seguridad y despliegue que condicionan la arquitectura del sistema.
+En esta sección se recogen todos estos tipos de requisitos para Liber. Se comienza detallando los requisitos funcionales, empleando para ello los casos de uso y las historias de usuario como herramientas de especificación. A continuación, se abordan los requisitos de información, que darán lugar al modelo de datos que se desarrollará en el capítulo de diseño. Posteriormente, se exponen los requisitos no funcionales, que recogen las restricciones de calidad, seguridad y despliegue que condicionarán la arquitectura del sistema.
 
 \subsection{Requisitos funcionales}
 \subsubsection{Actores}
@@ -959,3 +959,28 @@ La aplicación contempla las siguientes reglas para la gestión de préstamos:
 	\item[RI-13 -- Relaciones entre la información]
 	El sistema permitirá asociar varios autores a una obra y varios ejemplares a una misma obra. Cada préstamo relacionará un socio con un ejemplar concreto.
 \end{description}
+	
+	\subsection{Descripción de los datos}
+	Con el objeto de que el lector pueda hacerse a una idea lo más completa posible sobre los requisitos de información del sistema y el planteamiento teórico de los datos utilizados, se expone un diagrama UML entidad-relación. Este tipo de diagrama muestra el funcionamiento de la base de datos a nivel lógico, y suele servir como primera aproximación al desarrollo de la base de datos en la fase de diseño. Tiene 3 elementos principales:
+	\begin{enumerate}
+		\item \textbf{Entidades:} Objetos o conceptos del dominio sobre los que se almacena información. Se representan mediante rectángulos.
+		
+		\item \textbf{Atributos:} Propiedades que describen a las entidades. Se representan mediante elipses conectadas a su entidad, y la clave primaria se suele subrayar.
+		
+		\item \textbf{Relaciones:} Asociaciones entre entidades que describen cómo se vinculan entre sí. Se representan mediante rombos y se caracterizan por su cardinalidad (1:1, 1:N o N:N). Existen relaciones específicas que identifican herencia, representadas por triángulos invertidos.
+		
+		\item \textbf{Cardinalidad:} Restricción que indica cuántas instancias de una entidad pueden participar en una relación con otra (uno a uno, uno a muchos o muchos a muchos).
+	\end{enumerate}
+	
+	Adicionalmente, se mostrará un diccionario de datos. Un diccionario de datos es un documento que describe de forma estructurada la información que el sistema almacena y gestiona, detallando para cada elemento su nombre, su tipo de dato, sus restricciones y las relaciones que mantiene con el resto de elementos del modelo. En este apartado se presentan los campos que componen las entidades del sistema de forma genérica, con el propósito de que el lector pueda comprender la naturaleza y organización de la información tratada, sin que ello implique una correspondencia literal con la implementación final.
+	
+	\subsubsection{Diagrama Entidad-Relación}
+	
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{imagenes/diagrama_er.png}
+		\caption{Diagrama entidad-relación de Liber.}
+		\label{fig:diagrama_er}
+	\end{figure}
+	
