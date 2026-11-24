@@ -1,6 +1,6 @@
 # catalogo/admin.py
 from django.contrib import admin
-from .models import Autor, Obra, Libro, Revista, Periodico, Grabacion, Ejemplar
+from .models import *
 
 
 @admin.register(Autor)
@@ -18,7 +18,7 @@ class ObraAdmin(admin.ModelAdmin):
 
 @admin.register(Libro)
 class LibroAdmin(admin.ModelAdmin):
-    list_display = ['titulo', 'isbn', 'editorial', 'materia_display', 'submateria_display']
+    list_display = ['titulo', 'isbn', 'editorial', 'materia', 'submateria']
     list_filter = ['materia', 'submateria']
     search_fields = ['titulo', 'isbn']
     
@@ -44,7 +44,7 @@ class PeriodicoAdmin(admin.ModelAdmin):
 
 @admin.register(Grabacion)
 class GrabacionAdmin(admin.ModelAdmin):
-    list_display = ['titulo', 'ean', 'soporte', 'genero_display', 'subgenero_display']
+    list_display = ['titulo', 'ean', 'soporte', 'genero', 'subgenero']
     list_filter = ['soporte', 'genero', 'subgenero']
     search_fields = ['titulo', 'ean']
     
@@ -60,3 +60,28 @@ class GrabacionAdmin(admin.ModelAdmin):
 class EjemplarAdmin(admin.ModelAdmin):
     list_display = ['idEjemplar', 'obra', 'reservado']
     search_fields = ['obra__titulo']
+    
+@admin.register(Materia)
+class MateriaAdmin(admin.ModelAdmin):
+    list_display = ['nombre']
+    search_fields = ['nombre']
+
+
+@admin.register(Submateria)
+class SubmateriaAdmin(admin.ModelAdmin):
+    list_display = ['nombre', 'materia']
+    list_filter = ['materia']
+    search_fields = ['nombre']
+
+
+@admin.register(Genero)
+class GeneroAdmin(admin.ModelAdmin):
+    list_display = ['nombre']
+    search_fields = ['nombre']
+
+
+@admin.register(Subgenero)
+class SubgeneroAdmin(admin.ModelAdmin):
+    list_display = ['nombre', 'genero']
+    list_filter = ['genero']
+    search_fields = ['nombre']
