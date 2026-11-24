@@ -17,5 +17,6 @@ class Command(BaseCommand):
         call_command('populate_grabaciones', numero=15)
         call_command('populate_ejemplares', por_obra=2)
         call_command('populate_socios', numero=30)
+        call_command('populate_admin')
         
         self.stdout.write(self.style.SUCCESS('BASE DE DATOS POBLADA CORRECTAMENTE'))

@@ -2,7 +2,7 @@
 from django.core.management.base import BaseCommand
 from faker import Faker
 import random
-from catalogo.models import Editorial, Libro, Autor
+from catalogo.models import *
 
 class Command(BaseCommand):
     help = 'Puebla la tabla de libros con datos de prueba'
@@ -21,7 +21,7 @@ class Command(BaseCommand):
         
         self.stdout.write(f'Creando {n} libros...')
         
-        # Obtener autores existentes (necesitas ejecutar populate_autores primero)
+        # Obtener autores existentes
         autores = list(Autor.objects.all())
         if not autores:
             self.stdout.write(self.style.ERROR('❌ No hay autores. Ejecuta primero: python manage.py populate_autores'))
@@ -32,8 +32,26 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR('❌ No hay editoriales. Ejecuta primero: python manage.py populate_editoriales'))
             return
         
-        materias = [m.value for m in Libro.Materia]
-        submaterias = [s.value for s in Libro.Submateria]
+        # Crear materias y submaterias si no existen
+        materias_nombres = [
+            'Novela', 'Poesía', 'Ensayo', 'Ciencia', 'Historia',
+            'Biografía', 'Cómic', 'Arte', 'Filosofía', 'Tecnología',
+        ]
+        for nombre in materias_nombres:
+            Materia.objects.get_or_create(nombre=nombre)
+
+        novela = Materia.objects.get(nombre='Novela')
+        submaterias_nombres = [
+            'Policíaca', 'Ciencia ficción', 'Romántica', 'Terror',
+            'Aventura', 'Histórica', 'Fantástica', 'Dramática',
+            'Comedia', 'Satírica',
+        ]
+        for nombre in submaterias_nombres:
+            Submateria.objects.get_or_create(nombre=nombre, materia=novela)
+
+        # Obtener las instancias de la BD
+        materias = list(Materia.objects.all())
+        submaterias = list(Submateria.objects.all())
         
         for i in range(n):
             editorial_seleccionada = random.choice(editoriales)
@@ -45,8 +63,8 @@ class Command(BaseCommand):
                 tipo='LIBRO',
                 isbn=fake.isbn13().replace('-', ''),
                 editorial=editorial_seleccionada,
-                materia=random.choice(materias), 
-                submateria=random.choice(submaterias),  
+                materia=random.choice(materias) if materias else None, 
+                submateria=random.choice(submaterias) if submaterias else None,
                 coleccion=fake.word().capitalize() if random.choice([True, False]) else None,
             )
             obra.save()

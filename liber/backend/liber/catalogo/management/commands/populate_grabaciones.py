@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 import random
 from datetime import timedelta
-from catalogo.models import Grabacion, Autor, Productora
+from catalogo.models import *
 
 class Command(BaseCommand):
     help = 'Puebla la tabla de grabaciones con datos de prueba'
@@ -27,9 +27,27 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR('❌ No hay productoras. Ejecuta primero: python manage.py populate_productoras'))
             return
         
+        generos_nombres = [
+            'Rock', 'Pop', 'Jazz', 'Clásica', 'Electrónica',
+            'Flamenco', 'Hip-Hop', 'Blues', 'Reggae', 'Folk',
+        ]
+        for nombre in generos_nombres:
+            Genero.objects.get_or_create(nombre=nombre)
+
+        rock = Genero.objects.get(nombre='Rock')
+        subgeneros_nombres = [
+            'Rock alternativo', 'Rock duro', 'Pop rock',
+            'Jazz smooth', 'Jazz bebop', 'Clásica barroca',
+            'Clásica romántica', 'Electro house', 'Electro techno',
+            'Flamenco rumba',
+        ]
+        for nombre in subgeneros_nombres:
+            Subgenero.objects.get_or_create(nombre=nombre, genero=rock)
+
+        # Obtener las instancias de la BD
+        generos = list(Genero.objects.all())
+        subgeneros = list(Subgenero.objects.all())
         soportes = ['CD', 'DVD', 'BLURAY', 'VINILO', 'CASETE']
-        generos = [g.value for g in Grabacion.Genero]
-        subgeneros = [s.value for s in Grabacion.Subgenero]
         
         for i in range(n):
             duracion_minutos = random.randint(30, 120)
@@ -44,8 +62,8 @@ class Command(BaseCommand):
                 soporte=random.choice(soportes),
                 duracion=timedelta(minutes=duracion_minutos),
                 productora=productora_seleccionada,
-                genero=random.choice(generos),
-                subgenero=random.choice(subgeneros),   
+                genero=random.choice(generos) if generos else None,
+                subgenero=random.choice(subgeneros) if subgeneros else None,
             )
             grabacion.save()
             
