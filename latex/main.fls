@@ -370,6 +370,9 @@ INPUT capitulo1.aux
 INPUT .\capitulo2.aux
 INPUT .\capitulo2.aux
 INPUT capitulo2.aux
+INPUT .\capitulo3.aux
+INPUT .\capitulo3.aux
+INPUT capitulo3.aux
 INPUT .\capitulo4.aux
 INPUT .\capitulo4.aux
 INPUT capitulo4.aux
@@ -465,6 +468,8 @@ INPUT .\capitulo1.tex
 INPUT .\capitulo1.tex
 INPUT .\capitulo2.tex
 INPUT .\capitulo2.tex
+INPUT .\capitulo3.tex
+INPUT .\capitulo3.tex
 INPUT .\capitulo4.tex
 INPUT .\capitulo4.tex
 OUTPUT capitulo4.aux
@@ -521,6 +526,9 @@ INPUT capitulo1.aux
 INPUT .\capitulo2.aux
 INPUT .\capitulo2.aux
 INPUT capitulo2.aux
+INPUT .\capitulo3.aux
+INPUT .\capitulo3.aux
+INPUT capitulo3.aux
 INPUT .\capitulo4.aux
 INPUT .\capitulo4.aux
 INPUT capitulo4.aux
@@ -560,6 +568,8 @@ INPUT C:\Users\marti\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecr
 INPUT C:\Users\marti\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm2074.pk
 INPUT C:\Users\marti\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1000.pk
 INPUT C:\Users\marti\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1000.pk
+INPUT C:\Users\marti\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy10.pfb
+INPUT C:\Users\marti\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy10.pfb
 INPUT C:\Users\marti\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\symbols\msam10.pfb
 INPUT C:\Users\marti\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\symbols\msam10.pfb
 INPUT C:\Users\marti\AppData\Local\Programs\MiKTeX\fonts\type1\urw\helvetic\uhvb8a.pfb

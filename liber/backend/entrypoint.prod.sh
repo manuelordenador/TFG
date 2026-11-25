@@ -11,5 +11,13 @@ python manage.py collectstatic --noinput
 echo "Ejecutando migraciones..."
 python manage.py migrate --noinput
 
+# Poblamiento bdd
+if [ "$RUN_POPULATE" = "true" ]; then
+    echo "Poblando base de datos..."
+    python manage.py populate_all
+else
+    echo "Saltando poblamiento (RUN_POPULATE=false)"
+fi
+
 echo "Arrancando Gunicorn..."
 exec "$@"

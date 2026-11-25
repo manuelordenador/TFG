@@ -31,28 +31,62 @@
 \contentsline {subsubsection}{LaTeX}{24}{section*.10}%
 \contentsline {subsubsection}{TeXstudio}{25}{section*.11}%
 \contentsline {subsubsection}{draw.io}{25}{section*.12}%
-\contentsline {chapter}{\numberline {3}Análisis}{27}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Objetivos del trabajo}{27}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Actores del sistema}{32}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Casos de uso}{34}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Historias de usuario}{40}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Catálogo público}{41}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Acceso y cuenta personal}{41}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Gestión de usuarios}{42}{subsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.4.4}Gestión del catálogo y los ejemplares}{43}{subsection.3.4.4}%
-\contentsline {subsection}{\numberline {3.4.5}Préstamos y prórrogas}{44}{subsection.3.4.5}%
-\contentsline {subsection}{\numberline {3.4.6}Reglas de negocio}{44}{subsection.3.4.6}%
-\contentsline {section}{\numberline {3.5}Requisitos del sistema}{45}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Requisitos funcionales}{45}{subsection.3.5.1}%
-\contentsline {subsubsection}{Actores}{45}{section*.4}%
-\contentsline {subsubsection}{Acceso y gestión de la cuenta}{46}{section*.5}%
-\contentsline {subsubsection}{Gestión de usuarios}{46}{section*.6}%
-\contentsline {subsubsection}{Gestión del catálogo y los ejemplares}{46}{section*.7}%
-\contentsline {subsubsection}{Préstamos, devoluciones y prórrogas}{47}{section*.8}%
-\contentsline {subsubsection}{Administración}{47}{section*.9}%
-\contentsline {subsection}{\numberline {3.5.2}Reglas funcionales asociadas a los préstamos}{48}{subsection.3.5.2}%
-\contentsline {subsection}{\numberline {3.5.3}Requisitos no funcionales}{49}{subsection.3.5.3}%
-\contentsline {subsection}{\numberline {3.5.4}Requisitos de información}{49}{subsection.3.5.4}%
-\contentsline {subsection}{\numberline {3.5.5}Descripción de los datos}{50}{subsection.3.5.5}%
-\contentsline {subsubsection}{Diagrama Entidad-Relación}{51}{section*.10}%
-\contentsline {chapter}{Bibliografía}{52}{chapter*.11}%
+\contentsline {chapter}{\numberline {3}Planificación}{27}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Metodología de trabajo}{27}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Estimación del esfuerzo}{28}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Planificación temporal}{29}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Planificación temporal inicial}{29}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Seguimiento del proyecto}{29}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Presupuesto económico}{29}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Comparativa entre modelos de estimación}{29}{subsection.3.4.1}%
+\contentsline {section}{\numberline {3.5}Balance final}{29}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Análisis}{30}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Objetivos del trabajo}{30}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Actores del sistema}{35}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Casos de uso}{37}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Historias de usuario}{43}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Catálogo público}{44}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Acceso y cuenta personal}{44}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Gestión de usuarios}{45}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Gestión del catálogo y los ejemplares}{46}{subsection.4.4.4}%
+\contentsline {subsection}{\numberline {4.4.5}Préstamos y prórrogas}{47}{subsection.4.4.5}%
+\contentsline {subsection}{\numberline {4.4.6}Reglas de negocio}{47}{subsection.4.4.6}%
+\contentsline {section}{\numberline {4.5}Requisitos del sistema}{48}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Requisitos funcionales}{48}{subsection.4.5.1}%
+\contentsline {subsubsection}{Actores}{48}{section*.4}%
+\contentsline {subsubsection}{Acceso y gestión de la cuenta}{49}{section*.5}%
+\contentsline {subsubsection}{Gestión de usuarios}{49}{section*.6}%
+\contentsline {subsubsection}{Gestión del catálogo y los ejemplares}{49}{section*.7}%
+\contentsline {subsubsection}{Préstamos, devoluciones y prórrogas}{50}{section*.8}%
+\contentsline {subsubsection}{Administración}{50}{section*.9}%
+\contentsline {subsection}{\numberline {4.5.2}Reglas funcionales asociadas a los préstamos}{51}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Requisitos no funcionales}{52}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Requisitos de información}{52}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.5}Descripción de los datos}{53}{subsection.4.5.5}%
+\contentsline {subsubsection}{Diagrama Entidad-Relación}{54}{section*.10}%
+\contentsline {subsection}{\numberline {4.5.6}Diccionario de datos}{54}{subsection.4.5.6}%
+\contentsline {subsubsection}{Entidad: AUTOR}{55}{section*.12}%
+\contentsline {subsubsection}{Entidad: EDITORIAL}{55}{section*.13}%
+\contentsline {subsubsection}{Entidad: EJEMPLAR}{55}{section*.14}%
+\contentsline {subsubsection}{Entidad: GÉNERO}{56}{section*.15}%
+\contentsline {subsubsection}{Entidad: LIBRO (Especialización de OBRA)}{56}{section*.16}%
+\contentsline {subsubsection}{Entidad: MATERIA}{57}{section*.17}%
+\contentsline {subsubsection}{Entidad: OBRA}{57}{section*.18}%
+\contentsline {subsubsection}{Entidad: PERIÓDICO (Especialización de OBRA)}{58}{section*.19}%
+\contentsline {subsubsection}{Entidad: PRODUCTORA}{59}{section*.20}%
+\contentsline {subsubsection}{Entidad: REVISTA (Especialización de OBRA)}{59}{section*.21}%
+\contentsline {subsubsection}{Entidad: GRABACIÓN (Especialización de OBRA)}{60}{section*.22}%
+\contentsline {subsubsection}{Entidad: SUBGÉNERO}{60}{section*.23}%
+\contentsline {subsubsection}{Entidad: SUBMATERIA}{61}{section*.24}%
+\contentsline {subsubsection}{Entidad: USUARIO}{61}{section*.25}%
+\contentsline {subsubsection}{Entidad: SOCIO (Especialización de USUARIO)}{62}{section*.26}%
+\contentsline {subsubsection}{Entidad: BIBLIOTECARIO (Especialización de USUARIO)}{63}{section*.27}%
+\contentsline {subsubsection}{Entidad: ADMINISTRADOR (Especialización de USUARIO)}{64}{section*.28}%
+\contentsline {subsubsection}{Relación: CONSTITUIR}{64}{section*.30}%
+\contentsline {subsubsection}{Relación: CREAR}{64}{section*.31}%
+\contentsline {subsubsection}{Relación: DISTRIBUIR}{65}{section*.32}%
+\contentsline {subsubsection}{Relación: EDITAR}{65}{section*.33}%
+\contentsline {subsubsection}{Relación: IS-A (Especialización de OBRA)}{65}{section*.34}%
+\contentsline {subsubsection}{Relación: IS-A (Especialización de USUARIO)}{66}{section*.35}%
+\contentsline {subsubsection}{Relación: PRESTAR}{66}{section*.36}%
+\contentsline {chapter}{Bibliografía}{68}{chapter*.37}%

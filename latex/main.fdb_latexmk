@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber main"] 1795523067.00334 "main.bcf" "main.bbl" "main" 1795527032.63048 0
-  "main.bcf" 1795527032 108682 3c0af5ef4ee33cc5d22a428880639c6c "pdflatex"
+["biber main"] 1795606101.59528 "main.bcf" "main.bbl" "main" 1795608368.5205 0
+  "main.bcf" 1795608367 108682 3c0af5ef4ee33cc5d22a428880639c6c "pdflatex"
   "referencias.bib" 1795523059 6741 aa8407ca70fc605c8ffe2762856a89fa ""
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1795527028.72763 "main.tex" "main.pdf" "main" 1795527032.63169 0
+["pdflatex"] 1795608365.43566 "main.tex" "main.pdf" "main" 1795608368.52146 0
   "C:/Users/marti/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1792496329 83609 ebbc432e6cbbb238d39535255db2c8bd ""
   "C:/Users/marti/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbi1200.pk" 1795521498 42728 155d68bde436043ffc1c4512ec71aa44 ""
   "C:/Users/marti/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx0800.pk" 1794777375 19872 937e173ae6777c0c4f0e69e5c7095624 ""
@@ -68,6 +68,7 @@
   "C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy10.tfm" 1136765053 1124 6c73e740cf17375f03eec0ee63599741 ""
   "C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy6.tfm" 1136765053 1116 933a60c408fc0a863a92debe84b2d294 ""
   "C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy8.tfm" 1136765053 1120 8b7d695260f3cff42e636090a8002094 ""
+  "C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1247596667 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb" 1247596673 31764 459c573c03a4949a528c2cc7f557e217 ""
   "C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvb8a.pfb" 1136849748 35941 adef23a721dd8354a4a2bf4434f1c484 ""
   "C:/Users/marti/AppData/Local/Programs/MiKTeX/fonts/vf/adobe/helvetic/phvb8t.vf" 1136768654 2340 0efed6a948c3c37d870e4e7ddb85c7c3 ""
@@ -224,20 +225,22 @@
   "capitulo1.tex" 1792406362 17193 e6254d5478d6e24a3cf0523a36e81bec ""
   "capitulo2.aux" 1795522532 9657 f1d9cc69e8d4d555cc2c8236c5e431be ""
   "capitulo2.tex" 1791966234 34176 5d494fb1390910f8170ec44fb5256924 ""
-  "capitulo4.aux" 1795527032 10416 f072577117994e8b4069380ba3bc1136 "pdflatex"
-  "capitulo4.tex" 1795527010 62757 4ca751bfbfd3a6cc71d3964812909745 ""
+  "capitulo3.aux" 1795606110 5280 14232b8dc552e843cd6d07ec1b7aa4f1 ""
+  "capitulo3.tex" 1792492599 8844 7a7dd2e88c9bcff8855fc3232ed0ad23 ""
+  "capitulo4.aux" 1795608367 19605 afa64e4354e2ce4a54ab22264ffda77d "pdflatex"
+  "capitulo4.tex" 1795605372 90276 7a4526ca571165515bf2d129180c00a2 ""
   "imagenes/UVA.png" 1434386486 212049 1ec1d9157cee07a34fc59e7ffa92d1da ""
   "imagenes/actores.png" 1795522208 76137 71190cbc8fc21eeb64ecdef363184f6a ""
   "imagenes/casos_uso.png" 1795522371 232175 60be2d755470ac371a7baa91e2b53aa5 ""
-  "imagenes/diagrama_er.png" 1795526942 295178 e07b23ceb536059334f27eea00d8121f ""
-  "main.aux" 1795527032 929 9fd92174f90e45b670a39155d4ec166e "pdflatex"
-  "main.bbl" 1795523079 2017 a93bc0e9940d54622f841eefdd134c59 "biber main"
-  "main.lof" 1795527032 1821 2cb23c704ad85c042fd4f542eb275889 "pdflatex"
-  "main.lot" 1795527032 1670 03adf7cd5cd6a6b184fd447ab3264faf "pdflatex"
-  "main.out" 1795527032 3137 fed4c5ffff54f3a13aab8207416de1ef "pdflatex"
-  "main.run.xml" 1795527032 2312 2b4bb592e2635d6e5d324f407234fce9 "pdflatex"
-  "main.tex" 1795522733 3647 abb8d94a4cbe98f33e058f0a5ca76fc0 ""
-  "main.toc" 1795527032 4756 bb85da64166387ad5eede537855e925b "pdflatex"
+  "imagenes/diagrama_er.png" 1795605515 341467 ff0243aad674671394bf4c2effd7b873 ""
+  "main.aux" 1795608367 952 0db0bce22c6f407dcd322d4f8fa1f838 "pdflatex"
+  "main.bbl" 1795606104 2017 a93bc0e9940d54622f841eefdd134c59 "biber main"
+  "main.lof" 1795608367 1841 96694157b9e4a677d62ee6e30ad8a744 "pdflatex"
+  "main.lot" 1795608367 4514 c0b07ec32fe0c9bb12d9aa6acd30a8b4 "pdflatex"
+  "main.out" 1795608367 3305 8a06e60fcf9c59fac581f3a159918c07 "pdflatex"
+  "main.run.xml" 1795608367 2312 2b4bb592e2635d6e5d324f407234fce9 "pdflatex"
+  "main.tex" 1795608357 3669 dd66b7f0b182e4300123e5b2d4f08f64 ""
+  "main.toc" 1795608367 7507 ab2d5f7db694463054597fe3b7838bdd "pdflatex"
   (generated)
   "capitulo4.aux"
   "main.aux"

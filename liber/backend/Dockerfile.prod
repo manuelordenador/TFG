@@ -1,5 +1,5 @@
 
-# ── Stage 1: build ──────────────────────────────────────────────────────────
+# ── Stage 1: build
 FROM python:3.12-slim AS builder
 
 WORKDIR /build
@@ -10,20 +10,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
-# ── Stage 2: runtime ────────────────────────────────────────────────────────
+# ── Stage 2: runtime
 FROM python:3.12-slim AS runtime
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq5 curl netcat-openbsd\
     && rm -rf /var/lib/apt/lists/*
 
-# Descargar supercronic para borrado de préstamos antiguos
-ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.51/supercronic-linux-amd64 \
-    SUPERCRONIC_SHA1SUM=1692066e350a88ff4d7d6474fe3c7a6c41ec5e89 \
-    SUPERCRONIC=supercronic-linux-amd64
+ARG TARGETARCH
+
+# Supercronic: binario según arquitectura
+ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.51/supercronic-linux-${TARGETARCH} \
+    SUPERCRONIC=supercronic-linux-${TARGETARCH}
 
 RUN curl -fsSLO "$SUPERCRONIC_URL" \
-    && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
     && chmod +x "$SUPERCRONIC" \
     && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
     && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic

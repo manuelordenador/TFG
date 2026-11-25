@@ -5,12 +5,38 @@
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {2.1}{\ignorespaces Cuadro comparativo de las soluciones de gestión bibliotecaria analizadas.}}{20}{table.2.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Criterios de aceptación para el objetivo general OBJ-01.}}{28}{table.3.1}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Criterios de aceptación para el objetivo general OBJ-02.}}{29}{table.3.2}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Criterios de aceptación para el objetivo general OBJ-3.}}{30}{table.3.3}%
-\contentsline {table}{\numberline {3.4}{\ignorespaces Criterios de aceptación para el objetivo general OBJ-4.}}{31}{table.3.4}%
-\contentsline {table}{\numberline {3.5}{\ignorespaces Criterios de aceptación para el objetivo general OBJ-5.}}{32}{table.3.5}%
-\contentsline {table}{\numberline {3.6}{\ignorespaces Criterios de aceptación para el objetivo general OBJ-6.}}{32}{table.3.6}%
-\contentsline {table}{\numberline {3.7}{\ignorespaces Relación de casos de uso y roles de usuario.}}{39}{table.3.7}%
-\contentsline {table}{\numberline {3.8}{\ignorespaces Matriz de trazabilidad entre requisitos funcionales y casos de uso (Parte 1).}}{48}{table.3.8}%
-\contentsline {table}{\numberline {3.9}{\ignorespaces Matriz de trazabilidad entre requisitos funcionales y casos de uso (Parte 2).}}{48}{table.3.9}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Criterios de aceptación para el objetivo general OBJ-01.}}{31}{table.4.1}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Criterios de aceptación para el objetivo general OBJ-02.}}{32}{table.4.2}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Criterios de aceptación para el objetivo general OBJ-3.}}{33}{table.4.3}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Criterios de aceptación para el objetivo general OBJ-4.}}{34}{table.4.4}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Criterios de aceptación para el objetivo general OBJ-5.}}{35}{table.4.5}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Criterios de aceptación para el objetivo general OBJ-6.}}{35}{table.4.6}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Relación de casos de uso y roles de usuario.}}{42}{table.4.7}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces Matriz de trazabilidad entre requisitos funcionales y casos de uso (Parte 1).}}{51}{table.4.8}%
+\contentsline {table}{\numberline {4.9}{\ignorespaces Matriz de trazabilidad entre requisitos funcionales y casos de uso (Parte 2).}}{51}{table.4.9}%
+\contentsline {table}{\numberline {4.10}{\ignorespaces Atributos de la entidad AUTOR.}}{55}{table.4.10}%
+\contentsline {table}{\numberline {4.11}{\ignorespaces Atributos de la entidad EDITORIAL.}}{55}{table.4.11}%
+\contentsline {table}{\numberline {4.12}{\ignorespaces Atributos de la entidad EJEMPLAR.}}{56}{table.4.12}%
+\contentsline {table}{\numberline {4.13}{\ignorespaces Atributos de la entidad GÉNERO.}}{56}{table.4.13}%
+\contentsline {table}{\numberline {4.14}{\ignorespaces Atributos de la entidad LIBRO.}}{57}{table.4.14}%
+\contentsline {table}{\numberline {4.15}{\ignorespaces Atributos de la entidad MATERIA.}}{57}{table.4.15}%
+\contentsline {table}{\numberline {4.16}{\ignorespaces Atributos de la entidad OBRA.}}{58}{table.4.16}%
+\contentsline {table}{\numberline {4.17}{\ignorespaces Atributos de la entidad PERIÓDICO.}}{58}{table.4.17}%
+\contentsline {table}{\numberline {4.18}{\ignorespaces Atributos de la entidad PRODUCTORA.}}{59}{table.4.18}%
+\contentsline {table}{\numberline {4.19}{\ignorespaces Atributos de la entidad REVISTA.}}{59}{table.4.19}%
+\contentsline {table}{\numberline {4.20}{\ignorespaces Atributos de la entidad GRABACIÓN.}}{60}{table.4.20}%
+\contentsline {table}{\numberline {4.21}{\ignorespaces Atributos de la entidad SUBGÉNERO.}}{61}{table.4.21}%
+\contentsline {table}{\numberline {4.22}{\ignorespaces Atributos de la entidad SUBMATERIA.}}{61}{table.4.22}%
+\contentsline {table}{\numberline {4.23}{\ignorespaces Atributos de la entidad USUARIO.}}{62}{table.4.23}%
+\contentsline {table}{\numberline {4.24}{\ignorespaces Atributos de la entidad SOCIO.}}{63}{table.4.24}%
+\contentsline {table}{\numberline {4.25}{\ignorespaces Atributos de la entidad BIBLIOTECARIO.}}{63}{table.4.25}%
+\contentsline {table}{\numberline {4.26}{\ignorespaces Atributos de la entidad ADMINISTRADOR.}}{64}{table.4.26}%
+\contentsline {table}{\numberline {4.27}{\ignorespaces Entidades participantes en la relación CONSTITUIR.}}{64}{table.4.27}%
+\contentsline {table}{\numberline {4.28}{\ignorespaces Entidades participantes en la relación CREAR.}}{64}{table.4.28}%
+\contentsline {table}{\numberline {4.29}{\ignorespaces Entidades participantes en la relación DISTRIBUIR.}}{65}{table.4.29}%
+\contentsline {table}{\numberline {4.30}{\ignorespaces Entidades participantes en la relación EDITAR.}}{65}{table.4.30}%
+\contentsline {table}{\numberline {4.31}{\ignorespaces Entidades participantes en la relación IS-A (OBRA).}}{65}{table.4.31}%
+\contentsline {table}{\numberline {4.32}{\ignorespaces Entidades participantes en la relación IS-A (USUARIO).}}{66}{table.4.32}%
+\contentsline {table}{\numberline {4.33}{\ignorespaces Entidades participantes en la relación PRESTAR.}}{66}{table.4.33}%
+\contentsline {table}{\numberline {4.34}{\ignorespaces Atributos de la relación PRESTAR.}}{67}{table.4.34}%
