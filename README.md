@@ -1,6 +1,5 @@
 # TFG
-Este es el repositorio donde se encontrará el proyecto de mi Trabajo de Fin de Grado, un sistema de gestión de bibliotecas.
-De momento está en construcción
+Aplicación web basada en Docker para la gestión de bibliotecas de fondo mediano/pequeño
 
 ## Configuración y secretos para el despliegue
 
@@ -34,17 +33,11 @@ Para el despliegue de producción con DuckDNS:
 2. Copia el token de DuckDNS y guárdalo como `DUCKDNS_TOKEN` en `liber/.env.prod`. Define también `DUCKDNS_DOMAIN` y `CERTBOT_EMAIL`. No pongas valores reales en `.env.example` ni compartas `.env.prod`.
 3. El servicio Certbot del Compose usa esas variables para solicitar el certificado al arrancar. Desde `liber`, inicia producción así:
 
-   ```powershell
-   docker compose --env-file .env.prod -f docker-compose.prod.yml up --build -d
+   ```
+   docker compose -f docker-compose.prod.yml up --build -d
    ```
 
-   `--env-file .env.prod` es necesario para que Compose sustituya `${DUCKDNS_DOMAIN}` y `${CERTBOT_EMAIL}` en la configuración. Nginx espera a que Certbot termine correctamente antes de arrancar. `--keep-until-expiring` evita volver a emitir un certificado que todavía sea válido; no configura una tarea periódica de renovación.
+   Este comando utilizará el archivo docker-compose de producción, que tiene asociado en sus servicios el .env.prod. Nginx espera a que Certbot termine correctamente antes de arrancar. `--keep-until-expiring` evita volver a emitir un certificado que todavía sea válido; no configura una tarea periódica de renovación.
 4. Nginx espera encontrar `fullchain.pem` y `privkey.pem` en `/etc/letsencrypt/live/liberapp.duckdns.org/`. Si utilizas otro subdominio, configura el mismo dominio en `DUCKDNS_DOMAIN`, `ALLOWED_HOSTS` y `CSRF_TRUSTED_ORIGINS`, y actualiza `server_name` y las rutas del certificado en `liber/nginx/prod.conf`.
 
 Los certificados deben obtenerse mediante Certbot; no inventes ni compartas claves privadas. No subas archivos `.pem`, especialmente `privkey.pem`, ni el contenido del directorio de certificados.
-
-### Qué se puede compartir
-
-Se pueden subir el código fuente, las migraciones, la documentación y una plantilla `.env.example` cuyos valores sean claramente ficticios. No subas `.env`, `.env.prod`, tokens de DuckDNS, claves Django, contraseñas, claves privadas o certificados PEM, volcados de base de datos ni copias de seguridad con datos reales.
-
-Antes de publicar, revisa también el historial: el archivo auxiliar `liber/docker command` contenía un token de DuckDNS. Revócalo y sustitúyelo; si llegó a un commit o a GitHub, eliminar el archivo no elimina el token del historial.
