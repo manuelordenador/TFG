@@ -31,9 +31,15 @@ Algunas variables del ejemplo tienen alternativas comentadas. Descomenta y utili
 Para el despliegue de producción con DuckDNS:
 
 1. Crea una cuenta en DuckDNS y registra el subdominio que utilizarás. Configura su DNS para que apunte al servidor de producción.
-2. Copia el token de DuckDNS y guárdalo como `DUCKDNS_TOKEN` únicamente en `liber/.env.prod`. No lo escribas en comandos, documentación, capturas ni archivos versionados.
-3. Configura Certbot para leer ese token y emitir un certificado Let's Encrypt para el subdominio. El Compose actual monta un volumen para certificados, pero no los solicita automáticamente: este paso debe completarse antes de iniciar Nginx.
-4. Nginx espera encontrar `fullchain.pem` y `privkey.pem` en `/etc/letsencrypt/live/liberapp.duckdns.org/`. Si utilizas otro subdominio, actualiza también `server_name` y las rutas del certificado en `liber/nginx/prod.conf`, además de `ALLOWED_HOSTS` y `CSRF_TRUSTED_ORIGINS`.
+2. Copia el token de DuckDNS y guárdalo como `DUCKDNS_TOKEN` en `liber/.env.prod`. Define también `DUCKDNS_DOMAIN` y `CERTBOT_EMAIL`. No pongas valores reales en `.env.example` ni compartas `.env.prod`.
+3. El servicio Certbot del Compose usa esas variables para solicitar el certificado al arrancar. Desde `liber`, inicia producción así:
+
+   ```powershell
+   docker compose --env-file .env.prod -f docker-compose.prod.yml up --build -d
+   ```
+
+   `--env-file .env.prod` es necesario para que Compose sustituya `${DUCKDNS_DOMAIN}` y `${CERTBOT_EMAIL}` en la configuración. Nginx espera a que Certbot termine correctamente antes de arrancar. `--keep-until-expiring` evita volver a emitir un certificado que todavía sea válido; no configura una tarea periódica de renovación.
+4. Nginx espera encontrar `fullchain.pem` y `privkey.pem` en `/etc/letsencrypt/live/liberapp.duckdns.org/`. Si utilizas otro subdominio, configura el mismo dominio en `DUCKDNS_DOMAIN`, `ALLOWED_HOSTS` y `CSRF_TRUSTED_ORIGINS`, y actualiza `server_name` y las rutas del certificado en `liber/nginx/prod.conf`.
 
 Los certificados deben obtenerse mediante Certbot; no inventes ni compartas claves privadas. No subas archivos `.pem`, especialmente `privkey.pem`, ni el contenido del directorio de certificados.
 
