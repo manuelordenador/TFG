@@ -89,4 +89,9 @@
 \contentsline {subsubsection}{Relación: IS-A (Especialización de OBRA)}{65}{section*.34}%
 \contentsline {subsubsection}{Relación: IS-A (Especialización de USUARIO)}{66}{section*.35}%
 \contentsline {subsubsection}{Relación: PRESTAR}{66}{section*.36}%
-\contentsline {chapter}{Bibliografía}{68}{chapter*.37}%
+\contentsline {chapter}{\numberline {5}Diseño de la aplicación}{68}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Arquitectura lógica}{68}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Arquitectura física}{68}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Diagrama de clases, secuencia}{68}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Materialización del modelo de datos}{68}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Interfaces de usuario}{68}{section.5.5}%

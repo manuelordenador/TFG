@@ -3,10 +3,7 @@ services:
     image: postgres:16
     container_name: liber_bd
     restart: on-failure
-    environment:
-      POSTGRES_DB: liber_bd
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+    env_file: .env
     networks:
       - net
     ports:
@@ -14,7 +11,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d liber_bd"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -22,9 +19,7 @@ services:
   pgadmin: 
     image: dpage/pgadmin4
     container_name: liber_pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@ejemplo.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+    env_file: .env
     networks:
       - net
     ports:
@@ -37,7 +32,6 @@ services:
   web:
     build: ./backend
     container_name: liber_backend
-    # command: python liber/manage.py runserver 0.0.0.0:8000 # comentado porque ya se ejecuta en el entrypoint.sh
     volumes:
       - ./backend:/app
     networks:

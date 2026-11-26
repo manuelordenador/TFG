@@ -79,6 +79,7 @@ services:
       - certbot_logs:/var/log/letsencrypt
     profiles: ["certbot"]
 
+# volúmenes donde se guardará información del servidor
 volumes:
   pgdata_prod:
   certbot_certs:

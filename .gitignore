@@ -467,3 +467,9 @@ auto/*
 
 # xwatermark package
 *.xwm
+
+# ssl certificates
+*.pem
+*.key
+*.crt
+certbot_certs/
